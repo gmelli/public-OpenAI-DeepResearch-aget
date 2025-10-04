@@ -1,8 +1,8 @@
 agent_manifest:
   agent_id: "openai-deepresearch-aget"
-  version: "2.4.0"
+  version: "2.5.0"
   maturity: "foundation"
-  aget_compliance: "v2.4.0"
+  aget_compliance: "v2.5.0"
 
   metadata:
     name: "DeepThink - Cognitive Research Agent"
@@ -10,7 +10,7 @@ agent_manifest:
     repository: "gabormelli/my-OpenAI-DeepResearch-aget"
     maintainer: "gabormelli"
     created: "2025-09-25"
-    last_updated: "2025-10-02"
+    last_updated: "2025-10-06"
     status: "bleeding_edge"
 
   capabilities:
@@ -210,6 +210,13 @@ agent_manifest:
       coordination_readme: ".aget/coordination/README.md"
 
   changelog:
+    - version: "2.5.0"
+      date: "2025-10-06"
+      changes:
+        - "Migrated to AGET v2.5.0 (Gate 3.1 fleet rollout)"
+        - "Added wake/identity contract tests (7 tests total)"
+        - "Contract tests validate identity reporting and version consistency"
+
     - version: "2.3.0"
       date: "2025-10-02"
       changes:
