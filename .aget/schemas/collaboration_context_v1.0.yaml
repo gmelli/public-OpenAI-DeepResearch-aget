@@ -1,0 +1,241 @@
+# Collaboration Context Schema v1.0.0
+# Defines structure for inter-AGET work handoffs
+# Enables zero-loss context transfer between AGETs
+
+schema_version: "1.0.0"
+description: "Collaboration context for inter-AGET work handoffs"
+purpose: "Enable AGETs to transfer work without information loss"
+
+# Required fields
+required_fields:
+  - task_id
+  - initiator
+  - target
+  - task_type
+  - shared_state
+
+# Optional fields
+optional_fields:
+  - objectives
+  - context_refs
+  - files_involved
+  - dependencies
+  - completion_criteria
+  - deadline
+  - priority
+  - metadata
+
+# Field definitions
+fields:
+  task_id:
+    type: string
+    pattern: "^task-[0-9]{8}-[0-9]{6}$"
+    description: "Unique task identifier (task-YYYYMMDD-HHMMSS)"
+    example: "task-20251002-143022"
+
+  initiator:
+    type: string
+    description: "AGET initiating the handoff"
+    example: "my-AGET-aget"
+
+  target:
+    type: string
+    description: "AGET receiving the handoff"
+    example: "my-GITHUB-aget"
+
+  task_type:
+    type: string
+    enum:
+      - "file_issue"
+      - "review_pr"
+      - "analyze_code"
+      - "generate_docs"
+      - "research"
+      - "other"
+    description: "Type of task being handed off"
+
+  shared_state:
+    type: object
+    description: "Task-specific data and context"
+    properties:
+      description:
+        type: string
+        description: "Human-readable task description"
+      parameters:
+        type: object
+        description: "Task-specific parameters"
+      current_status:
+        type: string
+        enum: ["pending", "in_progress", "blocked", "completed", "failed"]
+
+  objectives:
+    type: array
+    items:
+      type: string
+    description: "What this task aims to accomplish"
+    example:
+      - "File issue about session metadata"
+      - "Include examples and rationale"
+
+  context_refs:
+    type: object
+    description: "References to external context"
+    properties:
+      session_ids:
+        type: array
+        items:
+          type: string
+        description: "Related session files"
+      commit_hashes:
+        type: array
+        items:
+          type: string
+        description: "Relevant commits"
+      issue_numbers:
+        type: array
+        items:
+          type: integer
+        description: "Related GitHub issues"
+      patterns_used:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            version:
+              type: string
+
+  files_involved:
+    type: array
+    items:
+      type: string
+    description: "Files relevant to this task"
+    example:
+      - ".aget/schemas/session_metadata_v1.0.yaml"
+      - "docs/SESSION_METADATA_MIGRATION_GUIDE.md"
+
+  dependencies:
+    type: array
+    items:
+      type: string
+    description: "Other tasks this depends on"
+    example:
+      - "task-20251002-120000"
+
+  completion_criteria:
+    type: array
+    items:
+      type: string
+    description: "How to determine task is complete"
+    example:
+      - "Issue filed successfully"
+      - "Issue number returned"
+
+  deadline:
+    type: string
+    format: "date-time"
+    description: "Task deadline (ISO 8601)"
+    example: "2025-10-03T17:00:00Z"
+
+  priority:
+    type: string
+    enum: ["low", "medium", "high", "critical"]
+    default: "medium"
+    description: "Task priority"
+
+  metadata:
+    type: object
+    description: "Additional metadata"
+    properties:
+      created_at:
+        type: string
+        format: "date-time"
+      patterns_version:
+        type: string
+      aget_versions:
+        type: object
+
+# Example contexts
+examples:
+  - name: "File GitHub Issue"
+    context:
+      task_id: "task-20251002-143022"
+      initiator: "my-AGET-aget"
+      target: "my-GITHUB-aget"
+      task_type: "file_issue"
+      shared_state:
+        description: "File issue for session metadata adoption tracking"
+        parameters:
+          title: "Track session metadata adoption rate"
+          body: "Monitor adoption from 4.5% baseline to 80% target"
+          labels: ["enhancement", "v2.3", "metrics"]
+        current_status: "pending"
+      objectives:
+        - "File issue in gmelli/aget-aget repository"
+        - "Include adoption metrics and targets"
+      completion_criteria:
+        - "Issue created successfully"
+        - "Issue number returned"
+      priority: "medium"
+
+  - name: "Code Review Request"
+    context:
+      task_id: "task-20251002-150000"
+      initiator: "my-AGET-aget"
+      target: "my-CCB-aget"
+      task_type: "review_pr"
+      shared_state:
+        description: "Review PR #123 for documentation quality"
+        parameters:
+          pr_number: 123
+          focus: "documentation"
+        current_status: "pending"
+      files_involved:
+        - "docs/PATTERN_VERSIONING.md"
+        - "docs/SESSION_METADATA_MIGRATION_GUIDE.md"
+      completion_criteria:
+        - "Review comments provided"
+        - "Approval or requested changes"
+
+  - name: "Research Task"
+    context:
+      task_id: "task-20251002-160000"
+      initiator: "my-AGET-aget"
+      target: "my-OpenAI-DeepResearch-aget"
+      task_type: "research"
+      shared_state:
+        description: "Research best practices for inter-agent communication"
+        parameters:
+          topics:
+            - "agent communication protocols"
+            - "context serialization"
+          depth: "comprehensive"
+        current_status: "pending"
+      deadline: "2025-10-05T17:00:00Z"
+      completion_criteria:
+        - "Research report generated"
+        - "Best practices documented"
+
+# Sanitization rules (redact sensitive info)
+sanitization_rules:
+  - "Redact any string matching API key patterns"
+  - "Redact any string matching password patterns"
+  - "Redact absolute paths (replace with relative)"
+  - "Redact any credentials in parameters"
+  - "Preserve structure, redact values"
+
+# Validation rules
+validation_rules:
+  - "task_id must be unique"
+  - "initiator must exist in AGET registry"
+  - "target must exist in AGET registry"
+  - "target must have capability for task_type"
+  - "shared_state must be non-empty"
+  - "No sensitive data in context"
+
+# Versioning
+versioning:
+  current: "1.0.0"
+  backwards_compatible_with: []
+  breaking_changes: []

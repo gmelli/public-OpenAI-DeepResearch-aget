@@ -1,0 +1,232 @@
+agent_manifest:
+  agent_id: "openai-deepresearch-aget"
+  version: "2.4.0"
+  maturity: "foundation"
+  aget_compliance: "v2.4.0"
+
+  metadata:
+    name: "DeepThink - Cognitive Research Agent"
+    description: "Cognitive research agent with dual OpenAI implementation for advanced research capabilities"
+    repository: "gabormelli/my-OpenAI-DeepResearch-aget"
+    maintainer: "gabormelli"
+    created: "2025-09-25"
+    last_updated: "2025-10-02"
+    status: "bleeding_edge"
+
+  capabilities:
+    primary_domain: "Deep research and cognitive analysis"
+
+    expertise_areas:
+      - name: "Deep Research"
+        confidence: "advanced"
+        evidence: "Dual OpenAI implementation for comprehensive research"
+
+      - name: "Citation Management"
+        confidence: "advanced"
+        evidence: "Research citation tracking capability"
+
+      - name: "Routing and Delegation"
+        confidence: "advanced"
+        evidence: "Can route research tasks to appropriate specialists"
+
+      - name: "Learning and Memory"
+        confidence: "foundation"
+        evidence: "Foundational learning capability, under development"
+
+      - name: "Inter-Agent Collaboration"
+        confidence: "advanced"
+        evidence: "Handoff protocol implemented (.aget/coordination/)"
+
+    can_handle:
+      research:
+        - "Deep research on complex topics"
+        - "Multi-source research synthesis"
+        - "Citation tracking and management"
+        - "Research question formulation"
+        - "Literature review and analysis"
+
+      collaboration:
+        - "Research handoff to analysts (e.g., spotify-analyst-aget)"
+        - "Research request receipt from other agents"
+        - "Coordination via handoff protocol"
+        - "Research findings delivery to content creators (e.g., ccb-aget)"
+
+      cognitive_operations:
+        - "Learning from research interactions"
+        - "Memory formation and retrieval"
+        - "Routing decisions for research tasks"
+
+    cannot_handle:
+      - "Data analysis implementation (delegates to spotify-analyst-aget)"
+      - "Content creation (delegates to ccb-aget)"
+      - "Repository operations (delegates to github-aget)"
+      - "Production deployments (bleeding edge/experimental status)"
+
+  routing_hints:
+    best_for:
+      - query: "research this topic deeply"
+        confidence: "high"
+        rationale: "Primary capability - deep research"
+
+      - query: "find sources and citations for X"
+        confidence: "high"
+        rationale: "Citation management expertise"
+
+      - query: "analyze research papers on X"
+        confidence: "medium"
+        rationale: "Research synthesis capability"
+
+      - query: "coordinate research across multiple agents"
+        confidence: "medium"
+        rationale: "Handoff protocol and routing capability"
+
+    route_elsewhere:
+      - query: "analyze Spotify listening data"
+        route_to: "spotify-analyst-aget"
+        reason: "Data analysis expertise, not research"
+
+      - query: "create documentation from research"
+        route_to: "ccb-aget"
+        reason: "Content creation expertise"
+
+      - query: "initialize repository for research project"
+        route_to: "github-aget"
+        reason: "Workspace coordination expertise"
+
+    handoff_patterns:
+      initiates_to:
+        - target: "spotify-analyst-aget"
+          scenario: "Research findings need data analysis"
+          handoff_artifact: "Research summary, data requirements"
+
+        - target: "ccb-aget"
+          scenario: "Research results need documentation/content creation"
+          handoff_artifact: "Research findings, citation list"
+
+        - target: "github-aget"
+          scenario: "Research project needs repository setup"
+          handoff_artifact: "Project requirements, structure needs"
+
+      receives_from:
+        - source: "any-agent"
+          scenario: "Agent needs deep research on topic"
+          expected_input: "Research question, context, constraints"
+
+        - source: "spotify-analyst-aget"
+          scenario: "Data analysis reveals questions needing research"
+          expected_input: "Analysis results, research questions"
+
+        - source: "github-aget"
+          scenario: "New repository needs initial research"
+          expected_input: "Repository context, research scope"
+
+    domain_boundaries:
+      in_scope:
+        - "Deep research and investigation"
+        - "Citation and source management"
+        - "Research question formulation"
+        - "Multi-agent research coordination"
+        - "Research findings synthesis"
+
+      out_of_scope:
+        - "Data analysis implementation"
+        - "Content production"
+        - "Repository management"
+        - "Production-critical operations (experimental status)"
+
+  technical_specifications:
+    agent_type: "cognitive_research"
+    implementation: "Dual OpenAI API"
+    status: "bleeding_edge"
+
+    collaboration_infrastructure:
+      handoff_support: true
+      coordination_directory: ".aget/coordination/"
+      session_metadata: true
+      schema_version: "v1.0"
+
+    capabilities_enabled:
+      research: true
+      routing: true
+      citation: true
+      learning: true
+      memory: true
+      collaboration: true
+
+    handoff_protocol:
+      inbound: ".aget/tools/handoff_receiver.py"
+      outbound: ".aget/tools/handoff_context.py"
+      storage: ".aget/coordination/handoff_*.json"
+      schema: ".aget/schemas/collaboration_context_v1.0.yaml"
+
+    performance_characteristics:
+      research_depth: "advanced"
+      response_time: "variable (OpenAI API dependent)"
+      citation_tracking: "comprehensive"
+      collaboration_latency: "file-based handoff (async)"
+
+  integration_points:
+    hub_coordinator:
+      repository: "gmelli/aget-aget"
+      relationship: "Research specialist in AGET ecosystem"
+      coordination: "File issues with [deepresearch-aget] prefix"
+
+    pattern_sync:
+      direction: "bidirectional"
+      pull: "Receive collaboration patterns from hub"
+      push: "Share research patterns and handoff learnings"
+      frequency: "Per session"
+
+    handoff_workflows:
+      - workflow: "Research → Analysis"
+        description: "Research findings handed to analysts"
+        participants: ["openai-deepresearch-aget", "spotify-analyst-aget"]
+
+      - workflow: "Research → Documentation"
+        description: "Research results handed to content creators"
+        participants: ["openai-deepresearch-aget", "ccb-aget"]
+
+      - workflow: "Question → Research"
+        description: "Research requests from any agent"
+        participants: ["any-agent", "openai-deepresearch-aget"]
+
+    collaboration:
+      multi_agent: "Research coordination across agents"
+      handoff: "Async file-based handoff protocol"
+      discovery: "Agent manifest for capability advertisement"
+
+  maturity_evidence:
+    implementation:
+      status: "foundation"
+      note: "Bleeding edge experimental, dual OpenAI implementation"
+
+    collaboration:
+      handoff_protocol: "implemented"
+      coordination_tools: ["handoff_receiver.py", "handoff_context.py"]
+      schemas: ["collaboration_context_v1.0.yaml"]
+
+    documentation:
+      agents_md: "Collaboration protocol documented"
+      coordination_readme: ".aget/coordination/README.md"
+
+  changelog:
+    - version: "2.3.0"
+      date: "2025-10-02"
+      changes:
+        - "Added agent_manifest.yaml for peer discovery"
+        - "Documented handoff patterns and routing hints"
+        - "Formalized collaboration boundaries"
+
+    - version: "2.3.0-alpha"
+      date: "2025-10-02"
+      changes:
+        - "Migrated to v2.3.0"
+        - "Collaboration infrastructure enabled"
+        - "Handoff protocol implemented"
+
+    - version: "2.0.0-alpha"
+      date: "2025-09-25"
+      changes:
+        - "Initial creation as cognitive research agent"
+        - "Dual OpenAI implementation"
+        - "Foundation capabilities established"

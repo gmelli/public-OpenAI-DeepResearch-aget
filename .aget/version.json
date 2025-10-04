@@ -1,0 +1,42 @@
+{
+  "version": "0.1.0",
+  "aget_version": "2.4.0",
+  "agent_name": "my-OpenAI-DeepResearch-aget",
+  "intelligence_enabled": true,
+  "collaboration_enabled": true,
+  "migrated_to_v24": "2025-10-03",
+  "migrated_to_v23": "2025-10-02",
+  "migrated_to_v22": "2025-09-30",
+  "migrated_from": "2.0.0-alpha",
+  "agent": "DeepThink",
+  "agent_type": "cognitive_research",
+  "tier": "research",
+  "role": "research",
+  "managed_by": "my-supervisor-AGET",
+  "domain": "deep-research",
+  "maturity": "foundation",
+  "created": "2025-09-25T21:56:00Z",
+  "capabilities": [
+    "research",
+    "routing",
+    "citation",
+    "learning",
+    "memory",
+    "collaboration"
+  ],
+  "status": "bleeding_edge",
+  "bleeding_edge": true,
+  "description": "Cognitive research agent with dual OpenAI implementation",
+  "collaboration_infrastructure": {
+    "handoff_support": true,
+    "coordination_directory": ".aget/coordination/",
+    "session_metadata": true,
+    "agent_manifest": true,
+    "peer_discovery": true
+  },
+  "migration_history": [
+    "v2.0.0-alpha -> v2.2.0: 2025-09-30 (intelligence features)",
+    "v2.2.0 -> v2.3.0: 2025-10-02 (collaboration infrastructure, agent_manifest)",
+    "v2.3.0 -> v2.4.0: 2025-10-03 (naming conventions, info-only agent confirmed)"
+  ]
+}
