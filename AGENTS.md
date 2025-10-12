@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 2.4.0
+@aget-version: 2.6.0
 
 ## Agent Compatibility
 This configuration follows the AGENTS.md open-source standard for universal agent configuration.
@@ -119,6 +119,63 @@ python3 .aget/tools/handoff_context.py \
   --priority medium \
   --output ~/github/my-GITHUB-aget/.aget/coordination/handoff_task.json
 ```
+
+## Configuration Size Management (v2.6.0)
+
+**Policy**: AGENTS.md must remain under 40,000 characters to ensure reliable Claude Code processing (L146).
+
+**Current status**:
+```bash
+# Check this configuration's size
+wc -c AGENTS.md
+# Current: ~4k chars (well under 35k warning threshold)
+# Target: <35,000 chars (warning threshold)
+# Limit: 40,000 chars (hard limit)
+```
+
+### Why Size Matters
+
+Large configuration files (>40k characters) cause performance degradation:
+- Visible processing delays ("Synthesizing..." indicator)
+- Increased latency on all commands (wake up, wind down, etc.)
+- Degraded user experience
+
+**Performance correlation** (per L146):
+| Size | Wake Latency | User Experience |
+|------|--------------|-----------------|
+| <25k | <0.5s | Excellent (immediate) |
+| 25-35k | <1s | Fast (minimal delay) |
+| 35-40k | 1-2s | Borderline noticeable |
+| >40k | 2-3s | Noticeable delay (⚠️) |
+
+### Management Strategy
+
+**This agent is well under the 35k warning threshold. Continue monitoring size when adding features.**
+
+**What to extract** (if approaching 25k):
+1. **Detailed protocols** → `.aget/docs/protocols/` (keep quick reference inline)
+2. **Extended examples** → `.aget/docs/examples/` (verbose interaction examples)
+3. **Helper tool documentation** → `.aget/docs/tools/` (tool usage with examples)
+4. **Historical context** → `.aget/evolution/` (learnings and decisions)
+
+**What to keep inline**:
+- Agent identity and role
+- Core protocols (wake/wind down)
+- Frequently used commands
+- Quick references (1-2 lines per concept)
+
+**Before adding features**:
+```bash
+# Check current size
+current=$(wc -c < AGENTS.md)
+
+# If approaching or over 35k, extract content first
+if [ $current -gt 35000 ]; then
+  echo "⚠️ Over warning threshold: Extract content before adding"
+fi
+```
+
+**Pattern**: L146 (Configuration Size Management)
 
 ## Capabilities
 - Research and information synthesis (primary)
