@@ -1,11 +1,13 @@
 {
   "version": "0.1.0",
-  "aget_version": "2.6.0",
+  "aget_version": "2.7.0",
+  "portfolio": "main",
   "agent_name": "my-OpenAI-DeepResearch-aget",
   "intelligence_enabled": true,
   "collaboration_enabled": true,
   "configuration_size_management_enabled": true,
   "migrated_to_v26": "2025-10-12",
+  "migrated_to_v27": "2025-10-13",
   "migrated_to_v25": "2025-10-06",
   "migrated_to_v24": "2025-10-03",
   "migrated_to_v23": "2025-10-02",
@@ -42,6 +44,7 @@
     "v2.2.0 -> v2.3.0: 2025-10-02 (collaboration infrastructure, agent_manifest)",
     "v2.3.0 -> v2.4.0: 2025-10-03 (naming conventions, info-only agent confirmed)",
     "v2.4.0 -> v2.5.0: 2025-10-06 (Gate 3.1 fleet rollout, contract tests added)",
-    "v2.5.0 -> v2.6.0: 2025-10-12 (configuration size management + L146 governance)"
+    "v2.5.0 -> v2.6.0: 2025-10-12 (configuration size management + L146 governance)",
+    "v2.6.0 -> v2.7.0: 2025-10-13 (portfolio governance, learning discovery, multi-tier routing)"
   ]
 }

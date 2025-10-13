@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 2.6.0
+@aget-version: 2.7.0
 
 ## Agent Compatibility
 This configuration follows the AGENTS.md open-source standard for universal agent configuration.
@@ -8,9 +8,21 @@ Works with Claude Code, Cursor, Aider, Windsurf, and other CLI coding agents.
 **Note**: CLAUDE.md is a symlink to this file for backward compatibility.
 
 ## Project Context
-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent v2.3.0
+OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent v2.7.0
 Experimental agent with dual OpenAI implementation for advanced research capabilities.
 Supports inter-agent collaboration via handoff protocol.
+
+## Portfolio Configuration (v2.7.0)
+
+**Portfolio Assignment**: `main` (Main Portfolio - private classification)
+
+**Purpose**: Deep research and experimentation within the Main portfolio
+
+**Portfolio Manifest**: `.aget/portfolios/MAIN_PORTFOLIO.yaml` (supervisor agent)
+
+**Classification**: Private (research and experimentation, bleeding edge experimental)
+
+**Portfolio Awareness**: Operates within Main portfolio boundaries, supports cross-agent research collaboration
 
 ## Session Management Protocols
 
