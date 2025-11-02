@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "aget_version": "2.7.0",
   "portfolio": "main",
-  "agent_name": "my-OpenAI-DeepResearch-aget",
+  "agent_name": "public-OpenAI-DeepResearch-aget",
   "intelligence_enabled": true,
   "collaboration_enabled": true,
   "configuration_size_management_enabled": true,
