@@ -1,6 +1,7 @@
 {
   "version": "0.1.0",
-  "aget_version": "2.7.0",
+  "aget_version": "2.8.0",
+  "migrated_to_v28": "2025-11-08",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
   "intelligence_enabled": true,
@@ -45,6 +46,7 @@
     "v2.3.0 -> v2.4.0: 2025-10-03 (naming conventions, info-only agent confirmed)",
     "v2.4.0 -> v2.5.0: 2025-10-06 (Gate 3.1 fleet rollout, contract tests added)",
     "v2.5.0 -> v2.6.0: 2025-10-12 (configuration size management + L146 governance)",
-    "v2.6.0 -> v2.7.0: 2025-10-13 (portfolio governance, learning discovery, multi-tier routing)"
+    "v2.6.0 -> v2.7.0: 2025-10-13 (portfolio governance, learning discovery, multi-tier routing)",
+    "v2.7.0 -> v2.8.0: 2025-11-08 (Feature 10 infrastructure + GitHub tooling + Planning Framework)"
   ]
 }
