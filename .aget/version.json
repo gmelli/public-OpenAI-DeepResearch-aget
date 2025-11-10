@@ -18,7 +18,7 @@
   "agent_type": "cognitive_research",
   "tier": "research",
   "role": "research",
-  "managed_by": "my-supervisor-AGET",
+  "managed_by": "private-supervisor-AGET",
   "domain": "deep-research",
   "maturity": "foundation",
   "created": "2025-09-25T21:56:00Z",

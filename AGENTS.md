@@ -8,7 +8,9 @@ Works with Claude Code, Cursor, Aider, Windsurf, and other CLI coding agents.
 **Note**: CLAUDE.md is a symlink to this file for backward compatibility.
 
 ## Project Context
-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent v2.7.0
+
+public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v2.8.0
+
 Experimental agent with dual OpenAI implementation for advanced research capabilities.
 Supports inter-agent collaboration via handoff protocol.
 
@@ -32,6 +34,24 @@ When user says "wake up" or "hey":
 - Show current directory and git status
 - Report capabilities and readiness
 - Note: Bleeding edge experimental structure, custom wake up behavior
+
+**Output Format**:
+```
+public-OpenAI-DeepResearch-aget v{version} (DeepThink)
+Type: Experimental cognitive research agent
+Portfolio: Main
+
+📍 Location: {pwd}
+📊 Git: {status}
+
+🎯 Key Capabilities:
+• Deep research with dual OpenAI implementation
+• Inter-agent collaboration via handoff protocol
+• Advanced research capabilities
+• Experimental bleeding-edge features
+
+Ready for research tasks.
+```
 
 ### Wind Down Protocol
 When user says "wind down" or "save work":
