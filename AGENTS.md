@@ -2,6 +2,22 @@
 
 @aget-version: 2.8.0
 
+
+## Substantial Change Protocol
+When facing any substantial change or multi-step task:
+1. **STOP** - Don't dive into implementation
+2. **PLAN** - Create incremental go/no-go gated plan
+3. **PRESENT** - Offer descriptive plan with decision points
+4. **WAIT** - Get user approval before proceeding
+
+**Gate Structure**:
+```markdown
+### Gate N: [Clear Objective]
+**Objective**: What this gate accomplishes
+**Actions**: Specific steps
+**DECISION POINT**: [Question] [GO/NOGO]
+```
+
 ## Agent Compatibility
 This configuration follows the AGENTS.md open-source standard for universal agent configuration.
 Works with Claude Code, Cursor, Aider, Windsurf, and other CLI coding agents.
