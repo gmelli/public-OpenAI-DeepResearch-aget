@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 2.8.0
+@aget-version: 2.12.0
 
 
 ## Substantial Change Protocol
@@ -25,7 +25,7 @@ Works with Claude Code, Cursor, Aider, Windsurf, and other CLI coding agents.
 
 ## Project Context
 
-public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v2.8.0
+public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v2.12.0
 
 Experimental agent with dual OpenAI implementation for advanced research capabilities.
 Supports inter-agent collaboration via handoff protocol.

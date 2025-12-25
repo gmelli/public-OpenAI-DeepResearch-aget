@@ -1,20 +1,12 @@
 {
   "version": "0.1.0",
-  "aget_version": "2.9.0",
-  "migrated_to_v28": "2025-11-08",
+  "aget_version": "2.12.0",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
   "instance_type": "aget",
   "intelligence_enabled": true,
   "collaboration_enabled": true,
   "configuration_size_management_enabled": true,
-  "migrated_to_v26": "2025-10-12",
-  "migrated_to_v27": "2025-10-13",
-  "migrated_to_v25": "2025-10-06",
-  "migrated_to_v24": "2025-10-03",
-  "migrated_to_v23": "2025-10-02",
-  "migrated_to_v22": "2025-09-30",
-  "migrated_from": "2.0.0-alpha",
   "agent": "DeepThink",
   "agent_type": "cognitive_research",
   "tier": "research",
@@ -24,12 +16,10 @@
   "maturity": "foundation",
   "created": "2025-09-25T21:56:00Z",
   "capabilities": [
-    "research",
-    "routing",
-    "citation",
-    "learning",
-    "memory",
-    "collaboration"
+    "memory-management",
+    "domain-knowledge",
+    "collaboration",
+    "structured-outputs"
   ],
   "status": "bleeding_edge",
   "bleeding_edge": true,
@@ -49,13 +39,8 @@
     "v2.5.0 -> v2.6.0: 2025-10-12 (configuration size management + L146 governance)",
     "v2.6.0 -> v2.7.0: 2025-10-13 (portfolio governance, learning discovery, multi-tier routing)",
     "v2.7.0 -> v2.8.0: 2025-11-08 (Feature 10 infrastructure + GitHub tooling + Planning Framework)",
-    {
-      "from_version": "2.8.0",
-      "to_version": "2.9.0",
-      "migrated_at": "2025-11-22T15:23:25.166487",
-      "method": "automated",
-      "tool": "migrate_to_v29.py"
-    }
+    "v2.8.0 -> v2.9.0: 2025-11-22 (automated migration)",
+    "v2.9.0 -> v2.12.0: 2025-12-25 (Capability Composition Architecture - Fleet Migration Phase 2)"
   ],
   "supervisor": "private-supervisor-AGET"
 }

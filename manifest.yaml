@@ -1,0 +1,45 @@
+apiVersion: aget.framework/v1
+kind: TemplateManifest
+
+metadata:
+  name: public-OpenAI-DeepResearch-aget
+  version: 1.0.0
+  agent_type: Research Advisor
+  created: "2025-12-25"
+  author: private-aget-framework-AGET
+  status: active
+  description: Cognitive research agent with dual OpenAI implementation
+
+composition:
+  base_template: advisor
+  capabilities:
+    - name: memory-management
+      version: ">=1.0.0"
+    - name: domain-knowledge
+      version: ">=1.0.0"
+      config:
+        domain: deep-research
+        expertise:
+          - Dual OpenAI implementation
+          - Advanced research capabilities
+          - Citation management
+          - Learning synthesis
+    - name: collaboration
+      version: ">=1.0.0"
+      config:
+        handoff_protocols:
+          - research-handoff
+          - peer-discovery
+    - name: structured-outputs
+      version: ">=1.0.0"
+      config:
+        formats:
+          - markdown
+          - research-report
+  composition_rules:
+    conflict_resolution: error
+
+validation:
+  dag_validated: true
+  conflicts_checked: true
+  last_validated: "2025-12-25"
