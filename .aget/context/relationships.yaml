@@ -1,0 +1,10 @@
+# D5: CONTEXT - Relationship Configuration
+
+managed_by: private-supervisor-AGET
+
+portfolio: main
+
+peers: []
+
+coordinates_with:
+  - private-supervisor-AGET

@@ -1,0 +1,27 @@
+# D2: MEMORY - Layer Configuration
+# Reference: AGET_MEMORY_SPEC v1.2.0
+
+layers:
+  operational:
+    enabled: true
+    description: "Session context, immediate task state"
+  semantic:
+    enabled: true
+    description: "Domain knowledge (knowledge/ directory)"
+  episodic:
+    enabled: true
+    description: "Session history (sessions/ directory)"
+  procedural:
+    enabled: true
+    description: "Patterns and workflows (.aget/patterns/)"
+  strategic:
+    enabled: true
+    description: "Long-term goals and plans (planning/)"
+  meta:
+    enabled: true
+    description: "Self-knowledge and learnings (.aget/evolution/)"
+
+ldoc_config:
+  threshold: 50
+  index_required: false
+  current_count: 5

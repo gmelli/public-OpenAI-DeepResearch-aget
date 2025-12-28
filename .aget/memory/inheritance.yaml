@@ -1,0 +1,14 @@
+# D2: MEMORY - Inheritance Configuration
+
+inheritance:
+  source: private-supervisor-AGET
+  inherited_patterns:
+    - substantial_change_protocol
+    - gate_discipline
+
+  inherited_l_docs:
+    foundation:
+      - L143  # AGET definition
+      - L99   # Worker primacy
+    governance:
+      - L42   # Gate boundaries

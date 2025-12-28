@@ -1,0 +1,13 @@
+# D5: CONTEXT - Scope Configuration
+
+in_scope:
+  - primary_domain_operations
+  - session_management
+  - knowledge_capture
+
+out_of_scope:
+  - external_actions_without_approval
+  - cross_portfolio_operations
+
+boundaries:
+  data_classification: standard

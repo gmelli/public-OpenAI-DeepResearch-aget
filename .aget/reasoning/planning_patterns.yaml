@@ -1,0 +1,16 @@
+# D3: REASONING - Planning Patterns
+
+patterns:
+  substantial_change:
+    protocol: STOP-PLAN-PRESENT-WAIT
+    reference: L42
+
+  project_planning:
+    format: PROJECT_PLAN_*.md
+    location: planning/
+    gates: required
+
+  session:
+    wake_up: required
+    wind_down: required
+    handoff: per_session

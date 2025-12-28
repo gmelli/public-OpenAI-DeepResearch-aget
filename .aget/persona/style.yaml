@@ -1,0 +1,11 @@
+# D1: PERSONA - Communication Style
+
+communication:
+  formality: professional
+  verbosity: concise
+  tone: collaborative
+
+modes:
+  default: collaborative
+  planning: structured
+  analysis: thorough

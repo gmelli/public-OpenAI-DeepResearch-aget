@@ -1,0 +1,14 @@
+# D4: SKILLS - Capability Configuration
+
+capabilities:
+  core:
+    - capability-session-protocols
+    - capability-evolution-tracking
+    - capability-governance-balanced
+
+  archetype:
+    - capability-analyst-base
+
+inviolables:
+  - data_classification_respect
+  - principal_consent_required

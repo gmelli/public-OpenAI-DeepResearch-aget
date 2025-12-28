@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "2.12.0",
+  "aget_version": "3.0.0-beta.3",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
   "instance_type": "aget",
@@ -40,7 +40,26 @@
     "v2.6.0 -> v2.7.0: 2025-10-13 (portfolio governance, learning discovery, multi-tier routing)",
     "v2.7.0 -> v2.8.0: 2025-11-08 (Feature 10 infrastructure + GitHub tooling + Planning Framework)",
     "v2.8.0 -> v2.9.0: 2025-11-22 (automated migration)",
-    "v2.9.0 -> v2.12.0: 2025-12-25 (Capability Composition Architecture - Fleet Migration Phase 2)"
+    "v2.9.0 -> v2.12.0: 2025-12-25 (Capability Composition Architecture - Fleet Migration Phase 2)",
+    {
+      "from_version": "2.12.0",
+      "to_version": "3.0.0-beta.3",
+      "date": "2025-12-27",
+      "method": "migrate_instance_to_v3.py",
+      "changes": [
+        "Created 5D directories",
+        "Created governance/, planning/, knowledge/ visible directories",
+        "Created knowledge/README.md (L403 population guidance)",
+        "Moved 0 PROJECT_PLANs to planning/",
+        "Created identity.json",
+        "Created 5D YAML configurations",
+        "Created governance files"
+      ]
+    }
   ],
-  "supervisor": "private-supervisor-AGET"
+  "supervisor": "private-supervisor-AGET",
+  "manifest_version": "3.0",
+  "updated": "2025-12-27",
+  "archetype": "analyst",
+  "specialization": "ai-research"
 }

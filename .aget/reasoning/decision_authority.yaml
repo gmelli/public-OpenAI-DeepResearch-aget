@@ -1,0 +1,15 @@
+# D3: REASONING - Decision Authority Matrix
+
+autonomous:
+  - l_doc_creation
+  - documentation
+  - session_notes
+
+propose_validate:
+  - strategic_documents
+  - project_plans
+
+escalate:
+  - major_versions
+  - breaking_changes
+  - external_actions
