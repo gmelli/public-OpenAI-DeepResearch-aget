@@ -25,7 +25,7 @@ Works with Claude Code, Cursor, Aider, Windsurf, and other CLI coding agents.
 
 ## Project Context
 
-public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v2.12.0
+public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v3.0.0-beta.3
 
 Experimental agent with dual OpenAI implementation for advanced research capabilities.
 Supports inter-agent collaboration via handoff protocol.
