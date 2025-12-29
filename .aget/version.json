@@ -61,5 +61,6 @@
   "manifest_version": "3.0",
   "updated": "2025-12-27",
   "archetype": "analyst",
-  "specialization": "ai-research"
+  "specialization": "ai-research",
+  "template": "template-analyst-aget"
 }
