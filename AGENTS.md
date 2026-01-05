@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 3.0.0-beta.3
+@aget-version: 3.2.1
 
 
 ## Substantial Change Protocol
@@ -80,9 +80,11 @@ When user says "wind down" or "save work":
 
 ### Sanity Check
 When user says "sanity check":
-- Run: `python3 scripts/aget_housekeeping_protocol.py sanity-check`
-- Verify critical components present and functional
-- Report system status: OK/DEGRADED/CRITICAL
+- Run: `python3 scripts/aget_housekeeping_protocol.py` (human-readable output)
+- Or: `python3 scripts/aget_housekeeping_protocol.py --json` (JSON output)
+- For remote agent: `python3 scripts/aget_housekeeping_protocol.py --dir /path/to/agent`
+- Checks: .aget/ structure, version.json, identity.json, governance/, 5D directories
+- Report system status: healthy/warning/error (exit codes: 0/1/2)
 
 ### Repository Best Practices
 
