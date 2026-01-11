@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 3.2.1
+@aget-version: 3.3.0
 
 
 ## Substantial Change Protocol
