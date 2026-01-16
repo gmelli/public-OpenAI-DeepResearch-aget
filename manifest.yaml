@@ -1,5 +1,6 @@
 apiVersion: aget.framework/v1
 kind: TemplateManifest
+version: 3.3.0  # aget_version for coherence validation (L444)
 
 metadata:
   name: public-OpenAI-DeepResearch-aget
