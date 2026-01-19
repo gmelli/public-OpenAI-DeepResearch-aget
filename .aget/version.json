@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.3.0",
+  "aget_version": "3.4.0",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
   "instance_type": "aget",
@@ -78,10 +78,11 @@
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-01-11",
+  "updated": "2026-01-18",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
   "migrated_to_v321": "2026-01-05",
-  "migrated_to_v330": "2026-01-11"
+  "migrated_to_v330": "2026-01-11",
+  "migrated_to_v340": "2026-01-18"
 }
