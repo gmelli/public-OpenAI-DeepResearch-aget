@@ -1,0 +1,291 @@
+# ONTOLOGY: Analyst Archetype v1.0
+# SKOS-aligned concept definitions for data analysis and report generation
+#
+# Archetype: analyst
+# Created: 2026-02-14
+# Author: private-aget-framework-AGET
+# Format: SKOS-inspired YAML (aget-framework convention)
+# Concepts: 7
+# Project: ARC-001 (Archetype Customization v3.5)
+
+apiVersion: aget.framework/v1
+kind: OntologySpec
+metadata:
+  name: analyst-archetype-ontology
+  version: 1.0.0
+  created: 2026-02-14
+  author: private-aget-framework-AGET
+  archetype: analyst
+  description: >
+    Formal vocabulary for analyst archetype agents. Defines concepts for
+    data analysis, metric tracking, insight generation, and reporting.
+  extends: ONTOLOGY_personal_ai_systems_v1.0.yaml
+
+# ============================================================================
+# CONCEPT SCHEME
+# ============================================================================
+
+conceptScheme:
+  uri: aget:ontology/analyst
+  prefLabel: Analyst Archetype Ontology
+  definition: >
+    A vocabulary for describing analyst agent capabilities including data
+    analysis, metric calculation, insight extraction, and report generation.
+  hasTopConcept:
+    - aget:archetype/analyst/Dataset
+    - aget:archetype/analyst/Report
+    - aget:archetype/analyst/Metric
+  relatedScheme:
+    - aget:ontology/personal-ai-systems
+
+# ============================================================================
+# CONCEPTS
+# ============================================================================
+
+concepts:
+
+  # --------------------------------------------------------------------------
+  # Concept: Dataset
+  # --------------------------------------------------------------------------
+  - id: ANL-001
+    uri: aget:archetype/analyst/Dataset
+    prefLabel: Dataset
+    altLabel:
+      - Data
+      - Data_Source
+      - Data_Collection
+    definition: >
+      A structured collection of data used as input for analysis.
+      Datasets have schema, provenance, and quality characteristics.
+    scopeNote: >
+      Data quality affects analysis validity. Understanding data lineage
+      and limitations is prerequisite to meaningful analysis.
+    theoreticalBasis:
+      primary: Data Management
+      source: DAMA-DMBOK
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Analysis
+      - aget:archetype/analyst/Metric
+    inScheme: aget:ontology/analyst
+    cluster: Data Management
+
+  # --------------------------------------------------------------------------
+  # Concept: Metric
+  # --------------------------------------------------------------------------
+  - id: ANL-002
+    uri: aget:archetype/analyst/Metric
+    prefLabel: Metric
+    altLabel:
+      - Measure
+      - KPI
+      - Indicator
+    definition: >
+      A quantifiable measure used to track performance, progress, or
+      characteristics over time.
+    scopeNote: >
+      Metrics should be SMART: Specific, Measurable, Achievable, Relevant,
+      Time-bound. Leading vs lagging indicators serve different purposes.
+    theoreticalBasis:
+      primary: Performance Measurement
+      source: Balanced Scorecard
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Dataset
+      - aget:archetype/analyst/Insight
+    example:
+      - "Fleet conformance score: 78%"
+      - "Session count: 45 this month"
+    inScheme: aget:ontology/analyst
+    cluster: Analysis
+
+  # --------------------------------------------------------------------------
+  # Concept: Analysis
+  # --------------------------------------------------------------------------
+  - id: ANL-003
+    uri: aget:archetype/analyst/Analysis
+    prefLabel: Analysis
+    altLabel:
+      - Data_Analysis
+      - Examination
+      - Investigation
+    definition: >
+      The systematic examination of data to discover patterns, draw
+      conclusions, and generate insights.
+    scopeNote: >
+      Analysis methods include statistical, qualitative, comparative,
+      and trend analysis. Method selection depends on question and data.
+    theoreticalBasis:
+      primary: Data Analysis
+      source: Statistical Methods
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Dataset
+      - aget:archetype/analyst/Insight
+    enumValues:
+      - Descriptive    # What happened
+      - Diagnostic     # Why it happened
+      - Predictive     # What might happen
+      - Prescriptive   # What should happen
+    inScheme: aget:ontology/analyst
+    cluster: Analysis
+
+  # --------------------------------------------------------------------------
+  # Concept: Insight
+  # --------------------------------------------------------------------------
+  - id: ANL-004
+    uri: aget:archetype/analyst/Insight
+    prefLabel: Insight
+    altLabel:
+      - Finding
+      - Discovery
+      - Observation
+    definition: >
+      A meaningful understanding derived from analysis that informs
+      decisions or actions.
+    scopeNote: >
+      Insights transform data into actionable knowledge. Quality insights
+      are non-obvious, specific, and actionable.
+    theoreticalBasis:
+      primary: Knowledge Discovery
+      source: Data Mining
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Analysis
+      - aget:archetype/analyst/Report
+    inScheme: aget:ontology/analyst
+    cluster: Analysis
+
+  # --------------------------------------------------------------------------
+  # Concept: Report
+  # --------------------------------------------------------------------------
+  - id: ANL-005
+    uri: aget:archetype/analyst/Report
+    prefLabel: Report
+    altLabel:
+      - Analysis_Report
+      - Dashboard
+      - Summary
+    definition: >
+      A document presenting analysis results, metrics, and insights
+      in consumable format for stakeholders.
+    scopeNote: >
+      Reports should be audience-appropriate, highlight key findings,
+      and enable informed decision-making.
+    theoreticalBasis:
+      primary: Business Intelligence
+      source: Reporting Best Practices
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Insight
+      - aget:archetype/analyst/Visualization
+    inScheme: aget:ontology/analyst
+    cluster: Reporting
+
+  # --------------------------------------------------------------------------
+  # Concept: Visualization
+  # --------------------------------------------------------------------------
+  - id: ANL-006
+    uri: aget:archetype/analyst/Visualization
+    prefLabel: Visualization
+    altLabel:
+      - Chart
+      - Graph
+      - Visual_Representation
+    definition: >
+      A graphical representation of data that makes patterns and
+      relationships easier to understand.
+    scopeNote: >
+      Effective visualizations match chart type to data type and
+      message. Avoid chartjunk and misleading representations.
+    theoreticalBasis:
+      primary: Data Visualization
+      source: Tufte Principles
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Report
+      - aget:archetype/analyst/Metric
+    enumValues:
+      - LineChart     # Trends over time
+      - BarChart      # Comparisons
+      - PieChart      # Parts of whole
+      - Histogram     # Distribution
+      - ScatterPlot   # Correlations
+    inScheme: aget:ontology/analyst
+    cluster: Reporting
+
+  # --------------------------------------------------------------------------
+  # Concept: Trend
+  # --------------------------------------------------------------------------
+  - id: ANL-007
+    uri: aget:archetype/analyst/Trend
+    prefLabel: Trend
+    altLabel:
+      - Pattern
+      - Direction
+      - Trajectory
+    definition: >
+      A general direction or pattern observed in data over time.
+      Trends inform forecasting and planning.
+    scopeNote: >
+      Trends may be upward, downward, or stable. Distinguishing trend
+      from noise requires appropriate time window and methodology.
+    theoreticalBasis:
+      primary: Trend Analysis
+      source: Time Series Analysis
+    broader: null
+    narrower: null
+    related:
+      - aget:archetype/analyst/Metric
+      - aget:archetype/analyst/Insight
+    enumValues:
+      - Increasing   # Upward trend
+      - Decreasing   # Downward trend
+      - Stable       # No significant change
+      - Volatile     # Unpredictable changes
+    inScheme: aget:ontology/analyst
+    cluster: Analysis
+
+# ============================================================================
+# RELATIONSHIPS
+# ============================================================================
+
+relationships:
+  - subject: aget:archetype/analyst/Analysis
+    predicate: skos:related
+    object: aget:archetype/analyst/Dataset
+    note: Analysis operates on datasets
+
+  - subject: aget:archetype/analyst/Insight
+    predicate: skos:related
+    object: aget:archetype/analyst/Analysis
+    note: Insights emerge from analysis
+
+  - subject: aget:archetype/analyst/Report
+    predicate: skos:related
+    object: aget:archetype/analyst/Insight
+    note: Reports present insights
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+provenance:
+  project: ARC-001
+  created: 2026-02-14
+  author: private-aget-framework-AGET
+  methodology: Derived from analyst archetype ANALYST_SPEC.md
+
+validation:
+  conceptCount: 7
+  clusters: 3
+  theoreticalGrounding: 100%
+  skosCompliance: partial
+
+# End of ONTOLOGY_analyst.yaml
