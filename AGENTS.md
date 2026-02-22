@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 3.5.0
+@aget-version: 3.6.0
 
 
 ## Substantial Change Protocol
@@ -20,7 +20,7 @@ When facing any substantial change or multi-step task:
 
 ## Agent Compatibility
 This configuration follows the AGENTS.md open-source standard for universal agent configuration.
-Works with Claude Code, Cursor, Aider, Windsurf, and other CLI coding agents.
+Works with Claude Code, Codex CLI, Gemini CLI, and other CLI coding agents.
 **Note**: CLAUDE.md is a symlink to this file for backward compatibility.
 
 ## Project Context
