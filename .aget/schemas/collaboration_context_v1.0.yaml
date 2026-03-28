@@ -183,7 +183,7 @@ examples:
     context:
       task_id: "task-20251002-150000"
       initiator: "my-AGET-aget"
-      target: "my-CCB-aget"
+      target: "example-personal-aget"
       task_type: "review_pr"
       shared_state:
         description: "Review PR #123 for documentation quality"

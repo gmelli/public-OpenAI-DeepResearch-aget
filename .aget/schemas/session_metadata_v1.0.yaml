@@ -134,8 +134,8 @@ fields:
       type: string
     description: "Other AGETs involved in session"
     example:
-      - "my-CCB-aget"
-      - "my-GITHUB-aget"
+      - "example-personal-aget"
+      - "example-github-aget"
 
   pain_points:
     type: array
@@ -249,8 +249,8 @@ patterns_used:
   - name: "routing/agent_registry"
     version: "1.0.0"
 agets_collaborated:
-  - "my-CCB-aget"
-  - "my-GITHUB-aget"
+  - "example-personal-aget"
+  - "example-github-aget"
 pain_points:
   - "Manual metadata entry is tedious"
 next_steps:

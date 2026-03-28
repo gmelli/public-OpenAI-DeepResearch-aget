@@ -71,7 +71,7 @@ git status --porcelain output:
  M GM-RKB
  M aget-cli-agent-template
  M my-AGET-template
- D my-CCB-aget
+ D my-example-aget
  M my-github-aget
  M my-llm-judge-aget
  M my-llm-manager-aget
