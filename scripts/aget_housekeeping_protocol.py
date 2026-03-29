@@ -2,11 +2,11 @@
 """
 AGET Housekeeping Protocol - Generic Template
 
-Perform sanity checks and housekeeping for any AGET agent. Validates
+Perform health checks and housekeeping for any AGET agent. Validates
 structure, checks for issues, and reports agent health. Designed to
 work across CLI agents (Claude Code, Codex CLI, Cursor, etc.).
 
-Implements: CAP-SESSION-002 (Sanity Check Protocol)
+Implements: CAP-SESSION-002 (Health Check Protocol)
 Patterns: L038 (Agent-Agnostic), L021 (Verify-Before-Modify), L039 (Diagnostic Efficiency)
 
 Usage:

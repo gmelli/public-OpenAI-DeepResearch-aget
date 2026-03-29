@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 3.10.0
+@aget-version: 3.11.0
 
 
 ## Substantial Change Protocol
@@ -78,8 +78,8 @@ When user says "wind down" or "save work":
 
 ## Housekeeping Commands
 
-### Sanity Check
-When user says "sanity check":
+### Health Check
+When user says "health check":
 - Run: `python3 scripts/aget_housekeeping_protocol.py` (human-readable output)
 - Or: `python3 scripts/aget_housekeeping_protocol.py --json` (JSON output)
 - For remote agent: `python3 scripts/aget_housekeeping_protocol.py --dir /path/to/agent`
@@ -269,3 +269,10 @@ When reviewing retrospectives or gate completions, check for these bypass indica
 | PROJECT_PLAN without skill | `planning/PROJECT_PLAN_*.md` created but no `/aget-create-project` in session | Flag in retrospective. Missing: spec conformance, gate ordering, self-verification. |
 | Issue without skill | `gh issue create` in session but no `/aget-file-issue` | Flag in retrospective. Missing: destination routing, content sanitization. |
 | Gate without plan update | Gate deliverables marked [x] but no commit with V-test results | Flag as gate boundary slack. Missing: structural proof of compliance. |
+
+## Governance Capabilities
+
+| Attribute | Value |
+|-----------|-------|
+| Governance Intensity | Standard |
+

@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.10.0",
+  "aget_version": "3.11.0",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
   "instance_type": "aget",
@@ -116,11 +116,21 @@
         "Skill renames: capture-observation\u2192record-observation, study-up\u2192study-topic",
         "Spec renames: SKILL-008 aligned to record-observation"
       ]
+    },
+    {
+      "from_version": "3.10.0",
+      "to_version": "3.11.0",
+      "date": "2026-03-28",
+      "method": "handoff-upgrade",
+      "handoff": "RELEASE_HANDOFF_v3.11.0.md",
+      "changes": [
+        "Version upgrade to v3.11.0 (Skill Conformance, Requirements Formalization, Hook Adoption)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-03-21",
+  "updated": "2026-03-28",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
@@ -128,5 +138,6 @@
   "migrated_to_v330": "2026-01-11",
   "migrated_to_v340": "2026-01-18",
   "migrated_to_v350": "2026-02-15",
-  "migrated_to_v3100": "2026-03-21"
+  "migrated_to_v3100": "2026-03-21",
+  "migrated_to_v3110": "2026-03-28"
 }
