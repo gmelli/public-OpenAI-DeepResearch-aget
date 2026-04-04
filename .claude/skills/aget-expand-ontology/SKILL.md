@@ -10,7 +10,7 @@ ontology:
   validation_command: "python3 tools/validate_ontology.py --format=report --log-history"
   quality_history: "ontology/QUALITY_HISTORY.yaml"
   vocabulary_index: "ontology/VOCABULARY-INDEX.md"
-  project_prefix: "PROCO"
+  project_prefix: "ONTO"
   staging_file: "ontology/EXPANSION_CANDIDATES.yaml"
 ---
 
@@ -62,7 +62,7 @@ ontology:
   validation_command: "python3 tools/validate_ontology.py --format=report --log-history"
   quality_history: "ontology/QUALITY_HISTORY.yaml"       # Expansion audit trail
   vocabulary_index: "ontology/VOCABULARY-INDEX.md"       # Optional index file
-  project_prefix: "PROCO"                                # Expansion project ID prefix
+  project_prefix: "ONTO"                                # Expansion project ID prefix
   staging_file: "ontology/EXPANSION_CANDIDATES.yaml"     # Deferred concepts staging
 ```
 

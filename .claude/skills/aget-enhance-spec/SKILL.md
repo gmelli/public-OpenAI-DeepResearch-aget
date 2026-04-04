@@ -1,7 +1,7 @@
 ---
 name: aget-enhance-spec
 description: Guide through the 7-phase specification enhancement lifecycle (Phases 0-6 from L622). Governs creating, updating, wiring, and validating AGET specifications.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # /aget-enhance-spec
@@ -23,7 +23,7 @@ Categories: NEW, UPDATE, ADD-REQ, WIRE, CONSOLIDATE, DEPRECATE
 Examples:
 - `/aget-enhance-spec NEW specs/AGET_FOO_SPEC.md`
 - `/aget-enhance-spec UPDATE aget/specs/AGET_SOP_SPEC.md --version 1.2.0`
-- `/aget-enhance-spec WIRE aget/specs/AGET_SKILLS_SPEC.md`
+- `/aget-enhance-spec WIRE aget/specs/SKILL_NAMING_CONVENTION_SPEC.md`
 - `/aget-enhance-spec ADD-REQ aget/specs/AGET_SOP_SPEC.md`
 
 ## Phase Selection
@@ -34,10 +34,10 @@ Not all categories require all phases. Use this table to determine which phases 
 |----------|:---------------:|
 | NEW | 0, 1, 2, 3, 4, 5, 6 (all) |
 | UPDATE | 0, 1, 2, 3, 4, 5, 6 (all) |
-| ADD-REQ | 0, 1, 2, 3, 4, 5 |
-| WIRE | 0, 1, 5 |
+| ADD-REQ | 0, 1, 2, 3, 4, 5, 6 |
+| WIRE | 0, 1, 5, 6 |
 | CONSOLIDATE | 0, 1, 2, 3, 4, 5, 6 + reference SOP_specification_consolidation.md |
-| DEPRECATE | 0, 1, 3 |
+| DEPRECATE | 0, 1, 3, 6 |
 
 ## Execution
 
@@ -104,13 +104,39 @@ Confirm category and proceed? (yes/adjust category/abort)
 
 **Exit Criteria**: Category confirmed. Evidence documented. Gap clearly stated. Governance level determined.
 
+### Step 2.5: Phase 0.5 — Maturity Assessment (L682)
+
+**Objective**: Score the target spec's current maturity level to inform enhancement scope.
+
+Execute:
+1. If spec exists (UPDATE, ADD-REQ, WIRE), assess against RUBRIC_specification_maturity_v1.0:
+   ```
+   Content:     C_ (0=Implicit, 1=Intent, 2=Structured, 3=Grounded, 4=Verified, 5=Wired)
+   Enforcement: E_ (0=Unenforceable, 1=Advisory, 2=Detectable, 3=Preventable, 4=Structural)
+   Adoption:    A_ (0=Unaware, 1=Aware, 2=Compliant, 3=Internalized, 4=Forward)
+   Process:     P_ (0=Ad-hoc, 1=Documented, 2=Procedural, 3=Specified, 4=Automated)
+   Governance:  G_ (0=Ungoverned, 1=Tracked, 2=Planned, 3=Governed, 4=Auditable)
+   ```
+2. Identify the **constraining dimension** (lowest level)
+3. For NEW specs, record baseline as C0/E0/A0/P0/G0
+4. Note target maturity profile for this enhancement (what level should each dimension reach?)
+
+Present:
+```
+Current Maturity: C_/E_/A_/P_/G_ (effective: L_)
+Constraining Dimension: [dimension] at level [N]
+Target After Enhancement: C_/E_/A_/P_/G_
+```
+
+**Note**: This phase is informational — it guides effort allocation but does not gate progression. Skip if spec doesn't exist yet (NEW category without prior version).
+
 ### Step 3: Phase 1 — Governing Spec Verification
 
 **Objective**: Read governing spec(s) before modifying anything.
 
 Execute:
 1. Identify governing spec(s) for the artifact type:
-   - Skill specs → read AGET_SKILLS_SPEC
+   - Skill specs → read SKILL_NAMING_CONVENTION_SPEC (in `aget/specs/`; note: AGET_SKILLS_SPEC is archived)
    - SOPs → read AGET_SOP_SPEC
    - General specs → read AGET_SPEC_FORMAT (if exists)
 2. Read each governing spec — extract specific requirements (CAP-xxx-nnn)
@@ -165,7 +191,10 @@ Execute:
    - Optional: `WHERE condition, the SYSTEM should...`
    - Prohibited: `The SYSTEM shall NOT...`
    - Unwanted: `artifact shall NOT...`
-3. Assign unique requirement IDs: R-{DOMAIN}-{NNN}
+3. Assign unique requirement IDs: CAP-{DOMAIN}-{NNN}[-{SUB}]
+   - For ADD-REQ: read existing spec to detect current ID format, match it for consistency
+   - If detected format is R- (legacy): flag for CAP- migration in cross-reference report
+   - Reference: SPEC_FORMAT v1.2 §Namespaced Capability IDs
 4. If new vocabulary terms introduced, add SKOS vocabulary section
 5. If applicable, use "codify existing behavior" approach (fastest — L622 evidence)
 
@@ -190,7 +219,7 @@ Execute:
 3. Validate EARS pattern compliance for all requirements:
    ```
    For each requirement:
-   - Has unique R-{DOMAIN}-{NNN} ID? ✓/✗
+   - Has unique CAP-{DOMAIN}-{NNN}[-{SUB}] ID? ✓/✗
    - Uses EARS pattern keyword? ✓/✗
    - Pattern type recorded? ✓/✗
    ```
@@ -333,6 +362,23 @@ Outputs:
   - Decision Log: <inline>
 ```
 
+### Step 10: Skill Completion Signal (D71 Layer 3)
+
+**Purpose**: Make skill execution completeness structurally visible. If this signal is absent, the skill execution is incomplete.
+
+The skill MUST output this signal as the LAST section of the report:
+
+```markdown
+## Skill Completion Signal
+**Self-Compliance**: PASS | FAIL (items: [list])
+**Cross-References**: PASS (N mapped) | SKIP (justification)
+**Phases Completed**: 0→1→2→3→4→5→6→9→10
+```
+
+If Phase 6 (Self-Compliance Check) was not executed, the signal MUST report FAIL. Per C3, Phase 6 has no skip option.
+
+**Enforcement**: Strict (ADR-008, D71). Signal absence = incomplete execution.
+
 ## Constraints
 
 These are INVIOLABLE — you MUST NOT violate these constraints:
@@ -345,7 +391,7 @@ These are INVIOLABLE — you MUST NOT violate these constraints:
 6. **C6**: ALWAYS produce cross-reference report as output
 7. **C7**: ALWAYS cite governing spec requirements (CAP-xxx-nnn) in deliverables
 8. **C8**: ALWAYS use EARS patterns for requirements
-9. **C9**: ALWAYS assign unique R-{DOMAIN}-{NNN} IDs to requirements
+9. **C9**: ALWAYS assign unique CAP-{DOMAIN}-{NNN} IDs to requirements per SPEC_FORMAT v1.2
 
 ## Anti-Pattern Detection
 
@@ -365,7 +411,7 @@ The skill actively checks for these anti-patterns:
 - `/aget-propose-skill` — Propose new skills (used in this project at G3)
 - `/aget-record-lesson` — Capture lessons discovered during enhancement
 - `/aget-review-project` — Review enhancement project progress
-- `/aget-study-up` — Research topic before enhancing
+- `/aget-study-topic` — Research topic before enhancing
 
 ## Traceability
 
@@ -381,7 +427,7 @@ The skill actively checks for these anti-patterns:
 
 ---
 
-*aget-enhance-spec v1.0.0*
+*aget-enhance-spec v1.1.0*
 *Category: Governance*
 *ADR-008 Position: Generator (step 3 of Advisory → Strict → Generator)*
 *"Five plans, three agents, one skill."*

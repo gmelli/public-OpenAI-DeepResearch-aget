@@ -153,7 +153,7 @@ Report:
 | Lesson Type | Classification | Example |
 |-------------|---------------|---------|
 | Process improvement for AGET framework | Framework | "Threshold calibration methodology" |
-| Domain-specific knowledge | Domain | "Domain-specific contract parsing rules" |
+| Domain-specific knowledge | Domain | "Legalon contract parsing rules" |
 | CLI behavior finding | Framework | "Skills work in headless mode" |
 | Project-specific pattern | Domain | "API rate limit handling" |
 | Anti-pattern applicable to all AGETs | Framework | "Context-Anchoring Blindness" |
@@ -161,7 +161,7 @@ Report:
 ## Related Skills
 
 - `/aget-check-evolution` - Check evolution directory health
-- `/aget-capture-observation` - Capture observations (lighter weight)
+- `/aget-record-observation` - Capture observations (lighter weight)
 
 ## Traceability
 
