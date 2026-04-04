@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 3.11.0
+@aget-version: 3.12.0
 
 
 ## Substantial Change Protocol
@@ -80,9 +80,9 @@ When user says "wind down" or "save work":
 
 ### Health Check
 When user says "health check":
-- Run: `python3 scripts/aget_housekeeping_protocol.py` (human-readable output)
-- Or: `python3 scripts/aget_housekeeping_protocol.py --json` (JSON output)
-- For remote agent: `python3 scripts/aget_housekeeping_protocol.py --dir /path/to/agent`
+- Run: `python3 scripts/health_check.py` (human-readable output)
+- Or: `python3 scripts/health_check.py --json` (JSON output)
+- For remote agent: `python3 scripts/health_check.py --dir /path/to/agent`
 - Checks: .aget/ structure, version.json, identity.json, governance/, 5D directories
 - Report system status: healthy/warning/error (exit codes: 0/1/2)
 
