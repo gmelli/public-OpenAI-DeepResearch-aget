@@ -1,6 +1,7 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.13.0",
+  "aget_version": "3.14.1",
+  "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
   "instance_type": "aget",
@@ -111,9 +112,9 @@
       "method": "handoff-upgrade",
       "handoff": "RELEASE_HANDOFF_v3.10.0.md",
       "changes": [
-        "Version upgrade to v3.10.0 (Structural Enforcement \u2014 3-layer enforcement, dual-repo sync, skill renames)",
+        "Version upgrade to v3.10.0 (Structural Enforcement — 3-layer enforcement, dual-repo sync, skill renames)",
         "D71 3-layer structural enforcement: MUST-invoke directives, Gate Boundary Protocol, Skill Completion Signal",
-        "Skill renames: capture-observation\u2192record-observation, study-up\u2192study-topic",
+        "Skill renames: capture-observation→record-observation, study-up→study-topic",
         "Spec renames: SKILL-008 aligned to record-observation"
       ]
     },
@@ -150,11 +151,24 @@
         "11 new/upgraded skills deployed (8 new universal + 3 Release Delivery Triad)",
         "No breaking changes, no deprecations"
       ]
+    },
+    {
+      "from_version": "3.13.0",
+      "to_version": "3.14.1",
+      "date": "2026-04-18",
+      "method": "fleet-upgrade",
+      "handoff": "DEPLOYMENT_SPEC_v3.14.1.yaml",
+      "plan": "FLEET-UPG-012",
+      "changes": [
+        "Version upgrade to v3.14.1 (v3.13 Loop Closure + Scope-Lock Discipline)",
+        "No installer patch (installer/install.py absent or already clean)",
+        "FLEET-UPG-012 G3 batch rollout"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-04-12",
+  "updated": "2026-04-18",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
@@ -163,5 +177,6 @@
   "migrated_to_v340": "2026-01-18",
   "migrated_to_v350": "2026-02-15",
   "migrated_to_v3100": "2026-03-21",
-  "migrated_to_v3110": "2026-03-28"
+  "migrated_to_v3110": "2026-03-28",
+  "migrated_to_v3141": "2026-04-18"
 }
