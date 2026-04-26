@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.14.1",
+  "aget_version": "3.15.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -164,11 +164,25 @@
         "No installer patch (installer/install.py absent or already clean)",
         "FLEET-UPG-012 G3 batch rollout"
       ]
+    },
+    {
+      "from_version": "3.14.1",
+      "to_version": "3.15.0",
+      "date": "2026-04-26",
+      "method": "fleet-upgrade",
+      "handoff": "DEPLOYMENT_SPEC_v3.15.0.yaml",
+      "plan": "FLEET-UPG-013",
+      "changes": [
+        "Version upgrade to v3.15.0 (Two-Level Model Coherence + Security Hardening)",
+        "Deployed aget-enhance-health v1.0.0 (SKILL-049)",
+        "Updated aget-check-health to v1.1.0 (detect-only scope; --fix removed)",
+        "FLEET-UPG-013 fleet rollout"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-04-18",
+  "updated": "2026-04-26",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
@@ -178,5 +192,6 @@
   "migrated_to_v350": "2026-02-15",
   "migrated_to_v3100": "2026-03-21",
   "migrated_to_v3110": "2026-03-28",
-  "migrated_to_v3141": "2026-04-18"
+  "migrated_to_v3141": "2026-04-18",
+  "migrated_to_v3150": "2026-04-26"
 }
