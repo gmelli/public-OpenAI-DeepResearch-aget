@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.15.0",
+  "aget_version": "3.16.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -178,11 +178,26 @@
         "Updated aget-check-health to v1.1.0 (detect-only scope; --fix removed)",
         "FLEET-UPG-013 fleet rollout"
       ]
+    },
+    {
+      "from_version": "3.15.0",
+      "to_version": "3.16.0",
+      "date": "2026-05-02",
+      "method": "fleet-upgrade",
+      "handoff": "RELEASE_HANDOFF_v3.16.0.md (aget/handoffs/)",
+      "plan": "FLEET-UPG-014",
+      "changes": [
+        "Version upgrade to v3.16.0 (Framework-Discipline Closure + Wave-1A Spec Contracts + /aget-go Production)",
+        "Non-breaking release; mandatory changes M-3.16-1 (version.json) + M-3.16-2 (AGENTS.md @aget-version) only",
+        "Path A preservation: release-triad RETAINED for all archetypes (34/34 FULL_TRIAD audited at G0.2; per-agent skill changes deferred to v3.17 framework-track)",
+        "Universal-skill mandate reframed 32 -> 29 (release-triad moved to release-execution archetype catalog per CAP-TPL-016-07; framework-level, no per-agent action)",
+        "FLEET-UPG-014 fleet rollout (G2 pilot or G3 batch)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-04-26",
+  "updated": "2026-05-02",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
