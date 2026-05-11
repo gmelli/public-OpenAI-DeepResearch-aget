@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.16.0",
+  "aget_version": "3.17.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -193,11 +193,27 @@
         "Universal-skill mandate reframed 32 -> 29 (release-triad moved to release-execution archetype catalog per CAP-TPL-016-07; framework-level, no per-agent action)",
         "FLEET-UPG-014 fleet rollout (G2 pilot or G3 batch)"
       ]
+    },
+    {
+      "from_version": "3.16.0",
+      "to_version": "3.17.0",
+      "date": "2026-05-10",
+      "method": "fleet-upgrade",
+      "handoff": "RELEASE_HANDOFF_v3.17.0.md (β-path; DEPLOYMENT_SPEC_v3.16.0.yaml inherited per handoff line 85-87)",
+      "plan": "FLEET-UPG-015",
+      "changes": [
+        "Version upgrade to v3.17.0 (Theme C3 — Canonical Coherence + Structural Self-Conformance)",
+        "Non-breaking release; mandatory changes M-3.17-1 (version.json) + M-3.17-2 (AGENTS.md @aget-version) only",
+        "DEPLOYMENT_SPEC β-path inheritance: v3.16.0 contract semantically inherited per handoff line 85-87",
+        "Receiving-agent obligations per handoff line 70-77: canonical-template pull, health_check.py PASS, pytest baseline-delta = 0",
+        "External verification captured per F1 mitigation (G3+G4 pre-mortem); supervisor-side cohort tracking validates",
+        "FLEET-UPG-015 fleet rollout — Wave per supervisor disposition"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-05-02",
+  "updated": "2026-05-10",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
