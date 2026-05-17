@@ -25,10 +25,23 @@ Works with Claude Code, Codex CLI, Gemini CLI, and other CLI coding agents.
 
 ## Project Context
 
+
+
+## v3.18.0 Adoption (FLEET-UPG-016R remediated 2026-05-17)
+
+Per `RELEASE_HANDOFF_v3.18.0.md` §Upgrade Guide adoption streams:
+
+| Stream | Status | Note |
+|--------|--------|------|
 public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v3.0.0-beta.3
 
 Experimental agent with dual OpenAI implementation for advanced research capabilities.
-Supports inter-agent collaboration via handoff protocol.
+Supports inter-agent collaboration via handoff protocol.| `AGET_MEMORY_SURFACE_SPEC v0.2.0` reference | **Adopted (reference-only)** | Canonical at `~/github/aget-framework/aget/specs/AGET_MEMORY_SURFACE_SPEC.md`; status DRAFT pending cross-fleet review; MEMORY consumers track L335 harness-vs-KB taxonomy |
+| Verb-registry awareness (11 new §Hierarchy Decisions pairs) | **Acknowledged** | Canonical at `~/github/aget-framework/aget/ontology/DESIGN_DIRECTION_skill_verb_vocabulary.md`; L954 5-line pre-check applies when authoring new skills |
+| L961 channel wiring (HANDOFF-Deferral Discipline) | **OPTIONAL — deferred adoption** | Per D-FU016-3=b OPTIONAL per-agent. Defers Channel 1+2+4 implementation; adoption rate tracked at v3.19 |
+| `/aget-create-initiative` STRICT skill | **Adopted** | Skill present at `.claude/skills/aget-create-initiative/`; added to Structural Skill Routing table per D-FU016-4=ALL cohort |
+| R-DEP-3 RECLASSIFY wake/wind shims (Active Deprecations → Active Aliases) | **Acknowledged** | No code change; semantic reclassification; per-agent verify at fleet rollout |
+
 
 ## Portfolio Configuration (v2.7.0)
 
@@ -257,6 +270,7 @@ Skills with STRUCTURAL enforcement level. When the trigger condition is met, the
 |-------|-------------------|----------------------|:-------------:|
 | `/aget-create-project` | Creating `planning/PROJECT_PLAN_*.md` | Direct Write/Edit to planning/ | **Strict** |
 | `/aget-file-issue` | Filing GitHub issues | Direct `gh issue create` | **Strict** |
+| `/aget-create-initiative` | Creating `planning/initiatives/INIT-*.md` (v3.18) | Direct Write/Edit to `planning/initiatives/` | **Strict** |
 
 All other skills remain at **Advisory** level (available, recommended, not enforced).
 
