@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.17.0",
+  "aget_version": "3.18.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -209,11 +209,27 @@
         "External verification captured per F1 mitigation (G3+G4 pre-mortem); supervisor-side cohort tracking validates",
         "FLEET-UPG-015 fleet rollout — Wave per supervisor disposition"
       ]
+    },
+    {
+      "from_version": "3.17.0",
+      "to_version": "3.18.0",
+      "date": "2026-05-17",
+      "method": "fleet-upgrade",
+      "handoff": "RELEASE_HANDOFF_v3.18.0.md (β-path; DEPLOYMENT_SPEC_v3.16.0.yaml inherited)",
+      "plan": "FLEET-UPG-016",
+      "changes": [
+        "Version upgrade to v3.18.0 (FLEET-UPG-016 — adoption streams per handoff §Upgrade Guide)",
+        "Non-breaking release; mandatory changes M-3.18-1 (version.json) + M-3.18-2 (AGENTS.md @aget-version) only",
+        "Adoption streams (per-agent post-migration ack): MEMORY_SURFACE_SPEC v0.2.0 reference, verb-registry awareness, L961 OPTIONAL per-agent, /aget-create-initiative STRICT (D-FU016-4=ALL), R-DEP-3 RECLASSIFY wake/wind shims",
+        "DEPLOYMENT_SPEC β-path: v3.16.0 contract semantically inherited (no v3.18.0 spec)",
+        "External verification captured per F1 mitigation; supervisor-side cohort tracking validates",
+        "FLEET-UPG-016 fleet rollout per supervisor disposition (cohort 32; D-FU016-1 cli-aget DEFERRED; D-FU016-2 llm-judge DECOMMISSION)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-05-10",
+  "updated": "2026-05-17",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
