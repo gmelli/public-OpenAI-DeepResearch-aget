@@ -1,6 +1,6 @@
 # Agent Configuration
 
-@aget-version: 3.20.0
+@aget-version: 3.20.3
 
 
 ## Substantial Change Protocol
@@ -33,7 +33,7 @@ Per `RELEASE_HANDOFF_v3.18.0.md` §Upgrade Guide adoption streams:
 
 | Stream | Status | Note |
 |--------|--------|------|
-public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v3.20.0
+public-OpenAI-DeepResearch-aget (DeepThink) - Cognitive research agent - v3.20.3
 
 Experimental agent with dual OpenAI implementation for advanced research capabilities.
 Supports inter-agent collaboration via handoff protocol.| `AGET_MEMORY_SURFACE_SPEC v0.2.0` reference | **Adopted (reference-only)** | Canonical at `~/github/aget-framework/aget/specs/AGET_MEMORY_SURFACE_SPEC.md`; status DRAFT pending cross-fleet review; MEMORY consumers track L335 harness-vs-KB taxonomy |
