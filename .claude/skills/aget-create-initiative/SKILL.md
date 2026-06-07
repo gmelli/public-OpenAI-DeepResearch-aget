@@ -26,6 +26,29 @@ Per L867 (Coherence-Directed Investment) + D71 (Structural Skill Routing), each 
 
 **Governing Spec**: `sops/SOP_initiative.md` v1.2.0 (graduated procedure; serves as governing contract until `aget/specs/AGET_INITIATIVE_SPEC.md` is authored at v3.19+).
 
+### Ontology Bindings (FWRK-2026-020 substrate)
+
+This skill SHALL be interpreted in terms of the following AGET ontology concepts
+(ontology v1.0.0, per `aget:concept/ConceptPinningByVersion` C643):
+
+- `aget:concept/SpecificationToOntologyBinding` (C644) — initiative manifests
+  authored by this skill are downstream binding consumers; new initiatives SHALL
+  declare their concept bindings inline (`aget:concept/X`).
+- `aget:concept/ConceptLifecycleState` (C651) — initiative lifecycle states
+  (PROPOSED / ACTIVE / DORMANT / RETIRED) mirror SKOS concept lifecycle; the
+  same governance discipline applies.
+- `aget:concept/EditorialWorkflowStateLabel` (C658) — `**Status**:` field in
+  manifest header is the state label per AGET INDEX convention.
+- `aget:concept/NormativeConceptBinding` (C641) — the discipline that, when
+  applied to initiative manifests, makes Cross-Initiative Overlap claims
+  operationally verifiable (currently text-only).
+- `aget:concept/AuthorAssertedCleanlinessAntiPattern` (C671) — Step 8
+  self-verification SHALL be replaced by validator output when Strict promotion
+  matures (currently author-asserted).
+
+Vocabulary version: `ontology/ONTOLOGY_personal_ai_systems_v1.0.yaml` v1.0.0.
+Concept Editor (`aget:concept/ConceptEditorRole` C657): aget-framework.
+
 ## Input
 
 `$ARGUMENTS` — Approved INIT-ID (e.g., `INIT-SUBSTRATE-HYGIENE`) OR the PP-### reference of an approved PROPOSAL_init_*.md.
@@ -267,6 +290,7 @@ The verb-pair is the canonical pattern per AGENTS.md §"Structural Skill Routing
 
 | Link | Reference |
 |------|-----------|
+| Skill ID | SKILL-053 (`.aget/specs/skills/SKILL-053_aget-create-initiative.yaml`) |
 | Proposal | `planning/skill-proposals/PROPOSAL_aget-create-initiative.md` (PROPOSED 2026-04-19) |
 | Sibling skill (verb-pair) | `.claude/skills/aget-propose-initiative/SKILL.md` v1.0.0 |
 | Sibling skill (structural mirror) | `.claude/skills/aget-create-project/SKILL.md` |

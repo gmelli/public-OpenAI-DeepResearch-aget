@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.20.3",
+  "aget_version": "3.21.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -256,11 +256,27 @@
         "C-P1 close_gate_check.py delivered; C-P3 fixed check_structural_skill_frontmatter (absent-tracking warning, #1553)",
         "Non-breaking; version-bump + consumer-surface payload"
       ]
+    },
+    {
+      "from_version": "3.20.3",
+      "to_version": "3.21.0",
+      "date": "2026-06-07",
+      "method": "self-upgrade",
+      "handoff": "RELEASE_HANDOFF_v3.21.0.md",
+      "plan": "FLEET-UPG-023",
+      "changes": [
+        "Version upgrade to v3.21.0 (Always-On Fleet Operations \u2014 governance-inflow minor, non-breaking)",
+        "Deployed AGET_UNATTENDED_AUTONOMY_SPEC.md to .aget/specs/ (governance scaffolding; runtime deferred to v3.22)",
+        "Deployed check_initiatives.py to scripts/ (read-only initiative portfolio rollup)",
+        "Overwrote .claude/skills/aget-create-initiative/SKILL.md to template baseline (STRICT canonical core)",
+        "config.json unattended-autonomy envelope NOT added (opt-in, only-if-unattended \u2014 out of scope)",
+        "Self-upgrade per SOP_fleet_upgrade Gate-1; artifacts pulled from template-worker-aget (L622)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-05-31",
+  "updated": "2026-06-07",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
