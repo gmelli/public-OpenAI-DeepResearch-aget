@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.22.0",
+  "aget_version": "3.23.1",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -286,11 +286,25 @@
         "4 new scripts copied from canonical aget/scripts/",
         "propose-actions SKILL pulled to v1.8.0 from archetype template (SHOULD)"
       ]
+    },
+    {
+      "from_version": "3.22.0",
+      "to_version": "3.23.1",
+      "date": "2026-06-20",
+      "method": "fleet-upgrade",
+      "handoff": "RELEASE_HANDOFF_v3.23.1.md",
+      "changes": [
+        "Version upgrade to v3.23.1 (Goal Tier + Close-Authorization Guard)",
+        "Non-breaking minor release; additive tooling + governance, no breaking changes",
+        "FLEET-UPG (v3.23.1) dispatch (L662 headless self-upgrade)",
+        "3 new scripts copied from canonical aget/scripts/ (close_authorization_guard, create_goal, record_goals_ext)",
+        "Goal-Tier + guard-wired SKILLs pulled from archetype template (SHOULD, runtime-only)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-06-13",
+  "updated": "2026-06-20",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
