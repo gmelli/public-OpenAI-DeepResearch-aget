@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.23.1",
+  "aget_version": "3.24.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -300,11 +300,25 @@
         "3 new scripts copied from canonical aget/scripts/ (close_authorization_guard, create_goal, record_goals_ext)",
         "Goal-Tier + guard-wired SKILLs pulled from archetype template (SHOULD, runtime-only)"
       ]
+    },
+    {
+      "from_version": "3.23.1",
+      "to_version": "3.24.0",
+      "date": "2026-06-27",
+      "method": "fleet-upgrade",
+      "handoff": "DEPLOYMENT_SPEC_v3.24.0.yaml (canonical 27184bd)",
+      "changes": [
+        "Version upgrade to v3.24.0 (Reliance & Boundaries \u2014 advanced, not completed)",
+        "Non-breaking, additive (DEPLOYMENT_SPEC breaking_changes: 0)",
+        "S2 point-upgrade TRIPLET-ONLY: L444 coherence triplet only (M-3.24-1/2/3)",
+        "Reliance payload (A-3.24-*) NOT adopted \u2014 additive/non-blocking, derivation-gated (EC-5)",
+        "FLEET-UPG (v3.24.0) headless self-upgrade dispatch (L662); local commit, NO push"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-06-20",
+  "updated": "2026-06-27",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
