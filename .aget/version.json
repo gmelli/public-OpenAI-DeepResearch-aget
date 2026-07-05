@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.24.0",
+  "aget_version": "3.25.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -314,11 +314,25 @@
         "Reliance payload (A-3.24-*) NOT adopted \u2014 additive/non-blocking, derivation-gated (EC-5)",
         "FLEET-UPG (v3.24.0) headless self-upgrade dispatch (L662); local commit, NO push"
       ]
+    },
+    {
+      "from_version": "3.24.0",
+      "to_version": "3.25.0",
+      "date": "2026-07-04",
+      "method": "fleet-upgrade",
+      "handoff": "DEPLOYMENT_SPEC_v3.25.0.yaml (canonical main 73e3ef0 \u2014 backfill, fetch-from-main)",
+      "changes": [
+        "Version upgrade to v3.25.0 (Grounded Entities & Trusted Releases)",
+        "Non-breaking, additive+repair (DEPLOYMENT_SPEC breaking_release: false)",
+        "Payload refresh M-3.25-3..7: 5 framework scripts (divergence-checked, *_ext.py untouched)",
+        "M-3.25-8: @aget-canonical-specs reliance-only conformance line (D-1)",
+        "aget-ask (O-3.25-1) NOT adopted here \u2014 tier {O}, supervisor-coordinated separately"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-06-27",
+  "updated": "2026-07-04",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
