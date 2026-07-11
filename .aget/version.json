@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.25.0",
+  "aget_version": "3.26.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -328,11 +328,25 @@
         "M-3.25-8: @aget-canonical-specs reliance-only conformance line (D-1)",
         "aget-ask (O-3.25-1) NOT adopted here \u2014 tier {O}, supervisor-coordinated separately"
       ]
+    },
+    {
+      "from_version": "3.25.0",
+      "to_version": "3.26.0",
+      "date": "2026-07-11",
+      "method": "fleet-upgrade",
+      "handoff": "DEPLOYMENT_SPEC_v3.26.0.yaml (tag-reachable at v3.26.0)",
+      "changes": [
+        "Version upgrade to v3.26.0 (Signals & Contracts)",
+        "Non-breaking, additive+repair (DEPLOYMENT_SPEC breaking_release: false)",
+        "Payload refresh M-3.26-3..7: 5 framework scripts (divergence-checked, *_ext.py untouched)",
+        "M-3.26-8: /aget-close-project skill refresh (C-CLOSE-007 + C-CLOSE-008)",
+        "file-issue/record-lesson skill refreshes NOT adopted here (O-rows, per-agent optional)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-07-04",
+  "updated": "2026-07-11",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
