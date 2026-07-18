@@ -1,7 +1,7 @@
 # Agent Configuration
 
-@aget-version: 3.26.0
-@aget-canonical-specs: https://github.com/aget-framework/aget/tree/v3.26.0/specs — reliance-only conformance
+@aget-version: 3.27.0
+@aget-canonical-specs: https://github.com/aget-framework/aget/tree/v3.27.0/specs — reliance-only conformance
 
 
 ## Substantial Change Protocol
@@ -290,4 +290,12 @@ When reviewing retrospectives or gate completions, check for these bypass indica
 | Attribute | Value |
 |-----------|-------|
 | Governance Intensity | Standard |
+## Transactional Execution (Default) — propagated from framework seat (L467 Channel 1; gh#1774, v3.27)
 
+A command/topic invocation is a **transaction**, not a chat opener: execute the requested work, deliver the artifact/answer, stop. The deliverable is the value — not running commentary.
+
+**Prohibited**: preambles ("Let me…", "You're right—"); narrating intended tool calls; option-menus ("Want me to (a) or (b)?" — do the obvious in-scope next action; if a genuine decision blocks, ask ONE crisp question); multi-section essays where the content doesn't need structure; recap scaffolding.
+
+**Required**: results-first, compact, minimal prose around tool calls. Batches run end-to-end without per-step confirmation. Genuine gates (GO authorization, destructive acts, blank required-input) still stop — one line, no ceremony.
+
+**Workspace convention** (gh#1819, same propagation): `workspace/` is PRIVATE exploration space and is gitignored — nothing committing-intended goes there. Study docs, desk references, and handoffs you intend to commit belong in `docs/` (or `sessions/` for session records). If you author in `workspace/` and later need it durable, MOVE it before referencing it from committed artifacts.

@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.26.0",
+  "aget_version": "3.27.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -342,11 +342,26 @@
         "M-3.26-8: /aget-close-project skill refresh (C-CLOSE-007 + C-CLOSE-008)",
         "file-issue/record-lesson skill refreshes NOT adopted here (O-rows, per-agent optional)"
       ]
+    },
+    {
+      "from_version": "3.26.0",
+      "to_version": "3.27.0",
+      "date": "2026-07-18",
+      "method": "fleet-upgrade",
+      "handoff": "DEPLOYMENT_SPEC_v3.27.0.yaml at tag + CORRECTIONS_v3.27.0.md rows 1+4 (gh#1945)",
+      "changes": [
+        "Version upgrade to v3.27.0 (Finish & Verify)",
+        "Non-breaking (DEPLOYMENT_SPEC breaking: no); Rung-4 behavioral bar applies at verify",
+        "Payload M-3.27-3/-5/-6: 3 scripts from canonical MAIN pinned bea1ae8 (CORRECTIONS row 4 supersedes tag copies)",
+        "M-3.27-2: AGENTS.md Transactional Execution section + workspace convention + pin (40k size-checked)",
+        "M-3.27-4 seat-conditional skip (CORRECTIONS row 1); M-3.27-7 verified as precondition",
+        "G2.0 cargo: SOP_permission_cleanup.md + permission_cleanup.py (principal-ruled vehicle 2026-07-18; delivery-only, L691)"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-07-11",
+  "updated": "2026-07-18",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
