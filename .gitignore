@@ -39,3 +39,7 @@ Thumbs.db
 *.tmp
 *.bak
 tmp.json
+
+# Private exploration space (AGENTS.md §Workspace convention, gh#1819)
+# The convention asserted workspace/ was gitignored; it was not. Wired 2026-07-29.
+workspace/

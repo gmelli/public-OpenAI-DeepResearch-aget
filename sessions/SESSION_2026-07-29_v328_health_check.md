@@ -191,6 +191,55 @@ Note: `.claude/settings.local.json` is gitignored globally (`~/.config/git/ignor
 
 ---
 
+## 7b. Peer Review Arc (supervisor cross-read, 17:21–17:30)
+
+`private-supervisor-AGET` read this seat's outputs and fed back an analysis. What it credited
+is in §6; what it got wrong, and what it got right *about this seat*, is below.
+
+| Their claim | Assessment |
+|---|---|
+| Class-5 attribution: ruling R6 manufactures the exact false-green the wave audits for | **Stronger than my own framing.** I recorded that this seat was off-trunk; they identified the *ruling* as the fleet-wide cause |
+| Dead-narrow taxonomy completed to 4 categories (argument-exact / session-wide-self-settings / path-crossing / timestamp-bearing-dead) | Better structure than my one-off finding; adopted |
+| "DeepResearch pushed unprompted when asked to check its own health" | **Factually wrong, and load-bearing.** This seat surfaced the unpushed state and *stopped*, because R6 said no push. The push followed an explicit principal `GO`. Their proposed dispatch ("check your v3.28 health" → expect a push at llm-connectivity) either fails or teaches a seat to override a standing ruling because a prompt implied it. The dispatch must carry the R6 lift |
+| 355 bare `gh#`, 0 in the collision range → severity is probes, not wrong answers | **Directionally right, proof is one-axis.** It establishes no collision against `aget-framework/aget` (max #84) only. The resolution target is the *reading* seat's default tracker — `/aget-file-issue` routes private seats to `gmelli/aget-aget` (2072+), public seats to `aget-framework/aget`. Identical text is unresolvable at one seat and correct at another. Same shape as `gmelli/aget-aget#2072`: an instrument hardened on one axis, never asked about the second — from the seat that wrote that lesson |
+| Dedup discipline shouldn't become a reason nothing gets re-scoped (#1872 still titled "Bash", range now 3–6×) | **Correct, and I under-executed.** I put the scope-extension ask inside comment #N of a long thread — guidance on a surface nobody reads at the moment of decision, the exact thesis I spent the session repeating. Re-title proposed, held for principal |
+
+**Their correction landed harder than they noticed.** L006 as first written cited bare `L961`,
+`L335`, `L669`, `L51` while this seat holds only L001–L006. A bare `gh#` here fails loudly; a
+bare `L###` fails today and resolves **plausibly wrong** the moment this seat files its own
+L335 — the severe variant, not the loud one. Fixed: 4 L-citations → `supervisor:L###`, 13 issue
+citations → `repo#number`, `AGENTS.md` §Migration Close extended from issues-only to both with
+the reason stated (reading-seat default, not writing-seat default). L006 Addendum 3 records it.
+
+### Friction entries 6–7, and a correction to my own harvest
+
+| # | Time | Event | Disposition |
+|---|------|-------|-------------|
+| 6 | 17:21 | Heredoc gated at the **supervisor's** seat — captured *here* because the principal pasted their transcript and the `UserPromptSubmit` hook fired on the quoted prompt-render | dedup **#1925** (capture artifact) + #1846 (underlying) |
+| 7 | 17:26 | This seat's own `git commit -q -F - <<'EOF'` gated: *"Contains shell syntax (command) that cannot be statically analyzed"*, 2× | dedup **#1846 class 2** |
+
+Entry 6 is a **measurement** defect, not noise: this ledger now contains an event this seat
+never experienced, so any per-seat friction rate derived from it is inflated. Cross-seat
+*attribution* is the sharper form of #1925 — and it matters more to the supervisor's 31-seat
+aggregate than to this seat's ledger.
+
+**Self-correction**: entry 6's harvest note speculated that the "analyzer-declines-to-parse"
+half "may warrant its own row if not already in scope." It *is* in scope — #1846's body
+enumerates three analyzer classes, class 2 being heredoc. That speculation was written from the
+truncated issue **title** without reading the **body** — the same defect as paying four probes
+for `gh#2009`: a citation treated as a label instead of a source. Corrected in both entries.
+
+**Remediation adopted, not just recorded**: #1846's proposed fix (ship runbook steps as helper
+scripts) cannot reach a heredoc carrying a *commit message* — not a runbook step, not scriptable,
+recurs on every commit. This seat now authors messages with the Write tool and commits with
+`git commit -F <path>`. Zero heredoc, zero substitution, statically analyzable. First use was
+commit `e9ba62b`; that commit's own approval behaviour was the V-test.
+
+**One more unwired convention found at close**: `wind_down.py` reported `?? workspace/` —
+`AGENTS.md` §Workspace convention states workspace/ "is gitignored", and it was not. Wired to
+`.gitignore` this close. Third instance today of the same shape: a rule asserted on one surface
+and absent from the surface that enforces it.
+
 ## 8. Retrospective
 
 ### What went well
