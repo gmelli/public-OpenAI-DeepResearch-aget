@@ -1,3 +1,12 @@
+---
+date: 2026-07-29
+aget_version: "3.28.0"
+agent_name: "public-OpenAI-DeepResearch-aget"
+theme: "V3.28 MIGRATION VERIFIED, TWO FALSE-GREENS CAUGHT, FRICTION SURFACE MAPPED"
+closed_by: aget-close-session/1.0.0
+status: completed
+---
+
 # Session 2026-07-29 — v3.28 Health Check + Migration Review
 
 **Agent**: public-OpenAI-DeepResearch-aget (DeepThink) v3.28.0
@@ -179,6 +188,92 @@ Note: `.claude/settings.local.json` is gitignored globally (`~/.config/git/ignor
 - **Permissions**: 28 grants / 0.9 KB, 1 dead grant pruned — inside SOP OK band
 - **Open**: `gmelli/aget-aget#2009` ENFORCEMENT re-check at v3.29 · reliance manifest
   pre-adoption (advisory, EC-5 gated upstream)
+
+---
+
+## 8. Retrospective
+
+### What went well
+
+- **Independent re-measurement beat trust.** Every v3.28 claim was re-derived from primary
+  sources rather than read off the adoption commit bodies. That is what surfaced the
+  reachability failure, and later the two live false-greens, none of which any green
+  instrument reported.
+- **The dedup discipline paid for itself.** 5 friction entries, 5 deduped, **0 filed**. Two
+  filings that felt obviously warranted at the time (permission prompts, "unresolvable
+  gh#NNNN") would both have been duplicates or plain wrong.
+- **Verification before assertion caught a bad finding pre-flight.** The drafted issue
+  "release provenance cites gh#NNNN resolving in no reachable tracker" was killed by checking
+  one more repo. It would have been filed with confidence and been false.
+- **Each batch's finding reframed the next.** #2072's false-green corpus arrived mid-batch and
+  changed what the health question even was.
+
+### What we learned
+
+- **A migration is closed by verification *plus* a searched surface** (L006). Commit bodies and
+  `version.json` are provenance; `/aget-study-topic` reads neither.
+- **Two of six known false-green classes were live here**, invisible to a 13/13 health check.
+  "Committed" ≠ "landed"; "delivered" ≠ "executed".
+- **Bare `gh#NNNN` is unreachable.** Four probes to resolve #2009. Deferral notes need
+  `repo#number`.
+- **Instruments in the same repo disagreed twice** — `/aget-check-evolution` CRITICAL vs
+  `health_check.py` HEALTHY on the same directory; and the corroborating-count trap #2072
+  documents at fleet scale. Agreement between instruments is not evidence; per-element diffs are.
+- **A dead-narrow permission grant is write-amplifying**, not merely useless — it consumes
+  threshold budget silently.
+- **Most of this session's friction was self-manufactured.** See §Session Friction.
+
+### What was missing
+
+- No `flake8`/`pyflakes` under Python 3.14, so the payload's F541/F841 lint state (cited in the
+  v3.28 commit as the `--no-verify` justification) remains unverifiable at this seat.
+- `.aget/evolution/index.json` was absent for the whole life of the agent — `/aget-record-lesson`
+  Steps 3+5 had never been runnable. Created this session.
+- `RESEARCH_BACKLOG.md` is still empty and `planning/` holds 0 PROJECT_PLANs. For an analyst
+  archetype whose north_star is research, that is the largest standing gap — deliberately not
+  self-filled, as it needs principal research direction.
+- Reliance manifest still pre-adoption (EC-5 derivation-gated upstream).
+
+## 9. Session Friction
+
+5 events, all captured to `FRICTION_LEDGER.md`, all harvested, **0 filed** (all deduped).
+
+| # | Time | Event | Class | Disposition |
+|---|------|-------|-------|-------------|
+| 1 | 16:41 | `Skill(aget-wake-up)` prompt; offered scope is per-directory | **structural** — harness scope-shaping | dedup #1875 (+#1740) |
+| 2 | 16:53 | Bash `git push` approval rendered **3×** for one execution | **structural** — harness render defect | dedup #1872 |
+| 3 | 17:04 | `Skill(aget-file-issue)` rendered **6×**; exceeds #1872's documented 3–4× band and extends it to Skill surfaces | **structural** | dedup #1872 (scope extension posted) |
+| 4 | 17:07 | Offered grant embedded a literal timestamp: `Bash(awk '/17:04:43/,0' …)` — dead by construction, accepted into settings | **structural** — but locally **avoidable** once seen | dedup #1875; grant pruned |
+| 5 | 17:13 | Compound command gated **despite** `Bash(git rev-list *)` already being granted, because the verb appeared only inside `$( )`; offered scope was the incidental `echo` wrapper; rendered **5×** | **avoidable — agent-manufactured** | dedup #1846 |
+
+**Avoidable: 1 of 5** (event 5; arguably events 2–4 in part). The honest accounting is worse
+than that ratio suggests: **compound one-liners with `$(…)` are the agent's own habit**, adopted
+for tool-call efficiency, and they defeat the very grants the principal kept issuing. 15 pattern
+grants were added at 17:0x and did **not** reduce prompting, because the *shape* of the commands
+— not the absence of grants — trips the gate (#1846).
+
+Sharper still: `/aget-close-session`'s own R-CLOSE-040/041 mandates Read/Grep/Glob over Bash for
+diagnostics precisely to avoid this, and that rule was available all session. It was followed
+only once the close-session skill was invoked at the end. **The remediation is behavioral, not
+configurational** — and it is the same failure shape as L006: the guidance existed on a surface
+nobody read at the moment of decision.
+
+Upstream contributions: [#1872 comment](https://github.com/gmelli/aget-aget/issues/1872#issuecomment-5124697395)
+(N=3, 3–6× range, Skill surface) · [#1875 comment](https://github.com/gmelli/aget-aget/issues/1875#issuecomment-5124697493)
+(dead-narrow instance + offer-shaping heuristic).
+
+## 10. Artifacts
+
+| Type | Count | Detail |
+|------|------:|--------|
+| L-docs | 1 (+2 addenda) | `L006_migration_closure_leaves_no_kb_surface.md` |
+| Governance edits | 1 | `AGENTS.md` §Migration Close (3 V-tests + `repo#number` rule) |
+| Infrastructure | 1 | `.aget/evolution/index.json` (created; `next_id: 7`) |
+| Session records | 1 | this file |
+| Upstream comments | 2 | #1872, #1875 |
+| Config | 1 | `settings.local.json`: 1 dead grant pruned, 15 pattern grants added (gitignored) |
+| Commits | 4 | `085af51`, `a3e2129`, `5c955d6`, `712e0d4`, + close commit |
+| Issues filed | **0** | 5 friction entries, all deduped — by design |
 
 ---
 
