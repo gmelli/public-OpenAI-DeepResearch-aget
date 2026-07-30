@@ -1,0 +1,90 @@
+{
+  "next_id": 7,
+  "last_updated": "2026-07-29",
+  "l_doc_count": 6,
+  "count_note": "6 conforming L###_*.md files + 4 pre-L-numbering legacy entries (listed under legacy_entries, NOT counted in l_doc_count). Every field below was derived by reading the source files' own headers, not from a prior index — this file had no predecessor at this seat.",
+  "created_note": "Created 2026-07-29 to close a live instrument disagreement: /aget-check-evolution scored the directory CRITICAL on 'index missing' while scripts/health_check.py reported HEALTHY 13/13 (it has no index check). /aget-record-lesson Steps 3+5 (read next_id, update index) were unrunnable at this seat until now — L006 was filed with ID assigned by max-existing+1 as a workaround. Shape mirrors the fleet supervisor's index.json.",
+  "entries": [
+    {
+      "id": 1,
+      "file": "L001_agent_identity_awakening.md",
+      "title": "Agent Identity Awakening Pattern",
+      "date": "2025-09-25",
+      "category": "Agent Identity, Self-Awareness, Foundational Learning",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "file": "L002_agent_identity_correction.md",
+      "title": "Agent Identity Correction Pattern",
+      "date": "2025-09-25",
+      "category": "Agent Identity, Mental Models, Self-Correction",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "file": "L003_repository_planning_protocol.md",
+      "title": "Repository Planning Protocol",
+      "date": "2025-09-25",
+      "category": "Development Workflow, Repository Management",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "file": "L004_routing_pattern_capture.md",
+      "title": "Routing Pattern Capture",
+      "date": "2025-09-25",
+      "category": "Routing, Pattern Recognition, Decision-Making, Cognitive Learning",
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "file": "L005_file_based_coordination.md",
+      "title": "File-Based Coordination Protocol",
+      "date": "2025-10-26",
+      "category": "Collaboration, Inter-Agent Coordination, Process Protocols",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "file": "L006_migration_closure_leaves_no_kb_surface.md",
+      "title": "Migration Closure Leaves No KB Surface",
+      "date": "2026-07-29",
+      "category": "Fleet Upgrade, Deferral Discipline, Knowledge Retention",
+      "status": "active"
+    }
+  ],
+  "legacy_entries": [
+    {
+      "file": "2025-09-25-AWAKENING.md",
+      "title": "Evolution Entry: Agent Awakening",
+      "date": "2025-09-25",
+      "superseded_by": "L001_agent_identity_awakening.md"
+    },
+    {
+      "file": "2025-09-25-IDENTITY-CORRECTION.md",
+      "title": "Evolution Entry: Identity Correction",
+      "date": "2025-09-25",
+      "superseded_by": "L002_agent_identity_correction.md"
+    },
+    {
+      "file": "2025-09-25-LESSON-REPOSITORY-PLANNING.md",
+      "title": "Evolution Entry: Critical AGET Lesson - Repository Location Planning",
+      "date": "2025-09-25",
+      "superseded_by": "L003_repository_planning_protocol.md"
+    },
+    {
+      "file": "2025-09-25-ROUTING-001.md",
+      "title": "Evolution Entry: First Routing Decision",
+      "date": "2025-09-25",
+      "superseded_by": "L004_routing_pattern_capture.md"
+    }
+  ],
+  "stats": {
+    "total_files": 11,
+    "conforming_l_docs": 6,
+    "legacy_non_conforming": 4,
+    "disk_usage": "88K",
+    "date_range": "2025-09-25 to 2026-07-29"
+  }
+}

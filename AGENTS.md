@@ -290,6 +290,24 @@ When reviewing retrospectives or gate completions, check for these bypass indica
 | Attribute | Value |
 |-----------|-------|
 | Governance Intensity | Standard |
+## Migration Close — three V-tests beyond verification (L006, v3.28)
+
+A migration whose payload verifies is not yet closed. Verification, persistence, and
+reachability are three separate questions; two of them passing says nothing about the third.
+At every fleet-upgrade / self-upgrade close, run all three:
+
+| V-test | Command | Pass |
+|--------|---------|------|
+| **Reachability** | `python3 scripts/study_topic.py --topic "v<version>"` | ≥1 artifact. **0 artifacts = verified but unfindable — not closed.** Commit bodies and `.aget/version.json` are provenance, not retrieval; `/aget-study-topic` reads neither. Remediate with `/aget-record-lesson`, then re-run. |
+| **Trunk-parity** | `git rev-list --left-right --count origin/main...main` | `0 0`, **or** the close note states the authorized divergence and its lift condition. "Committed" ≠ "landed" (false-green class 5, `gmelli/aget-aget#2072`). |
+| **Executed, not just delivered** | run each payload script once | Hash-match proves delivery, not capability. A delivered-never-executed script is false-green class 3. Beware `exit=0` from a missing binary (class 4). |
+
+**Deferral notes MUST cite `repo#number`, not `gh#number`.** This fleet has ≥4 trackers with
+overlapping low numbers (`aget-framework/aget` tops at #84; `gmelli/aget-aget` at #2072+), so a
+bare `gh#2009` costs the next reader four probes. Include: what was deferred · why · the
+unblock condition · **who controls it** · when to re-check. Upstream-controlled deferrals are
+the ones that die silently — nothing local will ever re-trigger them.
+
 ## Transactional Execution (Default) — propagated from framework seat (L467 Channel 1; gh#1774, v3.27)
 
 A command/topic invocation is a **transaction**, not a chat opener: execute the requested work, deliver the artifact/answer, stop. The deliverable is the value — not running commentary.

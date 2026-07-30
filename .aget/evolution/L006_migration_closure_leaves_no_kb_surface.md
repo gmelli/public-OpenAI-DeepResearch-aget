@@ -173,16 +173,65 @@ closure rule are all reachable from the fleet's standard retrieval path.
 
 ---
 
+## Addendum (same session, +50 min): an unqualified `gh#NNNN` is itself unreachable
+
+Acting on this L-doc's own re-check instruction cost four probes. `gh#2009` was searched in
+`aget-framework/aget` (the repo named in the `@aget-canonical-specs` pin — max issue **#84**,
+does not resolve), `gmelli/private-aget-framework-AGET` (issues disabled), and
+`gmelli/private-supervisor-AGET` (max **#6**), before resolving in **`gmelli/aget-aget`**
+(2072 issues) — the private fleet tracker, which is the destination `/aget-file-issue` routes
+to but which no migration artifact names.
+
+**gh#2009 = `gmelli/aget-aget#2009`**, OPEN, updated 2026-07-29 18:26: *"[v3.29]
+release_gate_battery.sh is seat-coupled — the guard cannot be propagated until it is fixed
+(blocks delivery-Goal leg 3)."* The v3.28 deferral was correct and is actively tracked at the
+v3.29 milestone.
+
+**Rule extension**: a deferral note must name **repo#number**, not `gh#number`. Bare `gh#`
+resolves only against whichever tracker the reader guesses first, and this fleet has at least
+four candidates with overlapping low numbers. Cheap to write, four probes to recover.
+
+## Addendum 2: self-check against the v3.28 fleet false-green classes
+
+`gmelli/aget-aget#2072` (v3.28 fleet XP, 31 seats) names six false-green classes, each of
+which passed the check the fleet had at the time. Its general form — *"a false-green class is
+an unasked question, not a missing check; adding an axis fixes the instance and does not
+shorten the queue"* — is this L-doc's thesis arriving from the fleet direction. Self-check of
+this seat, run 2026-07-29:
+
+| # | Class (per #2072) | This seat |
+|---|---|---|
+| 1 | version without payload | **PASS** — hash 4/4 exact vs two templates |
+| 2 | payload without persistence (orphans) | **PASS** — all payload paths tracked + committed, porcelain clean |
+| 3 | delivered but not executed | **WAS FAILING** — `study_topic.py` had been run, `check_initiatives.py` / `close_gate_check.py` never had been. Executed this session: check_initiatives → 0 initiatives, no anomalies; close_gate_check → arg-validated, no PROJECT_PLAN target exists. Now PASS |
+| 4 | `exit=0` without work | **PASS**, and demonstrated live: an attempted `timeout python3 …` probe returned `exit=0` purely because macOS has no `timeout` binary. Zero work, green exit, in this very session |
+| 5 | committed but OFF-TRUNK | **WAS FAILING** — v3.28 sat 2 commits ahead of `origin/main` for ~6 hours under ruling R6 ("local commit only, NO push"). Every local axis was green; the fleet could not see the release. Closed by push `474f5fd..085af51` |
+| 6 | `@aget-canonical-specs` stale | **PASS** — pinned to v3.28.0 by `155e404`, which is itself the class-6 remediation |
+
+**Two of six were live at this seat**, and neither was visible to `health_check.py` (13/13
+throughout) or to the migration's own V-test block. Class 5 is the sharper one: "committed"
+and "landed" are different predicates, and a deliberate no-push ruling makes a seat
+indistinguishable from a failed one until someone diffs per-element rather than re-summing an
+aggregate (#2072's central finding).
+
+**Third V-test, from class 5**: `git rev-list --left-right --count origin/main...main` must
+read `0 0` at close, or the close note must state the authorized divergence *and* its lift
+condition. Reachability (this L-doc) + persistence (class 2) + trunk-parity (class 5) are
+three distinct questions; passing any two of them says nothing about the third.
+
 ## Integration Points
 
 - **Applies to**: every fleet upgrade / self-upgrade close (SOP_fleet_upgrade Gate-1)
 - **Interacts with**: L961 (HANDOFF-Deferral Discipline — this is the retrieval half of it),
-  L335 (Memory Architecture — harness vs KB taxonomy), L669 (dedup before filing)
+  L335 (Memory Architecture — harness vs KB taxonomy), L669 (dedup before filing),
+  `gmelli/aget-aget#2072` (false-green class corpus — same thesis, fleet-side)
 - **Skill surface**: `/aget-record-lesson` at migration close; `/aget-study-topic <version>`
-  as the reachability V-test
+  as the reachability V-test; `git rev-list --left-right --count origin/main...main` as the
+  trunk-parity V-test
 - **Open deferral tracked by this L-doc**: v3.28 ENFORCEMENT payload (release-gate firing
-  guard + battery), blocked on **gh#2009**, controlled by the framework seat, re-check at
-  the v3.29 fleet upgrade.
+  guard + battery), blocked on **`gmelli/aget-aget#2009`** (OPEN, v3.29 milestone,
+  `release_gate_battery.sh` seat-coupling), controlled by the framework seat, re-check at the
+  v3.29 fleet upgrade.
 
 ---
 

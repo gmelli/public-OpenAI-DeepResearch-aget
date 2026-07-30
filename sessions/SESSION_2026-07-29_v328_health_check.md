@@ -92,15 +92,65 @@ per CAP-FRIC-003 (cluster → dedup against open issues, L669 → `/aget-file-is
 
 ---
 
-## 6. Exit State
+## 6. NBA Batch — `/aget-propose-actions --budget=1h --count=auto --batch --go`
+
+Principal-mode ACCEPT (REQ-PA-014, flags principal-typed) · batch GO via `--go` (Step 4.5) ·
+focus: *remediations and enhancements* · count=auto → 5 · 56/60 min planned.
+Pre-flight: D71 PASS (issue filing routed via `/aget-file-issue`) · HANDOFF-deferral PASS
+(no `docs/HANDOFF_*.md`) · audit-pairing PASS (no same-artifact synthesis group).
+
+| # | Action | Outcome |
+|---|--------|---------|
+| 1 | Measure gh#2009 + dedup surface | **Done, with a correction.** `gh#2009` does not resolve in `aget-framework/aget` (max #84) or the two other repos probed — it resolves in **`gmelli/aget-aget#2009`** (2072 issues, the private fleet tracker): *"[v3.29] release_gate_battery.sh is seat-coupled"*, OPEN, updated 18:26 today. Deferral is real and actively tracked. |
+| 2 | Friction harvest → file via `/aget-file-issue` | **Done — deduped, NOT filed** (L669). Entry 16:41:12 → `dedup #1875` (+#1740); entry 16:53:35 → `dedup #1872` (identical prompt rendered 3-4x, N=2 → this session makes N=3). Ledger statuses updated with harvest rationale. Corroboration comment on #1872 held for approval (outward-facing). |
+| 3 | Wire L006 into AGENTS.md (L467 Channel-1) | **Done.** New §Migration Close: three V-tests (reachability / trunk-parity / executed-not-just-delivered) + the `repo#number` citation rule. AGENTS.md 12,436 → 14,023 B (under 30k warn). |
+| 4 | Record the surfaced observations | **Done, redirected.** Folded into L006 as two addenda rather than a separate observation file — Addendum 1 (`gh#` vs `repo#` unreachability) and Addendum 2 (six false-green class self-check). Keeps the finding on the same searched surface as its lesson. |
+| 5 | Verification sweep + commit | **Done.** See §7. |
+
+### The finding that reframed the batch: `gmelli/aget-aget#2072`
+
+The v3.28 fleet XP report (31 seats) names **six false-green classes**, each of which passed
+the check the fleet had at the time. Self-check of this seat found **two were live**:
+
+| Class | This seat |
+|---|---|
+| 3 — delivered but not executed | **WAS FAILING.** `check_initiatives.py` / `close_gate_check.py` were hash-verified but never run here. Executed: check_initiatives → 0 initiatives, no anomalies; close_gate_check → arg-validated, no PROJECT_PLAN target. Now PASS |
+| 5 — committed but OFF-TRUNK | **WAS FAILING.** v3.28 sat 2 commits ahead of `origin/main` for ~6h under ruling R6. All local axes green; the fleet could not see the release. Closed by `474f5fd..085af51` |
+| 1, 2, 6 | PASS (hash 4/4 · tracked+committed · specs pin at v3.28.0) |
+| 4 — `exit=0` without work | PASS, and **demonstrated live**: a `timeout python3 …` probe returned `exit=0` solely because macOS has no `timeout` binary. Zero work, green exit, this session |
+
+Neither live failure was visible to `health_check.py` (13/13 throughout) or to the migration's
+own V-test block. #2072's thesis — *a false-green class is an unasked question, not a missing
+check* — is L006's thesis arriving from the fleet side.
+
+### Second instrument disagreement (unprompted find)
+
+`/aget-check-evolution` scored `.aget/evolution/` **CRITICAL** (index.json missing) while
+`health_check.py` scored the same directory **HEALTHY** (it has no index check). The CRITICAL
+was legitimate: `/aget-record-lesson` Steps 3+5 read and update `next_id`, so both were
+unrunnable — L006 was filed with ID assigned by max+1 as a workaround hours earlier.
+
+**Remediated**: created `.aget/evolution/index.json` (`next_id: 7`, 6 entries + 4
+`legacy_entries` mapped to their superseding L-docs), shape mirrored from the fleet
+supervisor's index. Every field derived by reading the source files' own headers — audit-class,
+not composed from a prior index (there was none). Verified: `jq empty` valid · `next_id` 7 ·
+all 10 `file`/`superseded_by` targets exist on disk · `stats.total_files` 11 = actual 11.
+
+Evolution inventory: 11 files, 6 L-docs, 4 legacy, 88K, index valid → **OK** on every
+`/aget-check-evolution` threshold.
+
+## 7. Exit State
 
 - **Version**: v3.28.0, coherent across all three surfaces
-- **Health**: 13/13 HEALTHY
+- **Health**: 13/13 HEALTHY · `/aget-check-evolution` OK (was CRITICAL, index created)
 - **Tests**: 7 passed, baseline-delta 0
-- **Git**: main, pushed to `origin/main`
-- **L-docs**: 6 (L006 added)
-- **Open**: gh#2009 ENFORCEMENT re-check at v3.29 · friction entry pending harvest ·
-  reliance manifest pre-adoption
+- **V-tests (the three from §Migration Close)**: reachability 1 artifact ✓ · trunk-parity `0 0` ✓ ·
+  payload scripts executed ✓
+- **Git**: main, level with `origin/main`
+- **L-docs**: 6 (L006 + 2 addenda) · index.json now present, `next_id: 7`
+- **Friction**: 0 entries at `status: new` (2 harvested → dedup #1875, #1872)
+- **Open**: `gmelli/aget-aget#2009` ENFORCEMENT re-check at v3.29 · #1872 corroboration
+  comment awaiting approval · reliance manifest pre-adoption (advisory, EC-5 gated upstream)
 
 ---
 
