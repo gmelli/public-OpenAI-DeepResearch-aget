@@ -94,3 +94,105 @@ against open issues (non-optional, L669), file via `/aget-file-issue`, then upda
       /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
    3. No
 ", "
+
+## FRICTION 2026-07-29T17:04:43 | session c97b589d | status: dedup #1872 (extends class) | value-class: owed (pending-triage default, CAP-FRIC-006-04)
+
+<!-- HARVEST 2026-07-29 (CAP-FRIC-003, L669 dedup non-optional):
+     Class: same duplicate-render class as the 16:53:35 entry (#1872), but with TWO
+     properties #1872 does not currently cover:
+       1. Render count = 6 (counted: 6x "Use skill \"aget-file-issue\"?"). #1872's title
+          documents 3-4x for one execution — this is 1.5-2x the documented band.
+       2. Surface = Skill() approval prompt, not Bash. #1872 is titled "identical Bash
+          approval prompt". Same defect shape, different permission surface.
+     Third instance this session: 3x (Bash git push, 16:53) -> 6x (Skill, 17:04), both
+     single executions. Within-session escalation is itself a data point.
+     NOT filed: still #1872's class, not a new one — but the corroboration comment now
+     carries a scope-extension ask (widen title/body from "Bash" to any approval prompt;
+     widen "3-4x" to an observed range of 3-6x, N=3 sessions).
+     Held for principal approval (outward-facing). -->
+
+"
+⏺ Skill(aget-file-issue)
+
+────────────────────────────────────────────────────────────────────────────────
+ Use skill "aget-file-issue"?
+ Claude may use instructions, code, or files from this Skill.
+
+   File issues with L520 governance compliance
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don't ask again for aget-file-issue in
+      /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
+   3. No
+", "
+⏺ Skill(aget-file-issue)
+
+────────────────────────────────────────────────────────────────────────────────
+ Use skill "aget-file-issue"?
+ Claude may use instructions, code, or files from this Skill.
+
+   File issues with L520 governance compliance
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don't ask again for aget-file-issue in
+      /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
+   3. No
+", "
+⏺ Skill(aget-file-issue)
+
+────────────────────────────────────────────────────────────────────────────────
+ Use skill "aget-file-issue"?
+ Claude may use instructions, code, or files from this Skill.
+
+   File issues with L520 governance compliance
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don't ask again for aget-file-issue in
+      /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
+   3. No
+", "
+⏺ Skill(aget-file-issue)
+
+────────────────────────────────────────────────────────────────────────────────
+ Use skill "aget-file-issue"?
+ Claude may use instructions, code, or files from this Skill.
+
+   File issues with L520 governance compliance
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don't ask again for aget-file-issue in
+      /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
+   3. No
+", "
+⏺ Skill(aget-file-issue)
+
+────────────────────────────────────────────────────────────────────────────────
+ Use skill "aget-file-issue"?
+ Claude may use instructions, code, or files from this Skill.
+
+   File issues with L520 governance compliance
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don't ask again for aget-file-issue in
+      /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
+   3. No
+", "
+⏺ Skill(aget-file-issue)
+
+────────────────────────────────────────────────────────────────────────────────
+ Use skill "aget-file-issue"?
+ Claude may use instructions, code, or files from this Skill.
+
+   File issues with L520 governance compliance
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don't ask again for aget-file-issue in
+      /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
+   3. No
+"
