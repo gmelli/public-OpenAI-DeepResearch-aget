@@ -59,7 +59,7 @@ below was re-measured this session rather than read off the commit bodies.
 | Version triplet coherence | `jq .aget_version` vs `AGENTS.md:3` vs pin `AGENTS.md:4` | all 3.28.0 — **PASS** |
 | Payload hash 4/4 | `shasum -a 256` vs `template-worker-aget` **and** `template-analyst-aget` | exact match both — **PASS** |
 | pytest baseline | `pytest -q --deselect tests/test_init_with_patterns.py` | 7 passed, 0 failed, delta 0 — **PASS** |
-| gh#1580 spec-tier fix | `study_topic.py --topic health` | Specs = 8 (structurally always 0 pre-v3.28) — **PASS** |
+| gmelli/aget-aget#1580 spec-tier fix | `study_topic.py --topic health` | Specs = 8 (structurally always 0 pre-v3.28) — **PASS** |
 | R18 gate script | `scripts/migrations/pytest_two_clause_gate.py --help` | parses, present — **PASS** |
 | Reachability of migration reasoning | `study_topic.py --topic v3.28` | **0 artifacts — FAIL** (remediated, §4) |
 
@@ -74,7 +74,7 @@ Three of four were already at target — only `study_topic.py` changed.
 | # | Finding | Disposition |
 |---|---|---|
 | 1 | 2 commits unpushed; `origin/main` still at v3.27.0 (`474f5fd`). Deliberate per ruling R6, but v3.28 invisible to supervisor cohort tracking. | **Resolved** — principal GO, pushed this session |
-| 2 | ENFORCEMENT payload deferred (gh#2009) with no searched-surface record; upstream-controlled unblock condition would never re-trigger locally. | **Resolved** — L006 §Integration Points tracks it, re-check at v3.29 |
+| 2 | ENFORCEMENT payload deferred (gmelli/aget-aget#2009) with no searched-surface record; upstream-controlled unblock condition would never re-trigger locally. | **Resolved** — L006 §Integration Points tracks it, re-check at v3.29 |
 | 3 | No session record for the 2026-07-29 migration (latest was 2026-07-11). | **Resolved** — this file |
 | 4 | Commit body cites `--no-verify` against payload F541/F841, but no `.git/hooks/pre-commit` exists and only a `UserPromptSubmit` hook is configured — nothing was actually bypassed. Harmless, but a false signal in the audit trail. | **Noted** in L006 §Corollary. Payload lint state unverifiable locally (no flake8/pyflakes under Python 3.14) |
 | 5 | Reliance manifest still absent (standing since v3.24 EC-5 derivation gate). Specs pin is the only reliance surface. | **Standing** — advisory, no action |
@@ -110,7 +110,7 @@ Pre-flight: D71 PASS (issue filing routed via `/aget-file-issue`) · HANDOFF-def
 
 | # | Action | Outcome |
 |---|--------|---------|
-| 1 | Measure gh#2009 + dedup surface | **Done, with a correction.** `gh#2009` does not resolve in `aget-framework/aget` (max #84) or the two other repos probed — it resolves in **`gmelli/aget-aget#2009`** (2072 issues, the private fleet tracker): *"[v3.29] release_gate_battery.sh is seat-coupled"*, OPEN, updated 18:26 today. Deferral is real and actively tracked. |
+| 1 | Measure the ENFORCEMENT blocker + dedup surface | **Done, with a correction.** The bare citation `gh#2009` resolves in neither `aget-framework/aget` (max #84) nor the two other repos probed — it is **`gmelli/aget-aget#2009`** (2072 issues, the private fleet tracker): *"[v3.29] release_gate_battery.sh is seat-coupled"*, OPEN, updated 18:26 today. Deferral is real and actively tracked. |
 | 2 | Friction harvest → file via `/aget-file-issue` | **Done — deduped, NOT filed** (L669). Entry 16:41:12 → `dedup #1875` (+#1740); entry 16:53:35 → `dedup #1872` (identical prompt rendered 3-4x, N=2 → this session makes N=3). Ledger statuses updated with harvest rationale. Corroboration comment on #1872 held for approval (outward-facing). |
 | 3 | Wire L006 into AGENTS.md (L467 Channel-1) | **Done.** New §Migration Close: three V-tests (reachability / trunk-parity / executed-not-just-delivered) + the `repo#number` citation rule. AGENTS.md 12,436 → 14,023 B (under 30k warn). |
 | 4 | Record the surfaced observations | **Done, redirected.** Folded into L006 as two addenda rather than a separate observation file — Addendum 1 (`gh#` vs `repo#` unreachability) and Addendum 2 (six false-green class self-check). Keeps the finding on the same searched surface as its lesson. |

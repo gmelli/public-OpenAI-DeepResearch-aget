@@ -302,11 +302,18 @@ At every fleet-upgrade / self-upgrade close, run all three:
 | **Trunk-parity** | `git rev-list --left-right --count origin/main...main` | `0 0`, **or** the close note states the authorized divergence and its lift condition. "Committed" ≠ "landed" (false-green class 5, `gmelli/aget-aget#2072`). |
 | **Executed, not just delivered** | run each payload script once | Hash-match proves delivery, not capability. A delivered-never-executed script is false-green class 3. Beware `exit=0` from a missing binary (class 4). |
 
-**Deferral notes MUST cite `repo#number`, not `gh#number`.** This fleet has ≥4 trackers with
-overlapping low numbers (`aget-framework/aget` tops at #84; `gmelli/aget-aget` at #2072+), so a
-bare `gh#2009` costs the next reader four probes. Include: what was deferred · why · the
-unblock condition · **who controls it** · when to re-check. Upstream-controlled deferrals are
-the ones that die silently — nothing local will ever re-trigger them.
+**Cross-seat citations MUST be qualified.** Issues: `repo#number`, never bare `gh#number` —
+this fleet has ≥4 trackers with overlapping numbers (`aget-framework/aget` tops at #84;
+`gmelli/aget-aget` at #2072+), and the resolution target is whatever tracker the *reading*
+seat defaults to, not the writing seat's. Bare `gh#2009` cost four probes.
+Learnings: `seat:L###` for any L-doc not in this seat's own `.aget/evolution/`, per the
+supervisor's convention. This seat holds L001–L006 only; a bare `L335` fails today and will
+resolve **plausibly wrong** the moment this seat files its own L335 — the severe variant, not
+the loud one.
+
+Deferral notes additionally state: what was deferred · why · the unblock condition · **who
+controls it** · when to re-check. Upstream-controlled deferrals are the ones that die silently
+— nothing local will ever re-trigger them.
 
 ## Transactional Execution (Default) — propagated from framework seat (L467 Channel 1; gh#1774, v3.27)
 

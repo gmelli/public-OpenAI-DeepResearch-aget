@@ -4,7 +4,7 @@
 **Context**: v3.28.0 FLEET-SCRIPT adoption (commits 6374cb4, 155e404), verified during a same-day health check
 **Category**: Fleet Upgrade, Deferral Discipline, Knowledge Retention
 **Classification**: Framework (reusable across AGETs)
-**Pattern**: complements L961 (HANDOFF-Deferral Discipline), L335 (Memory Architecture)
+**Pattern**: complements supervisor:L961 (HANDOFF-Deferral Discipline), supervisor:L335 (Memory Architecture)
 
 ---
 
@@ -15,7 +15,7 @@
 The v3.28.0 adoption was rigorous: 4/4 payload hash-match, version triplet coherent, pytest
 baseline-delta 0, and one payload item (the ENFORCEMENT release-gate guard + battery)
 *deliberately* not installed because it fail-closes on a framework-release-only companion
-(gh#2009). Every one of those judgements was recorded — in `.aget/version.json`
+(gmelli/aget-aget#2009). Every one of those judgements was recorded — in `.aget/version.json`
 `migration_history` and in two commit message bodies.
 
 Then, hours later, `/aget-study-topic v3.28` returned **0 artifacts across every searched
@@ -26,10 +26,10 @@ surface**: 0 L-docs, 0 patterns, 0 PROJECT_PLANs, 0 SOPs, 0 governance, 0 specs,
 
 | Decision made during migration | Recorded where | Visible to `/aget-study-topic` |
 |---|---|---|
-| ENFORCEMENT payload deferred (gh#2009) | commit body + version.json | No |
+| ENFORCEMENT payload deferred (gmelli/aget-aget#2009) | commit body + version.json | No |
 | Behavioral Smoke probes 1–5 N/A (payload absent) | commit body | No |
 | `verify_deployment.py` skipped as vacuous (no M-rows) | commit body | No |
-| `--no-verify` per gh#2041 hash-BLOCKER precedence | commit body | No |
+| `--no-verify` per gmelli/aget-aget#2041 hash-BLOCKER precedence | commit body | No |
 | Hash-match as sole closure test (R20/R25) | commit body | No |
 
 Five reasoned judgements, zero study-time reachability. The canonical repo holds
@@ -37,7 +37,7 @@ Five reasoned judgements, zero study-time reachability. The canonical repo holds
 `DEPLOYMENT_SPEC_v3.28.0.yaml` — none copied locally, and `docs/release-notes/` +
 `handoffs/` are outside the study scope anyway (per the skill's own NOT-searched list).
 
-**Cost**: a deferral with an upstream unblock condition (gh#2009 gets fixed) has nothing
+**Cost**: a deferral with an upstream unblock condition (gmelli/aget-aget#2009 gets fixed) has nothing
 locally that will ever prompt re-adoption. The next agent — or the next context window of
 the same agent — studies the topic, is told it is novel, and re-derives or silently drops it.
 
@@ -77,7 +77,7 @@ controls**. Classify at deferral time:
 | Optional / opt-in per-agent policy | Yes if revisitable at next release |
 | Superseded by a later payload row | No — the supersession is the record |
 
-The v3.28 ENFORCEMENT deferral is row 1: gh#2009 is a framework-repo problem, its fix will
+The v3.28 ENFORCEMENT deferral is row 1: gmelli/aget-aget#2009 is a framework-repo problem, its fix will
 not announce itself here, and only a searched-surface note closes the loop.
 
 ### Corollary: `--no-verify` claims should be checked against installed hooks
@@ -158,31 +158,31 @@ python3 scripts/study_topic.py --topic "v3.28"
 | Payload hash 4/4 | exact match vs `template-worker-aget` **and** `template-analyst-aget` (own archetype) — PASS |
 | pytest baseline | 7 passed / 0 failed, baseline-delta 0 — PASS |
 | `health_check.py` | 13/13 HEALTHY |
-| gh#1580 spec-tier fix | live-confirmed: `--topic health` returns Specs = 8 (was structurally always 0) — PASS |
+| gmelli/aget-aget#1580 spec-tier fix | live-confirmed: `--topic health` returns Specs = 8 (was structurally always 0) — PASS |
 | Reachability of migration reasoning | **0 artifacts** — FAIL, remediated by this L-doc |
 
-**The gh#1580 fix is itself an instance of this lesson's shape**: `study_topic.py` advertised a
+**The gmelli/aget-aget#1580 fix is itself an instance of this lesson's shape**: `study_topic.py` advertised a
 `specs` tier in its SURFACES_SEARCHED banner while no finder ever populated the key. Every
 study silently reported zero specs — *manufactured absence*, indistinguishable from a genuine
 gap. A tool that claims a surface it does not read produces exactly the same failure as a
 migration that writes to a surface nothing reads. Same defect, opposite direction.
 
 **Before this L-doc**: `/aget-study-topic v3.28` → 0 artifacts, "novel topic."
-**After**: the ENFORCEMENT deferral, its gh#2009 unblock condition, and the hash-match
+**After**: the ENFORCEMENT deferral, its gmelli/aget-aget#2009 unblock condition, and the hash-match
 closure rule are all reachable from the fleet's standard retrieval path.
 
 ---
 
 ## Addendum (same session, +50 min): an unqualified `gh#NNNN` is itself unreachable
 
-Acting on this L-doc's own re-check instruction cost four probes. `gh#2009` was searched in
+Acting on this L-doc's own re-check instruction cost four probes. `gmelli/aget-aget#2009` was searched in
 `aget-framework/aget` (the repo named in the `@aget-canonical-specs` pin — max issue **#84**,
 does not resolve), `gmelli/private-aget-framework-AGET` (issues disabled), and
 `gmelli/private-supervisor-AGET` (max **#6**), before resolving in **`gmelli/aget-aget`**
 (2072 issues) — the private fleet tracker, which is the destination `/aget-file-issue` routes
 to but which no migration artifact names.
 
-**gh#2009 = `gmelli/aget-aget#2009`**, OPEN, updated 2026-07-29 18:26: *"[v3.29]
+**gmelli/aget-aget#2009 = `gmelli/aget-aget#2009`**, OPEN, updated 2026-07-29 18:26: *"[v3.29]
 release_gate_battery.sh is seat-coupled — the guard cannot be propagated until it is fixed
 (blocks delivery-Goal leg 3)."* The v3.28 deferral was correct and is actively tracked at the
 v3.29 milestone.
@@ -219,11 +219,37 @@ read `0 0` at close, or the close note must state the authorized divergence *and
 condition. Reachability (this L-doc) + persistence (class 2) + trunk-parity (class 5) are
 three distinct questions; passing any two of them says nothing about the third.
 
+## Addendum 3 (peer review, same day): the citation rule was half a rule
+
+`private-supervisor-AGET` reviewed this L-doc and applied its `repo#number` finding to its own
+corpus: 355 bare `gh#` citations across 28 cross-seat-readable files, 0 in the collision range
+against `aget-framework/aget` (max #84), so their cost is probes rather than wrong answers.
+
+Two things follow, both of which land back here:
+
+1. **Their proof is one-axis.** It establishes no collision *against that one tracker*. The
+   resolution target is whatever tracker the **reading** seat defaults to — `/aget-file-issue`
+   routes private seats to `gmelli/aget-aget` (2072+) and public seats to `aget-framework/aget`
+   (84). Identical text is unresolvable at one seat and correct at another. Establishing the
+   general claim needs the max-issue number of every default tracker, not one. This is the
+   `#2072` shape — an instrument hardened on one axis, never asked about the second — reported
+   by the seat that wrote that lesson.
+
+2. **This L-doc committed the severe variant.** As first written it cited bare `L961`, `L335`,
+   `L669`, `L51` while this seat holds only L001–L006. A bare `gh#` at this seat fails loudly;
+   a bare `L###` fails today and resolves **plausibly wrong** the moment this seat files its
+   own L335. Corrected in place to `supervisor:L###` on their existing convention rather than
+   inventing a second one. AGENTS.md §Migration Close extended from issues-only to both.
+
+**Rule, final form**: cross-seat citations are qualified or they are not citations. Issues
+`repo#number`; learnings `seat:L###`. The failure mode that matters is not the unresolvable
+reference — it is the one that resolves, to the wrong thing, silently.
+
 ## Integration Points
 
 - **Applies to**: every fleet upgrade / self-upgrade close (SOP_fleet_upgrade Gate-1)
-- **Interacts with**: L961 (HANDOFF-Deferral Discipline — this is the retrieval half of it),
-  L335 (Memory Architecture — harness vs KB taxonomy), L669 (dedup before filing),
+- **Interacts with**: supervisor:L961 (HANDOFF-Deferral Discipline — this is the retrieval half of it),
+  supervisor:L335 (Memory Architecture — harness vs KB taxonomy), supervisor:L669 (dedup before filing),
   `gmelli/aget-aget#2072` (false-green class corpus — same thesis, fleet-side)
 - **Skill surface**: `/aget-record-lesson` at migration close; `/aget-study-topic <version>`
   as the reachability V-test; `git rev-list --left-right --count origin/main...main` as the
@@ -246,13 +272,13 @@ three distinct questions; passing any two of them says nothing about the third.
 
 ## Validation
 
-**L51 Compliance Check**:
+**supervisor:L51 Compliance Check**:
 - ✅ Problem with quantified waste (5 judgements, 0 study-time reachability)
 - ✅ Learning with protocol-first framing (searched-surface rule + deferral test)
 - ✅ Protocol with copy-paste commands (reachability V-test, deferral note template)
 - ✅ Anti-patterns in ❌/✅ format (4 don'ts, 3 dos)
 - ✅ Impact with before/after (0 artifacts → reachable) and independent verification table
-- ✅ Integration points (SOP_fleet_upgrade Gate-1, L961/L335 linkage, open deferral)
+- ✅ Integration points (SOP_fleet_upgrade Gate-1, supervisor:L961/supervisor:L335 linkage, open deferral)
 - ✅ Related learnings
 
 **Note**: `.aget/evolution/index.json` does not exist in this agent; Step 5 of

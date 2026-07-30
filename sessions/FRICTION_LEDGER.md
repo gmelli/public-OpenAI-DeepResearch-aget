@@ -365,3 +365,63 @@ against open issues (non-optional, L669), file via `/aget-file-issue`, then upda
                                     --left-right --count origin/main...main)"
    3. No
 ", "
+
+## FRICTION 2026-07-29T17:21:51 | session c97b589d | status: dedup #1925 (capture artifact) + #1846 (underlying) | value-class: owed (pending-triage default, CAP-FRIC-006-04)
+
+<!-- HARVEST 2026-07-29 (CAP-FRIC-003, L669 dedup non-optional):
+     TWO distinct things in this entry, and separating them is the whole finding.
+
+     (a) CAPTURE ARTIFACT — #1925. The friction described did not happen at this seat. The
+     principal pasted a private-supervisor-AGET transcript for analysis; the UserPromptSubmit
+     hook fired on the quoted prompt-render inside it and recorded another seat's friction as
+     this seat's. That is exactly #1925 ("friction-capture hook fires on quoted/pasted trigger
+     text; L255 false-positive; hit both fleets"). Consequence beyond noise: this ledger now
+     contains an event this seat never experienced, so any per-seat friction rate computed
+     from it is inflated. Cross-seat contamination is the sharper form of #1925 — not just a
+     duplicate, but attribution to the wrong agent.
+
+     (b) UNDERLYING EVENT (at the supervisor seat, not here) — #1846 family. A heredoc-bearing
+     command was gated with "Contains shell syntax (file_redirect) that cannot be statically
+     analyzed". Same root as this seat's 17:13 entry: the gate cannot decide a compound/
+     redirect-bearing string, so no grant can pre-authorize it. Note the asymmetry worth
+     reporting upstream — 17:13 was gated because substitution HID an allowed verb; this one
+     was gated because the analyzer DECLINED to parse at all. Both defeat grants, by opposite
+     mechanisms. #1846 covers the substitution half; the static-analysis-declines half may
+     warrant its own row if it is not already in scope.
+
+     NOT filed: (a) is #1925; (b) is another seat's event and not this seat's to file.
+     Session tally: 6 entries, 6 deduped, 0 filed. #1872 x2, #1875 x2, #1846 x1, #1925 x1.
+     Of the 6, ONE (this one) was never this seat's friction at all. -->
+
+"
+  ⏺ Bash(python3 -c "
+        import subprocess,sys…)
+    ⎿  Waiting…
+
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ───
+   Bash command
+
+     python3 -c "
+     import subprocess,sys
+     sys.path.insert(0,'scripts')
+     import measure_published_pin_axis as m
+     for name,repo in m.main.__globals__ and []: pass
+     " 2>/dev/null; python3 - scripts/measure_published_pin_axis.py <<'EOF' 2>/dev/null || python3
+     scripts/measure_published_pin_axis.py 2>&1 | grep -iE "public-|stale  " | head -6
+     EOF
+     Check the public-* blocking subset
+
+   Contains shell syntax (file_redirect) that cannot be statically analyzed
+
+   Do you want to proceed?
+   ❯ 1. Yes
+     2. No")
+
+· Topsy-turvying… (14s · thinking with high effort)
+  ⎿  Tip: Running multiple Claude sessions? Use /color and /rename to tell them apart at a glance.
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  supervisor v3.28.0"
