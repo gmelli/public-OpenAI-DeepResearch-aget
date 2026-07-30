@@ -386,8 +386,10 @@ against open issues (non-optional, L669), file via `/aget-file-issue`, then upda
      redirect-bearing string, so no grant can pre-authorize it. Note the asymmetry worth
      reporting upstream — 17:13 was gated because substitution HID an allowed verb; this one
      was gated because the analyzer DECLINED to parse at all. Both defeat grants, by opposite
-     mechanisms. #1846 covers the substitution half; the static-analysis-declines half may
-     warrant its own row if it is not already in scope.
+     mechanisms. [CORRECTED 17:27 — #1846 covers BOTH: its body enumerates three analyzer
+     classes, class 2 being heredoc/"expansion obfuscation". The speculation that the
+     declines-half "may warrant its own row" was made from the truncated title without
+     reading the body. See the 17:26:44 harvest note.]
 
      NOT filed: (a) is #1925; (b) is another seat's event and not this seat's to file.
      Session tally: 6 entries, 6 deduped, 0 filed. #1872 x2, #1875 x2, #1846 x1, #1925 x1.
@@ -425,3 +427,72 @@ against open issues (non-optional, L669), file via `/aget-file-issue`, then upda
 ❯
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   supervisor v3.28.0"
+
+## FRICTION 2026-07-29T17:26:44 | session c97b589d | status: dedup #1846 (class 2, heredoc) | value-class: owed (pending-triage default, CAP-FRIC-006-04)
+
+<!-- HARVEST 2026-07-29 (CAP-FRIC-003, L669 dedup non-optional):
+     First-party this time (unlike the 17:21:51 entry, which was another seat's event
+     captured here by the #1925 paste artifact). The gated command was this seat's own
+     `git commit -q -F - <<'EOF'` — "Contains shell syntax (command) that cannot be
+     statically analyzed", rendered 2x.
+
+     Read #1846's body before deciding: it already enumerates THREE analyzer classes, and
+     class 2 is "`Contains brace with quote character (expansion obfuscation)` — python3
+     heredoc". Heredocs are in scope. Deduped, not filed.
+
+     CORRECTION to the 17:21:51 harvest note, which speculated that the
+     "analyzer-declines-to-parse" half "may warrant its own row if it is not already in
+     scope." It IS in scope — #1846 class 2. That speculation was written without reading
+     #1846's body, only its truncated title. Same defect as the four probes for gh#2009:
+     a citation treated as a label instead of a source. Corrected in place.
+
+     WHAT IS GENUINELY OUTSIDE #1846's REMEDIATION LANE (comment-worthy, not issue-worthy):
+     #1846 frames the cluster as *migration-runbook* commands and proposes shipping the
+     deterministic steps as tracked helper scripts invoked by plain path. That fix cannot
+     reach this instance — the heredoc here carries a COMMIT MESSAGE, which is not a runbook
+     step and not scriptable as a helper. It recurs on every commit, unconditionally, and it
+     accounted for a prompt on all 6 commits of this session.
+     Generalizable remediation for this sub-case: author the message with the Write tool to
+     a file, then `git commit -F <path>` — no heredoc, statically analyzable, no grant needed.
+     ADOPTED at this seat from this commit forward (this very commit uses it).
+
+     Session tally: 7 entries, 7 deduped, 0 filed. #1872 x2, #1875 x2, #1846 x2, #1925 x1.
+     Two were caused by the agent's own command shape; one was never this seat's at all. -->
+
+"       worth reporting: 17:13 was gated because substitution HID an allowed
+         verb; this one because the analyzer DECLINED to parse a heredoc at
+   all.
+         Both defeat existing grants, by opposite mechanisms.
+
+   Session tally: 6 entries, 6 deduped, 0 filed. One was never this seat's.
+
+   Health 13/13. AGENTS.md under 30k.
+
+   Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+   EOF
+   Commit peer-review corrections and push
+
+ Contains shell syntax (command) that cannot be statically analyzed
+
+ Do you want to proceed?
+ ❯ 1. Yes
+   2. No
+", "       worth reporting: 17:13 was gated because substitution HID an allowed
+         verb; this one because the analyzer DECLINED to parse a heredoc at
+   all.
+         Both defeat existing grants, by opposite mechanisms.
+
+   Session tally: 6 entries, 6 deduped, 0 filed. One was never this seat's.
+
+   Health 13/13. AGENTS.md under 30k.
+
+   Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+   EOF
+   Commit peer-review corrections and push
+
+ Contains shell syntax (command) that cannot be statically analyzed
+
+ Do you want to proceed?
+ ❯ 1. Yes
+   2. No
+", "
