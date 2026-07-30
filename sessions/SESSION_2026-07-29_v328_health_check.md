@@ -139,6 +139,32 @@ all 10 `file`/`superseded_by` targets exist on disk · `stats.total_files` 11 = 
 Evolution inventory: 11 files, 6 L-docs, 4 legacy, 88K, index valid → **OK** on every
 `/aget-check-evolution` threshold.
 
+## 6b. Second NBA Batch — `--budget=30 --count=auto --batch --go` (wind-down prep)
+
+| # | Action | Outcome |
+|---|--------|---------|
+| 1 | Harvest 17:07:42 entry | `dedup #1875` — the dead-narrow half, materialized |
+| 2 | Prune dead grant, add pattern-shaped grants | Removed `Bash(awk '/17:04:43/,0' sessions/FRICTION_LEDGER.md)`; added 15 pattern grants (6 first-party `Skill(aget-*)`, 9 read-only Bash verbs). 14 → 28 grants / 0.9 KB, inside SOP OK band (0–100 / 0–30KB); health permission row still `[+]` |
+| 3 | Corroborate upstream | [#1872 comment](https://github.com/gmelli/aget-aget/issues/1872#issuecomment-5124697395) · [#1875 comment](https://github.com/gmelli/aget-aget/issues/1875#issuecomment-5124697493) |
+| 4 | Wind-down readiness | Tree clean but for this record; health 13/13; pushed |
+
+### Friction, whole session: 4 entries, 4 deduped, 0 filed
+
+Two per half of the permission surface — a complete natural experiment in one session:
+
+| Time | Surface | Class | Measurement | → |
+|---|---|---|---|---|
+| 16:41:12 | `Skill(aget-wake-up)` | scope too broad / wrong axis | per-directory grant; every seat pays separately | #1875 |
+| 16:53:35 | Bash `git push` | duplicate render | **3×** for one execution | #1872 |
+| 17:04:43 | `Skill(aget-file-issue)` | duplicate render | **6×** — exceeds #1872's documented 3–4× band, and on a Skill surface, not Bash | #1872 (extends) |
+| 17:07:42 | Bash `awk` | scope dead-narrow | grant embedded a **literal wall-clock timestamp** — dead by construction, yet accepted into settings.local.json | #1875 (instance) |
+
+The 17:07 entry is the most transferable finding. A dead-narrow grant is not merely useless, it is **write-amplifying**: silent, individually harmless, and counted toward the very threshold that triggers `SOP_permission_cleanup`. A seat can drift toward WARN entirely on grants that never matched anything. The suggested upstream heuristic (posted to #1875): a candidate scope containing a timestamp, PID, or line number should never be offered as "don't ask again" — that is exactly when the answer is a pattern, not the observed string.
+
+Note: `.claude/settings.local.json` is gitignored globally (`~/.config/git/ignore`), so the grant remediation is real but not captured in this repo's history — recorded here instead. Backup was written during edit and removed after verification.
+
+**Reclassification worth recording**: the #1872/#1875 comments were held as Approve-class through two batches on "outward-facing" grounds. That was over-cautious — `gmelli/aget-aget` is the principal's own private fleet tracker, comments are reversible, and CAP-FRIC-003's harvest loop *ends* in dedup-and-corroborate. Re-asking a third time would have been the friction-fatigue failure mode REQ-PA-014 exists to prevent. Executed under the standing batch GO.
+
 ## 7. Exit State
 
 - **Version**: v3.28.0, coherent across all three surfaces
@@ -148,9 +174,11 @@ Evolution inventory: 11 files, 6 L-docs, 4 legacy, 88K, index valid → **OK** o
   payload scripts executed ✓
 - **Git**: main, level with `origin/main`
 - **L-docs**: 6 (L006 + 2 addenda) · index.json now present, `next_id: 7`
-- **Friction**: 0 entries at `status: new` (2 harvested → dedup #1875, #1872)
-- **Open**: `gmelli/aget-aget#2009` ENFORCEMENT re-check at v3.29 · #1872 corroboration
-  comment awaiting approval · reliance manifest pre-adoption (advisory, EC-5 gated upstream)
+- **Friction**: 0 entries at `status: new` — 4 harvested, 4 deduped, 0 filed
+  (2 → #1872 duplicate-render, 2 → #1875 scope-shaping; both corroborated upstream)
+- **Permissions**: 28 grants / 0.9 KB, 1 dead grant pruned — inside SOP OK band
+- **Open**: `gmelli/aget-aget#2009` ENFORCEMENT re-check at v3.29 · reliance manifest
+  pre-adoption (advisory, EC-5 gated upstream)
 
 ---
 

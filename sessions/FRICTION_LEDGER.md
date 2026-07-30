@@ -196,3 +196,43 @@ against open issues (non-optional, L669), file via `/aget-file-issue`, then upda
       /Users/gabormelli/github/public-OpenAI-DeepResearch-aget
    3. No
 "
+
+## FRICTION 2026-07-29T17:07:42 | session c97b589d | status: dedup #1875 (dead-narrow half, materialized) | value-class: owed (pending-triage default, CAP-FRIC-006-04)
+
+<!-- HARVEST 2026-07-29 (CAP-FRIC-003, L669 dedup non-optional):
+     Class: #1875's "dead-narrow" half, and this is the strongest form of it yet — the
+     harness-offered scope was
+       Bash(awk '/17:04:43/,0' sessions/FRICTION_LEDGER.md)
+     which embeds a literal wall-clock timestamp from the command being approved. The grant
+     is dead by construction: it can never match a future command. The principal selected it
+     (option 2), so it is now grant #13 in this seat's .claude/settings.local.json — a
+     permanent no-op occupying a slot in the accumulation budget SOP_permission_cleanup
+     measures. #1875 describes the shape; this entry is a reproducible instance of it
+     landing in a real settings file.
+     Deduped against gmelli/aget-aget:
+       - #1875 Permission-scope shaping: harness-offered "don't ask again" scopes are
+         wrong-shaped (too broad or dead-narrow)  <- exact match, dead-narrow half
+       - #1740 Recurring bash-gate friction — adopt scoped allowlist (the remediation path)
+     NOT filed: instance of #1875, not a new class.
+     Remediated locally same session: dead grant pruned, replaced with pattern-shaped grants
+     for the first-party AGET operations that actually recur (see commit).
+     Session tally: 4 entries, 4 deduped, 0 filed — 2 to #1872 (duplicate render), 2 to
+     #1875 (scope shaping). Both halves of the permission surface, one session. -->
+
+"───────────────────────────────────────────────────────────────────────────────
+ Bash command
+
+   cd /Users/gabormelli/github/public-OpenAI-DeepResearch-aget; grep -n "^##
+   FRICTION" sessions/FRICTION_LEDGER.md; echo "--- render count in newest
+   entry ---"; awk '/17:04:43/,0' sessions/FRICTION_LEDGER.md | grep -c "Use
+   skill \"aget-file-issue\"?"
+   Locate and measure new friction entry
+
+ This command requires approval
+
+ Do you want to proceed?
+   1. Yes
+ ❯ 2. Yes, and don’t ask again for: awk '/17:04:43/,0'
+                                    sessions/FRICTION_LEDGER.md
+   3. No
+"
