@@ -245,6 +245,75 @@ Two things follow, both of which land back here:
 `repo#number`; learnings `seat:L###`. The failure mode that matters is not the unresolvable
 reference — it is the one that resolves, to the wrong thing, silently.
 
+## Addendum 4 (v3.29.0 close, 2026-08-02): a test can pass by measuring the wrong file
+
+The **v3.29.0** upgrade ran this L-doc's own three V-tests. Two failed on arrival and both
+were remediated in-session; a third finding is a new false-green shape worth naming.
+
+**v3.29.0 payload** (4 files, all hash-verified):
+
+| File | Source ref | sha256 |
+|---|---|---|
+| `docs/POSITION_agents_instruction_reach_and_self_amendment.md` | canonical main | `76d0548d9bf2b539dc077b9c1067297c71fbbbb8d79bfcbce25b542ddc6aaaa1` |
+| `scripts/check_agents_instruction_reach.py` | canonical main | `6ff773f74be174a150964b953d1359bf113a5c72677cfc85016acd387fb85d5e` |
+| `scripts/study_topic.py` | canonical **tag v3.29.0** | `86b2632cdef30fa7e9b39532af2cff2d40a3d302cca81dbd604c459668d9de40` |
+| `tests/test_study_topic_purpose_recency_rendering.py` | canonical **main**, supersedes tag `0c965421…` | `e41c7bdb53ba1545d3ba0375717d5fc9a3074a33c51d91d515d163c009473f7c` |
+
+### New false-green shape: target-selection by sibling-preference
+
+The **tagged** copy of `test_study_topic_purpose_recency_rendering.py` selected its subject as
+`../aget/scripts/study_topic.py` when that path existed, falling back to this seat's own
+`scripts/study_topic.py` only otherwise. At any seat checked out beside a canonical clone, the
+test suite would run green while measuring **the framework's file, not the seat's** — a payload
+could be missing, stale, or corrupt and the test would still pass. The main-branch copy
+(taken here) hard-defaults to the receiving seat and keeps the sibling path only behind an
+explicit `AGET_STUDY_TOPIC_SCRIPT` override for falsifier probes, plus two new tests that
+assert the selector itself.
+
+**Verified locally, not taken on report**: this seat's sibling path
+`/Users/gabormelli/github/aget/scripts/study_topic.py` does **not** exist, so the tagged copy
+would have fallen back correctly and the misfire never fired here. The defect was latent at
+this seat, live at any seat that clones canonical as `../aget`. Recording it because latency is
+a property of the checkout layout, not of the test — one `git clone` away from firing.
+
+This is `gmelli/aget-aget#2072` class 3 ("delivered but not executed") rotated one turn:
+*executed, and against the wrong target*. A green suite answers "did the assertions hold" — it
+does not answer "on which file". Add the second question: for any test that resolves its
+subject at runtime, assert the resolution.
+
+### Triplet incoherence survived the first dispatch
+
+The first v3.29.0 dispatch pinned `version.json` and `AGENTS.md` (both lines — `@aget-version`
+and the `@aget-canonical-specs` v-pin) but omitted `manifest.yaml` (SOP_fleet_upgrade step 4).
+The seat sat at `version.json` 3.29.0 == `AGENTS.md` 3.29.0 != `manifest.yaml` **3.27.0** — two
+of three green, and every check that reads only version.json or AGENTS.md reported a clean
+upgrade. **The gate is triplet coherence, not "the version file changed."** Note the drift was
+two minors deep: manifest.yaml had also been missed at v3.28.0, and nothing surfaced it,
+because no V-test read that third file.
+
+### Reachability, re-run
+
+`python3 scripts/study_topic.py --topic "v3.29.0"` returned **0 artifacts** at close — the same
+failure this L-doc was written to catch, recurring one release later at the same seat. The
+protocol worked (the V-test fired); the habit had not yet formed (nothing wrote the surface
+until the V-test complained). Remediated by this addendum.
+
+### Deferral re-check — carried forward
+
+L006's open deferral said *re-check at the v3.29 fleet upgrade*. Re-checked 2026-08-02:
+**`gmelli/aget-aget#2009` is still OPEN** (updated 2026-07-30). The v3.28 ENFORCEMENT payload
+(release-gate firing guard + battery) therefore remains **not installed**, unchanged reason
+(`release_gate_battery.sh` seat-coupling), still framework-seat-controlled, **re-check at the
+v3.30 fleet upgrade**. Recorded here rather than only in `version.json` precisely because
+nothing local will re-trigger it.
+
+### Trunk parity at this close
+
+`git rev-list --left-right --count origin/main...main` = `0 3` — authorized divergence: the
+dispatch ruled **DO NOT PUSH** (push is a separate outward action requiring its own
+authorization). **Lift condition**: principal or supervisor authorizes the push. Until then
+this seat is class-5 indistinguishable-from-failed to any fleet-side observer.
+
 ## Integration Points
 
 - **Applies to**: every fleet upgrade / self-upgrade close (SOP_fleet_upgrade Gate-1)
@@ -255,9 +324,9 @@ reference — it is the one that resolves, to the wrong thing, silently.
   as the reachability V-test; `git rev-list --left-right --count origin/main...main` as the
   trunk-parity V-test
 - **Open deferral tracked by this L-doc**: v3.28 ENFORCEMENT payload (release-gate firing
-  guard + battery), blocked on **`gmelli/aget-aget#2009`** (OPEN, v3.29 milestone,
-  `release_gate_battery.sh` seat-coupling), controlled by the framework seat, re-check at the
-  v3.29 fleet upgrade.
+  guard + battery), blocked on **`gmelli/aget-aget#2009`** (re-checked 2026-08-02 at the
+  v3.29.0 close — still OPEN, `release_gate_battery.sh` seat-coupling), controlled by the
+  framework seat, **re-check at the v3.30 fleet upgrade** (see Addendum 4).
 
 ---
 
