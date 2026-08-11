@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.29.0",
+  "aget_version": "3.30.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -380,11 +380,26 @@
       "from": "3.28.0",
       "to": "3.29.0",
       "date": "2026-08-02"
+    },
+    {
+      "from_version": "3.29.0",
+      "to_version": "3.30.0",
+      "date": "2026-08-09",
+      "method": "fleet-upgrade",
+      "handoff": "FLEET v3.30.0 representative migration (V1R.3 re-acceptance)",
+      "changes": [
+        "Version upgrade to v3.30.0 (canonical study tiers)",
+        "FLEET-SCRIPT payload: scripts/study_topic.py refreshed from canonical 5fee0b5 (hash-match)",
+        "3 new contract tests added: canonical_pattern_tier, canonical_surface, specs_tier",
+        "tests/test_study_topic_purpose_recency_rendering.py already at target (no change)",
+        "M-3.30-1 N/A: no bounded Agent Skills package selected; skills untouched",
+        "Seat pins: .aget/version.json::aget_version, AGENTS.md::@aget-version, manifest.yaml::version"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-08-02",
+  "updated": "2026-08-09",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
