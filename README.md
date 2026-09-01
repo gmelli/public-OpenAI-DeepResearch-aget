@@ -2,6 +2,8 @@
 
 A sophisticated cognitive research agent that combines OpenAI's Agents orchestration with Deep Research API, enhanced with continuous learning and intelligent routing.
 
+**AGET Framework Version**: v3.33.1 | **Archetype**: Analyst
+
 ## 🧠 About DeepThink
 
 DeepThink is a meticulous research companion that doesn't just answer questions - it learns, adapts, and improves with every interaction. Built on the proven OpenAI_DeepResearch dual-implementation architecture, it intelligently routes queries to the optimal research method and continuously refines its strategies.

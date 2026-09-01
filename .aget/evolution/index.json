@@ -1,8 +1,8 @@
 {
-  "next_id": 7,
-  "last_updated": "2026-07-29",
-  "l_doc_count": 6,
-  "count_note": "6 conforming L###_*.md files + 4 pre-L-numbering legacy entries (listed under legacy_entries, NOT counted in l_doc_count). Every field below was derived by reading the source files' own headers, not from a prior index — this file had no predecessor at this seat.",
+  "next_id": 8,
+  "last_updated": "2026-08-31",
+  "l_doc_count": 7,
+  "count_note": "7 conforming L###_*.md files + 4 pre-L-numbering legacy entries (listed under legacy_entries, NOT counted in l_doc_count). Every field below was derived by reading the source files' own headers, not from a prior index — this file had no predecessor at this seat.",
   "created_note": "Created 2026-07-29 to close a live instrument disagreement: /aget-check-evolution scored the directory CRITICAL on 'index missing' while scripts/health_check.py reported HEALTHY 13/13 (it has no index check). /aget-record-lesson Steps 3+5 (read next_id, update index) were unrunnable at this seat until now — L006 was filed with ID assigned by max-existing+1 as a workaround. Shape mirrors the fleet supervisor's index.json.",
   "entries": [
     {
@@ -52,6 +52,14 @@
       "date": "2026-07-29",
       "category": "Fleet Upgrade, Deferral Discipline, Knowledge Retention",
       "status": "active"
+    },
+    {
+      "id": 7,
+      "file": "L007_v3331_migration_reachability.md",
+      "title": "v3.33.1 Migration Evidence Must Be Reachable",
+      "date": "2026-08-31",
+      "category": "Fleet Upgrade, Knowledge Reachability",
+      "status": "complete"
     }
   ],
   "legacy_entries": [
@@ -81,10 +89,10 @@
     }
   ],
   "stats": {
-    "total_files": 11,
-    "conforming_l_docs": 6,
+    "total_files": 12,
+    "conforming_l_docs": 7,
     "legacy_non_conforming": 4,
-    "disk_usage": "88K",
-    "date_range": "2025-09-25 to 2026-07-29"
+    "disk_usage": "100K",
+    "date_range": "2025-09-25 to 2026-08-31"
   }
 }

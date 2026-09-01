@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.32.0",
+  "aget_version": "3.33.1",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -410,11 +410,23 @@
         "Version carriers edited ONLY where measured to carry the framework version; README.md and VERSION deliberately untouched (VERSION holds this agent's own product lineage at several seats)",
         "@aget-canonical-specs NOT updated: reads v3.29.0 pre-existing, outside the evidenced subject"
       ]
+    },
+    {
+      "from_version": "3.32.0",
+      "to_version": "3.33.1",
+      "date": "2026-08-31",
+      "method": "receiver-owned Gate 3R migration",
+      "subject": "35ea5d4e6c9b3ab4bd41b8b00b22305c61b1c2d820c639021d40e9edd6393d5f",
+      "changes": [
+        "Applied the v3.33.0 plus v3.33.1 receiver payload and five-file close-gate dependency closure",
+        "Preserved receiver-owned content while merging canonical release behavior",
+        "Updated measured framework version carriers to v3.33.1"
+      ]
     }
   ],
   "supervisor": "private-supervisor-AGET",
   "manifest_version": "3.0",
-  "updated": "2026-08-25",
+  "updated": "2026-08-31",
   "archetype": "analyst",
   "specialization": "ai-research",
   "template": "template-analyst-aget",
