@@ -38,6 +38,7 @@ exists to suppress. See feedback: "a check whose predicate cannot detect its
 subject" and "assert both polarities".
 """
 
+import os
 import shutil
 import subprocess
 import sys
@@ -114,12 +115,30 @@ HIT_TOPIC = "proposal"
 MISS_TOPIC = "zzzznonexistenttoken"
 
 
+def seed_scoring_corpus(root):
+    """Explicit high/low relevance corpus; no ambient canonical checkout required."""
+    specs = root / 'specs'
+    specs.mkdir(parents=True, exist_ok=True)
+    (specs / 'AGET_SESSION_SPEC.md').write_text('session marker')
+    (specs / 'AGET_CHANGE_PROPOSAL_SPEC.md').write_text('proposal ' * 40)
+    (specs / 'WEAK_REFERENCE.md').write_text('proposal')
+
+
 def run_study(topic, *extra):
-    """Run the full pipeline exactly as a session would, and return stdout."""
-    proc = subprocess.run(
-        [sys.executable, str(SCRIPT), "--topic", topic, *extra],
-        cwd=str(REPO), capture_output=True, text=True, timeout=180,
-    )
+    """Run the full pipeline on an explicit corpus, including a low-score hit."""
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / 'instance'
+        (root / 'scripts').mkdir(parents=True)
+        shutil.copy2(SCRIPT, root / 'scripts' / 'study_topic.py')
+        seed_scoring_corpus(root)
+        env = dict(os.environ)
+        env.pop('AGET_STUDY_ROOT', None)
+        env['AGET_CANONICAL_ROOT'] = str(root)
+        proc = subprocess.run(
+            [sys.executable, str(root / 'scripts' / 'study_topic.py'),
+             '--topic', topic, *extra],
+            cwd=str(root), env=env, capture_output=True, text=True, timeout=180,
+        )
     assert proc.returncode == 0, f"study_topic.py failed: {proc.stderr[-800:]}"
     return proc.stdout
 
@@ -257,10 +276,13 @@ class TestFindSpecsEmissionContract:
     fails with a message that says which.
     """
 
-    @pytest.fixture(scope="class")
-    def specs(self):
+    @pytest.fixture
+    def specs(self, tmp_path, monkeypatch):
         sys.path.insert(0, str(REPO / "scripts"))
         import study_topic as st
+        seed_scoring_corpus(tmp_path)
+        monkeypatch.setattr(st, "get_agent_root", lambda: tmp_path)
+        monkeypatch.setenv(st.CANONICAL_ROOT_ENV, str(tmp_path))
         rows = st.find_specs(HIT_TOPIC)
         assert rows, "find_specs returned nothing — precondition for this class"
         return rows

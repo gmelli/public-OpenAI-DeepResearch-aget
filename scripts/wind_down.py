@@ -209,7 +209,9 @@ def run_health_check(agent_path: Path, verbose: bool = False) -> Dict[str, Any]:
                 return {
                     'status': data.get('status', 'unknown'),
                     'checks_passed': data.get('summary', {}).get('passed', 0),
-                    'checks_total': data.get('summary', {}).get('total', 0),
+                    'checks_total': (data.get('summary', {}).get('total', 0)
+                                     - data.get('summary', {}).get('skipped', 0)),
+                    'checks_skipped': data.get('summary', {}).get('skipped', 0),
                     'warnings': data.get('summary', {}).get('warnings', 0),
                     'errors': data.get('summary', {}).get('errors', 0),
                     'message': '',
@@ -382,6 +384,11 @@ def create_session_file(agent_path: Path, data: Dict[str, Any],
     session_file = sessions_dir / f"{session_id}.md"
 
     trigger = "MANDATORY (pending work detected)" if mandatory else "voluntary"
+    pending_items = data.get('pending_work') or []
+    pending_markdown = (
+        '\n'.join(f"- {item}" for item in pending_items)
+        if pending_items else "None."
+    )
 
     content = f"""---
 # Session Metadata Standard v1.0
@@ -403,7 +410,7 @@ status: completed
 
 ## Pending Work
 
-{data.get('pending_work', [])}
+{pending_markdown}
 
 ---
 
@@ -569,6 +576,8 @@ def format_human_output(data: Dict[str, Any]) -> str:
     else:
         lines.append(f"Health Gate: {status.upper()}")
 
+    if health.get('checks_skipped', 0):
+        lines.append(f"Health checks skipped: {health['checks_skipped']} (not verified)")
     lines.append("")
 
     # Pending work

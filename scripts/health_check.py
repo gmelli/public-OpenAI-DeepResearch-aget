@@ -17,8 +17,8 @@ Usage:
     python3 health_check.py --fix              # Attempt auto-fixes
 
 Exit codes:
-    0: All checks passed
-    1: Warnings found (non-blocking)
+    0: No detected errors or warnings (inspect skipped counts)
+    1: Warnings found (non-blocking), or no check verified anything
     2: Errors found (blocking issues)
     3: Configuration/runtime error
 
@@ -68,12 +68,23 @@ class CheckResult:
     """Result of a single check."""
 
     def __init__(self, name: str, passed: bool, message: str = "",
-                 severity: str = "info", fixable: bool = False):
+                 severity: str = "info", fixable: bool = False,
+                 skipped: bool = False):
         self.name = name
-        self.passed = passed
+        # D-prime: `passed` stays a BOOLEAN and is False for every absent
+        # subject. A skipped check verified nothing, so it cannot report a
+        # pass; nulling the field instead (the rejected arm) broke every
+        # bool-typed consumer for a distinction `skipped` already carries.
+        self.passed = False if skipped else passed
         self.message = message
         self.severity = severity  # info, warning, error
         self.fixable = fixable
+        # THE discriminator, not a convenience. Because a skip is `passed ==
+        # False`, there is NO passed-only idiom that separates a failure from a
+        # skip: `passed is False` now matches both. Every consumer asking for
+        # failures MUST consult this key. It is therefore emitted on EVERY row
+        # (see to_dict), never conditionally.
+        self.skipped = skipped
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -82,6 +93,7 @@ class CheckResult:
             'message': self.message,
             'severity': self.severity,
             'fixable': self.fixable,
+            'skipped': self.skipped,
         }
 
 
@@ -205,10 +217,15 @@ def check_governance_directory(agent_path: Path) -> CheckResult:
             fixable=True
         )
 
+    # C-34-30 D2: report what was MEASURED, not the length of the requirement list.
+    # `len(required_files)` is a constant: it printed "3 files present" whether the
+    # directory held 3 files or 300, so the number carried no observation at all.
+    present = sorted(q.name for q in gov_dir.glob('*.md'))
     return CheckResult(
         name="governance_directory",
         passed=True,
-        message=f"{len(required_files)} files present"
+        message=(f"{len(required_files)}/{len(required_files)} required present; "
+                 f"{len(present)} governance .md file(s) enumerated")
     )
 
 
@@ -219,8 +236,15 @@ def check_evolution_directory(agent_path: Path) -> CheckResult:
     if not evolution_dir.is_dir():
         return CheckResult(
             name="evolution_directory",
-            passed=True,
-            message="No evolution/ directory (OK for new agents)"
+            passed=False,
+            # NOT APPLICABLE (info). This check's subject is the L-doc corpus and
+            # its ">50 L-docs require index.json" rule. A new agent lawfully has
+            # no corpus, so the rule has nothing to range over — nothing here is
+            # expected-but-unseen. Contrast check_config_size, where the absent
+            # file IS expected at every seat.
+            message="No evolution/ directory — not applicable (OK for new agents)",
+            severity="info",
+            skipped=True,
         )
 
     l_docs = list(evolution_dir.glob('L*.md'))
@@ -331,14 +355,27 @@ def check_duplicate_ldoc_ids(agent_path: Path) -> CheckResult:
     """
     evolution_dir = agent_path / '.aget' / 'evolution'
     if not evolution_dir.is_dir():
-        return CheckResult("duplicate_ldoc_ids", True,
-                           "No evolution/ directory", "info")
+        # NOT APPLICABLE (info). An ID collision is undefined over zero IDs; the
+        # absent corpus is the same lawful absence classified at
+        # check_evolution_directory, and the two must agree or one seat reads as
+        # half-unverified for a single missing directory.
+        return CheckResult("duplicate_ldoc_ids", False,
+                           "No evolution/ directory — not applicable",
+                           "info", skipped=True)
 
+    # C-34-30 D1: NORMALIZE the numeric part before counting. The prior key was the
+    # literal matched text, so `L99_x.md` and `L099_y.md` were two different keys and
+    # a real duplicate ID reported clean. Zero-padding is a filename convention, not
+    # an identity: L99 and L099 are the same L-doc, and a duplicate-ID check that
+    # cannot see that is blind to the exact collision it exists to find.
     seen: Dict[str, int] = {}
+    variants: Dict[str, set] = {}
     for f in evolution_dir.glob('L*.md'):
-        m = re.match(r'(L\d+)_', f.name)
+        m = re.match(r'L(\d+)_', f.name)
         if m:
-            seen[m.group(1)] = seen.get(m.group(1), 0) + 1
+            key = f"L{int(m.group(1))}"          # L099 -> L99, L99 -> L99
+            seen[key] = seen.get(key, 0) + 1
+            variants.setdefault(key, set()).add(m.group(0).rstrip('_'))
 
     dups = sorted(k for k, v in seen.items() if v > 1)
     if dups:
@@ -360,7 +397,13 @@ def check_config_size(agent_path: Path) -> CheckResult:
     """L146: AGENTS.md must stay under the 40k hard limit (30k recommended)."""
     agents_md = agent_path / 'AGENTS.md'
     if not agents_md.exists():
-        return CheckResult("config_size", True, "No AGENTS.md", "info")
+        # UNVERIFIED-BUT-EXPECTED (warning). Every AGET seat is defined by an
+        # AGENTS.md; its absence is drift, not inapplicability, so this is the
+        # one absent-subject site here that departs from the rejected arm's
+        # `info`. Not a permanent warning floor: adding the file clears it.
+        return CheckResult("config_size", False,
+                           "No AGENTS.md — size not verified", "warning",
+                           skipped=True)
 
     size = agents_md.stat().st_size
     if size > 40000:
@@ -389,7 +432,10 @@ def check_config_size(agent_path: Path) -> CheckResult:
 # Main Protocol
 # =============================================================================
 
-# D71-STRUCTURAL skills the agent MUST be able to model-invoke (AGENTS.md D71)
+# Framework artifact-lifecycle routing skills checked for model invocability.
+# This is not every locally Strict gate, engine-backed skill or provenance class.
+# Local enforcement additions belong in the seat's extension and local routing
+# register; their absence from this tuple does not invalidate the local policy.
 D71_STRUCTURAL_SKILLS = (
     "aget-create-project", "aget-close-project",
     "aget-create-initiative", "aget-file-issue",
@@ -405,18 +451,24 @@ def check_structural_skill_frontmatter(agent_path: Path) -> CheckResult:
     """
     skills_dir = agent_path / ".claude" / "skills"
     if not skills_dir.is_dir():
-        return CheckResult("structural_skill_frontmatter", True,
-                           "No .claude/skills/ — not applicable", "info")
+        # NOT APPLICABLE (info). With no skills directory the seat declares no
+        # D71 routes at all, so there is no frontmatter flag that could be wrong.
+        # The sibling branch below is warning because there the seat DOES carry
+        # skills and named routes are missing from them.
+        return CheckResult("structural_skill_frontmatter", False,
+                           "No .claude/skills/ — not applicable", "info", skipped=True)
     offenders = []
     absent = []
+    unreadable = []
     for skill in D71_STRUCTURAL_SKILLS:
         sk = skills_dir / skill / "SKILL.md"
         if not sk.is_file():
             absent.append(skill)
             continue
         try:
-            text = sk.read_text(encoding="utf-8", errors="ignore")
-        except Exception:
+            text = sk.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            unreadable.append(skill)
             continue
         # inspect only the frontmatter (between the first two '---' markers)
         parts = text.split("---", 2)
@@ -432,17 +484,22 @@ def check_structural_skill_frontmatter(agent_path: Path) -> CheckResult:
             "D71 violation: disable-model-invocation on STRUCTURAL skill(s): "
             f"{', '.join(offenders)} — agent cannot model-invoke; remove the flag (ref #1489)",
             severity="error", fixable=True)
-    if absent:
-        present = len(D71_STRUCTURAL_SKILLS) - len(absent)
+    if absent or unreadable:
+        present = len(D71_STRUCTURAL_SKILLS) - len(absent) - len(unreadable)
+        # UNVERIFIED-BUT-EXPECTED (warning). D71_STRUCTURAL_SKILLS names routes
+        # this framework expects to exist; an absent or unreadable one leaves a
+        # named route unmeasured. Clearable by installing or repairing the skill.
         return CheckResult(
-            "structural_skill_frontmatter", True,
+            "structural_skill_frontmatter", False,
             f"{present}/{len(D71_STRUCTURAL_SKILLS)} D71-STRUCTURAL skills present + clean; "
             f"ABSENT (not model-invocable; expected if unmigrated phantom, else drift): "
-            f"{', '.join(absent)} (ref #1553)",
-            severity="warning")
+            f"{', '.join(absent) or 'none'}; UNREADABLE: "
+            f"{', '.join(unreadable) or 'none'} (ref #1553); not verified",
+            severity="warning", skipped=True)
     return CheckResult("structural_skill_frontmatter", True,
-                       f"All {len(D71_STRUCTURAL_SKILLS)} D71-STRUCTURAL skills present + "
-                       "carry no disable-model-invocation", "info")
+                       f"All {len(D71_STRUCTURAL_SKILLS)} framework artifact-lifecycle routes present + "
+                       "carry no disable-model-invocation; local additions require checks "
+                       "by the seat extension", "info")
 
 
 def check_permission_accumulation(agent_path: Path) -> CheckResult:
@@ -452,10 +509,12 @@ def check_permission_accumulation(agent_path: Path) -> CheckResult:
     documented threshold with no failing check — HEALTHY-through (L671).
     """
     worst = None
+    inspected = []
     for name in ('settings.local.json', 'settings.json'):
         f = agent_path / '.claude' / name
         if not f.exists():
             continue
+        inspected.append(name)
         size = f.stat().st_size
         try:
             allow = json.loads(f.read_text()).get('permissions', {}).get('allow', [])
@@ -470,7 +529,18 @@ def check_permission_accumulation(agent_path: Path) -> CheckResult:
             worst = f'{name}: {n} permissions / {size} bytes over WARN (100 / 30KB)'
     if worst:
         return CheckResult('permission_accumulation', False, worst, severity='warning')
-    return CheckResult('permission_accumulation', True, 'within L500 thresholds')
+    # NOT A SKIP, deliberately — the one absent-subject site here where absence is
+    # DISPOSITIVE. No permission file means zero accumulated permissions and zero
+    # bytes, which cannot exceed a threshold: absence proves the very property this
+    # check asserts. Calling it "not verified" would be false about the only thing
+    # the absence does establish. The message must say what was read, so a genuine
+    # pass over a live file is never confused with a pass over nothing.
+    if not inspected:
+        return CheckResult('permission_accumulation', True,
+                           'no .claude/settings*.json present — 0 permissions '
+                           'accumulated, within L500 thresholds')
+    return CheckResult('permission_accumulation', True,
+                       f"{', '.join(inspected)} within L500 thresholds")
 
 
 def check_reliance_manifest(agent_path: Path) -> CheckResult:
@@ -483,12 +553,22 @@ def check_reliance_manifest(agent_path: Path) -> CheckResult:
     manifest = agent_path / '.aget' / 'skill_reliance_manifest.yaml'
     validator = agent_path / 'scripts' / 'check_skill_reliance_manifest.py'
     if not manifest.exists():
-        return CheckResult('reliance_manifest', True,
-                           'no manifest (pre-adoption — advisory, not required)')
-    if not validator.exists():
+        # NOT APPLICABLE (info). R-BND-001-03 is opt-in and pre-adoption lag is
+        # expected (L601). With no manifest the seat asserts no reliance claim,
+        # so there is no claim left unverified.
         return CheckResult('reliance_manifest', False,
-                           'manifest present but validator missing (R-BND-001-03 wiring gap)',
-                           severity='warning')
+                           'no manifest (pre-adoption — not applicable, not required)',
+                           severity='info', skipped=True)
+    if not validator.exists():
+        # UNVERIFIED-BUT-EXPECTED (warning) — wiring gap. The manifest EXISTS, so
+        # a conformance claim is being made, and the declared instrument for it is
+        # missing. The rejected arm marked this `failed`, while the identical
+        # instrument-absent case in check_spec_enforcement_truthfulness was marked
+        # skipped; one wiring gap cannot be a verified failure and its twin a skip.
+        return CheckResult('reliance_manifest', False,
+                           'manifest present but validator missing — not verified '
+                           '(R-BND-001-03 wiring gap)',
+                           severity='warning', skipped=True)
     import subprocess
     try:
         r = subprocess.run([sys.executable, str(validator)], capture_output=True,
@@ -499,8 +579,13 @@ def check_reliance_manifest(agent_path: Path) -> CheckResult:
         return CheckResult('reliance_manifest', ok, msg,
                            severity='info' if ok else 'warning')
     except Exception as e:
-        return CheckResult('reliance_manifest', False, f'validator error: {e}',
-                           severity='warning')
+        # UNVERIFIED-BUT-EXPECTED (warning) — same wiring-gap class as the branch
+        # above, one step later: the instrument is present but did not run, so its
+        # verdict is absent rather than negative. A validator that crashed has not
+        # found the manifest non-conformant.
+        return CheckResult('reliance_manifest', False,
+                           f'validator error — not verified: {e}',
+                           severity='warning', skipped=True)
 
 
 def check_spec_enforcement_truthfulness(agent_path: Path) -> CheckResult:
@@ -514,10 +599,24 @@ def check_spec_enforcement_truthfulness(agent_path: Path) -> CheckResult:
     specs = agent_path / 'specs'
     checker = agent_path / 'scripts' / 'check_enforcement_claims.py'
     if not specs.is_dir() or not checker.is_file():
+        missing = []
+        if not specs.is_dir():
+            missing.append('spec corpus')
+        if not checker.is_file():
+            missing.append(f'checker ({checker.name})')
+        count = sum(p.is_file() for p in specs.glob('*.md')) if specs.is_dir() else 0
+        detail = f'; {count} spec document(s) present and UNVERIFIED' if count else ''
+        # SPLIT DECISION on one branch, deliberately. No spec corpus at all =>
+        # NOT APPLICABLE (info): nothing claims an enforcement level here. Spec
+        # documents present but the checker absent => UNVERIFIED-BUT-EXPECTED
+        # (warning): claims exist and are unmeasured. `count` is the evidence,
+        # and it is counted from actual files, not from the directory existing.
         return CheckResult(
             'spec_enforcement_truthfulness',
-            True,
-            'not applicable (spec corpus or checker absent)',
+            False,
+            f"not verified -- {' and '.join(missing)} absent{detail}",
+            severity='warning' if count else 'info',
+            skipped=True,
         )
 
     scripts_dir = str(checker.parent)
@@ -528,11 +627,16 @@ def check_spec_enforcement_truthfulness(agent_path: Path) -> CheckResult:
 
         result = scan(agent_path, r'specs/.*\.md$')
     except Exception as exc:
+        # UNVERIFIED-BUT-EXPECTED (warning) — wiring gap. Both surfaces are
+        # present and the import/scan failed, so no truthfulness verdict exists.
+        # Unchanged from the reviewed arm; the reliance_manifest branches above
+        # were brought into line with THIS one, not the reverse.
         return CheckResult(
             'spec_enforcement_truthfulness',
             False,
-            f'checker unavailable: {type(exc).__name__}',
+            f'checker unavailable — not verified: {type(exc).__name__}',
             severity='warning',
+            skipped=True,
         )
 
     passed = result['status'] == 'PASS'
@@ -562,6 +666,8 @@ def run_housekeeping(agent_path: Path, verbose: bool = False) -> Dict[str, Any]:
         'summary': {
             'total': 0,
             'passed': 0,
+            'failed': 0,
+            'skipped': 0,
             'warnings': 0,
             'errors': 0,
             'fixable': 0,
@@ -595,12 +701,26 @@ def run_housekeeping(agent_path: Path, verbose: bool = False) -> Dict[str, Any]:
         data['checks'].append(result.to_dict())
 
         data['summary']['total'] += 1
-        if result.passed:
+        # Verdict partition: passed + failed + skipped == total, mutually
+        # exclusive. `skipped` is tested FIRST because a skip is passed=False.
+        if result.skipped:
+            data['summary']['skipped'] += 1
+        elif result.passed:
             data['summary']['passed'] += 1
-        elif result.severity == 'warning':
-            data['summary']['warnings'] += 1
-        elif result.severity == 'error':
-            data['summary']['errors'] += 1
+        else:
+            data['summary']['failed'] += 1
+        # Severity counters OVERLAP the partition and stay gated on `not passed`.
+        # Ungating them (the rejected arm) makes an advisory pass — passed=True
+        # with severity='warning', which several checks return by design —
+        # increment `warnings` forever, so status never leaves 'warning' and exit
+        # 1 becomes a floor no repair can clear. Skips reach these counters
+        # because a skip is passed=False: that is the intent, and it is what
+        # keeps a warning-severity skip visible as a warning.
+        if not result.passed:
+            if result.severity == 'warning':
+                data['summary']['warnings'] += 1
+            elif result.severity == 'error':
+                data['summary']['errors'] += 1
 
         if result.fixable:
             data['summary']['fixable'] += 1
@@ -609,6 +729,13 @@ def run_housekeeping(agent_path: Path, verbose: bool = False) -> Dict[str, Any]:
     if data['summary']['errors'] > 0:
         data['status'] = 'error'
     elif data['summary']['warnings'] > 0:
+        data['status'] = 'warning'
+    elif data['summary']['passed'] == 0 and data['summary']['skipped']:
+        # Zero-verified guard. A run that verified nothing must not report
+        # 'healthy' — 0/0 is not a clean bill. It lands on WARNING/exit 1 rather
+        # than minting a fourth status and a fourth exit code: no exit code is
+        # added and none is remapped, so every consumer of (0, 1, 2) keeps
+        # working and the distinction is read off summary['skipped'].
         data['status'] = 'warning'
     else:
         data['status'] = 'healthy'
@@ -628,28 +755,32 @@ def format_human_output(data: Dict[str, Any]) -> str:
 
     status_symbol = {'healthy': '+', 'warning': '!', 'error': 'x'}.get(status, '?')
     lines.append(f"Status: [{status_symbol}] {status.upper()}")
-    lines.append(f"Checks: {summary['passed']}/{summary['total']} passed")
+    skipped = summary.get('skipped', 0)
+    lines.append(f"Checks: {summary['passed']}/{summary['total'] - skipped} passed")
+    if skipped:
+        lines.append(f"Skipped: {skipped} (not verified)")
 
     if summary['warnings']:
         lines.append(f"Warnings: {summary['warnings']}")
     if summary['errors']:
         lines.append(f"Errors: {summary['errors']}")
     if summary['fixable']:
-        lines.append(f"Fixable: {summary['fixable']} (run with --fix)")
+        # C-34-30 D3: the previous advice told the operator to re-run with the repair
+        # flag, which was parsed and never read. Report the count; do not advertise a
+        # capability that does not exist.
+        lines.append(f"Fixable: {summary['fixable']} (no automatic fixer — use /aget-enhance-health or repair manually)")
 
     lines.append("")
     lines.append("Checks:")
 
     # Individual checks
     for check in data['checks']:
-        symbol = '+' if check['passed'] else ('!' if check['severity'] == 'warning' else 'x')
+        # `skipped` is read FIRST: a skip is passed=False, so a passed-only
+        # ladder would render every skip as a failure marker.
+        symbol = ('SKIP' if check.get('skipped', False) else
+                  '+' if check['passed'] else ('!' if check['severity'] == 'warning' else 'x'))
         name = check['name'].replace('_', ' ').title()
-        message = check['message']
-
-        if check['passed']:
-            lines.append(f"  [{symbol}] {name}: {message}")
-        else:
-            lines.append(f"  [{symbol}] {name}: {message}")
+        lines.append(f"  [{symbol}] {name}: {check['message']}")
 
     lines.append("")
     return "\n".join(lines)
@@ -725,7 +856,7 @@ Exit codes:
     parser.add_argument(
         '--fix',
         action='store_true',
-        help='Attempt to fix issues (not implemented yet)'
+        help='REFUSED — no automatic fixer exists; the flag is rejected, not ignored'
     )
     parser.add_argument(
         '--verbose', '-v',
@@ -739,6 +870,15 @@ Exit codes:
     )
 
     args = parser.parse_args()
+
+    # C-34-30 D3: REFUSE rather than ignore. `--fix` was accepted and never read, so
+    # an operator running it got a clean report and believed something was repaired.
+    # A silently-ignored flag is worse than an absent one: it manufactures confidence.
+    if getattr(args, 'fix', False):
+        print("health_check: --fix is REFUSED — no automatic fixer is implemented.\n"
+              "               Findings are reported for manual repair. Re-run without --fix.",
+              file=sys.stderr)
+        return 2
 
     # L039: Diagnostic timing
     if args.verbose:

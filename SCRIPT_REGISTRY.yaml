@@ -1,0 +1,533 @@
+# AGET Script Registry
+#
+# Catalog of all Python scripts in the AGET framework.
+# Used for discoverability, validation, and documentation.
+#
+# See: specs/AGET_PYTHON_SCRIPT_SPEC.md
+
+version: 1.0.0
+created: 2025-12-26
+author: aget-framework
+
+# Script categories
+categories:
+  validator: Scripts that validate artifacts against specifications
+  tool: Utility scripts for framework operations
+  test: pytest test files (not validated by this registry)
+  pattern: Agent operational scripts (in .aget/patterns/)
+
+scripts:
+  # ============================================================
+  # VALIDATORS (validation/)
+  # ============================================================
+
+  - path: validation/validate_template_manifest.py
+    description: Validates manifest.yaml against TemplateManifest schema
+    category: validator
+    version: 1.0.0
+    created: 2025-12-20
+    flags: [--help, --quiet, --dir]
+    exit_codes: [0, 1, 2]
+    validates: manifest.yaml
+
+  - path: validation/validate_composition.py
+    description: Validates capability composition rules and prerequisites
+    category: validator
+    version: 1.0.0
+    created: 2025-12-20
+    flags: [--help, --specs, -v]
+    exit_codes: [0, 1, 2]
+    validates: manifest.yaml composition
+
+  - path: validation/validate_capability_spec.py
+    description: Validates capability specification YAML files
+    category: validator
+    version: 1.0.0
+    created: 2025-12-20
+    flags: [--help]
+    exit_codes: [0, 1, 2]
+    validates: CAPABILITY_SPEC_*.yaml
+
+  - path: validation/validate_version_consistency.py
+    description: Validates version consistency across agent files
+    category: validator
+    version: 1.0.0
+    created: 2025-12-22
+    flags: [--help, --quiet]
+    exit_codes: [0, 1, 2]
+    validates: .aget/version.json, AGENTS.md
+
+  - path: validation/validate_naming_conventions.py
+    description: Validates file and directory naming conventions
+    category: validator
+    version: 1.0.0
+    created: 2025-12-23
+    flags: [--help, --quiet]
+    exit_codes: [0, 1, 2]
+    validates: L-docs, patterns, specs
+
+  - path: validation/validate_vocabulary.py
+    description: Validates vocabulary files against SKOS structure
+    category: validator
+    version: 1.0.0
+    created: 2025-12-15
+    flags: [--help]
+    exit_codes: [0, 1, 2]
+    validates: AGET_CONTROLLED_VOCABULARY.md
+
+  - path: validation/validate_process_spec.py
+    description: Validates PROCESS specification YAML files
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet]
+    exit_codes: [0, 1, 2]
+    validates: PROCESS_*.yaml
+
+  - path: validation/validate_change_proposal.py
+    description: Validates Change Proposal markdown files
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --all]
+    exit_codes: [0, 1, 2]
+    validates: CP-*.md
+
+  - path: validation/validate_project_plan.py
+    description: Validates PROJECT_PLAN markdown files with L382 verification tests
+    category: validator
+    version: 1.1.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir, --strict]
+    exit_codes: [0, 1, 2]
+    validates: PROJECT_PLAN_*.md
+
+  - path: validation/validate_learning_doc.py
+    description: Validates L-doc format and required sections
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir]
+    exit_codes: [0, 1, 2]
+    validates: L*.md
+
+  - path: validation/validate_cross_references.py
+    description: Validates cross-references in markdown documents
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir]
+    exit_codes: [0, 1, 2]
+    validates: "*.md (internal links)"
+
+  - path: validation/validate_graduation_history.py
+    description: Validates artifact graduation history (R-PROC-004)
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --specs, --patterns, --dir]
+    exit_codes: [0, 1, 2]
+    validates: specs, patterns
+
+  - path: validation/validate_script_registry.py
+    description: Validates SCRIPT_REGISTRY.yaml completeness and correctness
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --check-files, --base-path, --version]
+    exit_codes: [0, 1, 2]
+    validates: SCRIPT_REGISTRY.yaml
+
+  - path: validation/validate_memory_compliance.py
+    description: Validates agent memory structure against AGET_MEMORY_SPEC
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir, --strict, --version]
+    exit_codes: [0, 1, 2]
+    validates: Agent memory structure (6-layer model)
+
+  - path: validation/validate_persona_compliance.py
+    description: Validates agent persona against AGET_PERSONA_SPEC (identity, governance, style)
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir, --strict, --template, --version]
+    exit_codes: [0, 1, 2]
+    validates: Agent persona (5D D1 dimension)
+
+  - path: validation/validate_context_compliance.py
+    description: Validates agent context against AGET_CONTEXT_SPEC (relationships, scope)
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir, --strict, --version]
+    exit_codes: [0, 1, 2]
+    validates: Agent context (5D D5 dimension)
+
+  - path: validation/validate_5d_compliance.py
+    description: Umbrella validator for complete 5D Architecture compliance
+    category: validator
+    version: 1.0.0
+    created: 2025-12-26
+    flags: [--help, --quiet, --dir, --strict, --dimensions, --skip-dimensions, --verbose, --version]
+    exit_codes: [0, 1, 2]
+    validates: Agent 5D Architecture (all dimensions)
+
+  - path: validation/validate_spec_format.py
+    description: Validates specification format against AGET_SPEC_FORMAT v1.2 (EARS + SKOS)
+    category: validator
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --quiet, --verbose, --all, --version]
+    exit_codes: [0, 1, 2]
+    validates: AGET_*_SPEC.md (EARS patterns, v1.2 sections, CAP IDs)
+
+  - path: validation/validate_composition_refs.py
+    description: Validates $ref component references in template manifests
+    category: validator
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --all, --framework-root, --verbose]
+    exit_codes: [0, 1, 2]
+    validates: manifest.yaml $ref references to components
+
+  # ============================================================
+  # VALIDATORS - v3.6.0 additions
+  # ============================================================
+
+  - path: validation/validate_skill_deprecation.py
+    description: Validates skill deprecation lifecycle compliance
+    category: validator
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --dir, --all, --base-dir, --check, --verbose]
+    exit_codes: [0, 1, 2]
+    validates: Skill deprecation lifecycle (CAP-SKILL-LIFE-001)
+    spec: AGET_SKILL_LIFECYCLE_SPEC.md
+
+  - path: validation/validate_template_references.py
+    description: Validates cross-template references and import consistency
+    category: validator
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help]
+    exit_codes: [0, 1, 2]
+    validates: Template cross-references
+
+  - path: validation/validate_ontology_inheritance.py
+    description: Validates ontology inheritance chains across templates
+    category: validator
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help]
+    exit_codes: [0, 1, 2]
+    validates: Ontology inheritance (CAP-INST-009)
+
+  - path: verification/validate_ontology_compliance.py
+    description: Validates ontology YAML files against AGET_INSTANTIATION_SPEC
+    category: validator
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --dir, --all, --base-dir, --quiet, --json, --check]
+    exit_codes: [0, 1, 2]
+    validates: Ontology YAML compliance (CAP-INST-008)
+    spec: AGET_INSTANTIATION_SPEC.md
+
+  # ============================================================
+  # MIGRATION SCRIPTS (scripts/)
+  # ============================================================
+
+  - path: scripts/analyze_template_compliance.py
+    description: Analyzes template compliance with AGET_TEMPLATE_SPEC v3.0
+    category: tool
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --all, --output, --summary]
+    exit_codes: [0, 1, 2]
+    validates: Template structure and compliance
+
+  - path: scripts/migrate_template_to_v3.py
+    description: Migrates template to v3.0 by archiving legacy and removing cruft
+    category: tool
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --dry-run, --execute, --analysis, --verbose]
+    exit_codes: [0, 1, 2]
+
+  - path: scripts/cleanup_template_archive.py
+    description: Cleans up archive directory after migration verification
+    category: tool
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --verify, --execute, --force]
+    exit_codes: [0, 1, 2]
+
+  - path: scripts/export_agent_knowledge.py
+    description: Exports Portable_Content from agent for framework ejection
+    category: tool
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --output, --dry-run, --remove-framework, --acknowledge-constraints-removed]
+    exit_codes: [0, 1, 2]
+    status: planned
+    spec: AGET_PORTABILITY_SPEC.md
+
+  # ============================================================
+  # VALIDATORS - Compliance
+  # ============================================================
+
+  - path: validation/validate_portability_compliance.py
+    description: Validates portability classification (Portable_Content vs Framework_Configuration)
+    category: validator
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --quiet, --dir]
+    exit_codes: [0, 1, 2]
+    validates: Portability classification per AGET_PORTABILITY_SPEC
+    status: planned
+
+  - path: validation/validate_license_compliance.py
+    description: Validates LICENSE files and license separation
+    category: validator
+    version: 1.0.0
+    created: 2025-12-27
+    flags: [--help, --quiet, --dir]
+    exit_codes: [0, 1, 2]
+    validates: LICENSE files per AGET_LICENSE_SPEC
+    status: planned
+
+  # ============================================================
+  # TOOLS (validation/ - miscellaneous)
+  # ============================================================
+
+  - path: validation/check_aget_vocabulary.py
+    description: Checks vocabulary usage in documents
+    category: tool
+    version: 1.0.0
+    created: 2025-12-15
+    flags: [--help]
+    exit_codes: [0, 1]
+
+  - path: validation/project_skos_to_ears.py
+    description: Projects SKOS vocabulary to EARS format
+    category: tool
+    version: 1.0.0
+    created: 2025-12-15
+    flags: [--help]
+    exit_codes: [0, 1]
+
+  # ============================================================
+  # PATTERN SCRIPTS (.aget/patterns/ - template for agents)
+  # These are copied to agent repos, not in aget/ directly
+  # ============================================================
+
+  # Session patterns
+  - path: .aget/patterns/session/wake_up.py
+    description: Session initialization - gathers context and displays status
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-20
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  - path: .aget/patterns/session/wind_down.py
+    description: Session end - documents decisions and pending work
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-20
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  # Release patterns
+  - path: .aget/patterns/release/version_bump.py
+    description: Coordinates version bumps across agent files
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-20
+    location: agent_repo
+    flags: [--to]
+    exit_codes: [0, 1]
+
+  - path: .aget/patterns/release/changelog_update.py
+    description: Updates CHANGELOG.md with release notes
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-20
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  - path: .aget/patterns/release/pre_release_validation.py
+    description: Runs pre-release validation checks
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-24
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  - path: .aget/patterns/release/post_release_validation.py
+    description: Runs post-release validation checks
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-24
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  - path: .aget/patterns/release/migrate_manager_version.py
+    description: Migrates framework manager to new version before release
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-25
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  # Sync patterns
+  - path: .aget/patterns/sync/version_consistency.py
+    description: Checks version consistency across managed repos
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-20
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  - path: .aget/patterns/sync/template_sync_check.py
+    description: Checks template synchronization status
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-20
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+
+  # Upgrade patterns
+  - path: .aget/patterns/upgrade/upgrade_template.py
+    description: Upgrades a single template to new version
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-22
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+    status: skeleton
+
+  - path: .aget/patterns/upgrade/upgrade_fleet.py
+    description: Upgrades entire fleet to new version
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-22
+    location: agent_repo
+    flags: []
+    exit_codes: [0, 1]
+    status: skeleton
+
+  - path: .aget/patterns/upgrade/version_diff.py
+    description: Shows differences between framework versions
+    category: pattern
+    version: 1.0.0
+    created: 2025-12-22
+    location: agent_repo
+    flags: [FROM, TO]
+    exit_codes: [0, 1]
+    status: skeleton
+
+  # ============================================================
+  # RELEASE OBSERVABILITY SCRIPTS (scripts/) - v3.6.0
+  # ============================================================
+
+  - path: scripts/validation_logger.py
+    description: Wraps validation scripts with persistent JSON logging
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --wrap, --log, --test, --script, --version, --passed, --failed, --exit-code, --details]
+    exit_codes: [0, 1, 3]
+    spec: AGET_RELEASE_SPEC.md
+    implements: CAP-REL-021
+
+  - path: scripts/run_gate.py
+    description: Records gate completion and enforces sequential progression
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --gate, --check, --history, --test, --version, --status, --summary, --prior-gate]
+    exit_codes: [0, 1, 2, 3]
+    spec: AGET_RELEASE_SPEC.md
+    implements: CAP-REL-022
+
+  - path: scripts/release_snapshot.py
+    description: Captures pre/post release state snapshots for diff-based validation
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --version, --phase, --diff, --framework-dir, --skip-gh, --test]
+    exit_codes: [0, 1, 2]
+    spec: AGET_RELEASE_SPEC.md
+    implements: CAP-REL-023
+
+  - path: scripts/propagation_audit.py
+    description: Tracks template propagation state across deployment targets
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --version, --check, --record, --framework-dir, --test]
+    exit_codes: [0, 1]
+    spec: AGET_RELEASE_SPEC.md
+    implements: CAP-REL-024
+
+  - path: scripts/health_logger.py
+    description: Persistent structured logging for health/housekeeping checks
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --wrap, --log, --test]
+    exit_codes: [0, 1, 3]
+    spec: AGET_RELEASE_SPEC.md
+    implements: CAP-REL-025
+
+  - path: scripts/check_enforcement_claims.py
+    description: Checks canonical spec-enforcement declarations for exact resolution, operational reachability, and governed gaps
+    category: validator
+    version: 1.0.0
+    created: 2026-08-17
+    flags: [--help, --root, --spec-glob, --json, --self-check]
+    exit_codes: [0, 1]
+    validates: Named enforcement declarations in specs
+    spec: AGET_SPEC_FORMAT.md
+
+  - path: scripts/study_topic.py
+    description: Focused KB research on a specific topic before proposing changes
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --topic, --quiet, --json]
+    exit_codes: [0, 1]
+    spec: AGET_SESSION_SPEC.md
+    implements: CAP-SESSION-007
+
+  - path: scripts/generate_template_ontology.py
+    description: Generates ontology YAML files for templates from specs
+    category: tool
+    version: 1.0.0
+    created: 2026-02-15
+    flags: [--help, --template, --all, --framework-dir, --dry-run]
+    exit_codes: [0, 1, 2]
+    spec: AGET_INSTANTIATION_SPEC.md
+
+# Summary statistics
+summary:
+  total_scripts: 51
+  by_category:
+    validator: 26
+    tool: 13
+    pattern: 12
+  by_status:
+    active: 45
+    skeleton: 3
+    planned: 3

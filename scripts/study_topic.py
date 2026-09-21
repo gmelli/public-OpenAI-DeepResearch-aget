@@ -33,6 +33,8 @@ Exit codes:
     1 — invalid invocation (no --topic and no --verify), or --verify failed
 """
 
+from __future__ import annotations
+
 import argparse
 import importlib.util
 import json
@@ -653,6 +655,38 @@ def find_patterns(topic: str, domain_keywords: list = None) -> list:
     return results
 
 
+# --- plan-status classification -------------------------------------------------
+# gh#2491. The prior rule was `'IN PROGRESS' in probe.upper()` — containment on ONE
+# spelling. It is correct for plans that say "In Progress" and silently wrong for every
+# other live vocabulary, and the wrongness is invisible: a live plan renders [inactive]
+# with no warning.
+#
+# Measured 2026-09-06 at two seats, same canonical blob:
+#   private-aget-framework-AGET   18 of 80 non-terminal plans misread as inactive (22%)
+#   private-aof1-aof-supervisor   104 of 104 misread (100% — that seat uses "Draft")
+# The blast radius depends entirely on the receiver's status vocabulary, which is why
+# one seat can carry this for months without noticing while another is fully blind.
+#
+# Inverted deliberately: classify TERMINAL, treat everything else as active. Terminal
+# states are a closed, governed set (CONVENTION_terminal_state_vocabulary.md); live
+# states are open-ended prose. Enumerating the closed set fails safe — an unrecognised
+# status reads active, which surfaces a plan for a human rather than hiding it.
+_TERMINAL_PLAN_STATUS = re.compile(
+    r"^\W*(COMPLETE[DX]?|CLOSED|ABANDONED|SUPERSEDED|DONE|CANCELL?ED|ARCHIVED|WITHDRAWN)\b",
+    re.IGNORECASE,
+)
+
+
+def _plan_is_active(probe: str) -> bool:
+    r"""True unless the status opens with a governed terminal keyword.
+
+    `^\W*` skips leading emoji, bullets and bold markers without swallowing words, so
+    "**COMPLETE**" is terminal while "NOT COMPLETE" is active — the scan stops at the
+    first letter, and "NOT" is not a terminal keyword.
+    """
+    return not _TERMINAL_PLAN_STATUS.match((probe or "").strip())
+
+
 def find_project_plans(topic: str, domain_keywords: list = None) -> list:
     """Find PROJECT_PLANs related to topic.
 
@@ -684,7 +718,7 @@ def find_project_plans(topic: str, domain_keywords: list = None) -> list:
                 m = (re.search(r'\*\*Plan_Status\*\*:\s*([^\n]*)', content)
                      or re.search(r'\*\*Status\*\*:\s*([^\n]*)', content))
                 probe = m.group(1) if m else content
-                is_active = 'IN PROGRESS' in probe.upper()
+                is_active = _plan_is_active(probe)
             except Exception:
                 is_active = False
 
@@ -966,17 +1000,152 @@ def find_canonical_spec_roots(agent_root: Path) -> list:
     A resolver that assumes one layout produces a false surface claim in the
     other, which is the exact defect this whole function exists to prevent.
     """
-    roots = []
-    parent = agent_root.parent
-    if not parent.is_dir():
-        return roots
-    for sibling in sorted(parent.iterdir()):
-        if not sibling.is_dir() or sibling == agent_root:
-            continue
-        for candidate in (sibling / 'specs', sibling / 'aget' / 'specs'):
-            if candidate.is_dir() and (candidate / 'AGET_SESSION_SPEC.md').is_file():
-                roots.append(candidate)
+    roots, _scope = _resolve_canonical_spec_roots(agent_root)
     return roots
+
+
+CANONICAL_ROOT_ENV = 'AGET_CANONICAL_ROOT'
+_LAST_CANONICAL_SEARCH_SCOPE: list = []
+
+
+def _probe_spec_root(base: Path) -> Path | None:
+    """Return the specs dir under `base` carrying the marker file, or None.
+
+    Both live layouts are probed, exactly as the sibling scan probed them: the
+    checkout IS the specs parent, or it CONTAINS an aget/ that is.
+    """
+    for candidate in (base / 'specs', base / 'aget' / 'specs'):
+        if candidate.is_dir() and (candidate / 'AGET_SESSION_SPEC.md').is_file():
+            return candidate
+    return None
+
+
+def _resolve_canonical_spec_roots(agent_root: Path) -> tuple:
+    """Resolve canonical spec roots and RECORD the scope actually searched.
+
+    gh#2451 / C-34-04. The prior body scanned `agent_root.parent.iterdir()` and
+    nothing else, so it resolved only when canonical sat as an IMMEDIATE sibling.
+    A portfolio layout — `~/github/<portfolio>/<agent>` with canonical at
+    `~/github/aget-framework/aget` — is one directory outside that scan, and the
+    resolver reported a clean empty list rather than an unsearched one. An empty
+    result that cannot distinguish "absent" from "never looked" is the same
+    manufactured-absence failure this function family exists to prevent, moved up
+    one level.
+
+    Resolution order, most explicit first. A successful explicit declaration
+    selects the authority and ends discovery. Without one, historical sibling
+    discovery and the bounded portfolio fallback are recorded:
+
+      1. ``AGET_CANONICAL_ROOT`` env var (explicit operator route)
+      2. ``study_topic.canonical_root`` in ``.aget/config.json`` (legacy top-level
+         ``canonical_root`` remains supported; relative paths use the agent root)
+      3. immediate siblings of the agent root (UNCHANGED — the pre-existing
+         behaviour, kept so seats that resolve today keep resolving identically)
+      4. portfolio-parent layout: ``agent_root.parent.parent/aget-framework/aget``.
+         Other non-adjacent layouts require an explicit declaration; the resolver
+         does not enumerate the user's home or unrelated portfolio contents.
+
+    Returns ``(roots, scope)`` where `scope` is the human-readable list of the
+    places actually looked. Deduplicated by resolved path, order-stable.
+    """
+    roots: list = []
+    scope: list = []
+    seen = set()
+
+    def take(base: Path, label: str) -> None:
+        scope.append(label)
+        found = _probe_spec_root(base)
+        if found is not None:
+            resolved = found.resolve()
+            if resolved not in seen:
+                seen.add(resolved)
+                roots.append(found)
+
+    env_value = os.environ.get(CANONICAL_ROOT_ENV, '').strip()
+    if env_value:
+        take(Path(env_value).expanduser(), f'{CANONICAL_ROOT_ENV}={env_value}')
+        if roots:
+            _LAST_CANONICAL_SEARCH_SCOPE[:] = scope
+            return roots, scope
+
+    config_path = agent_root / '.aget' / 'config.json'
+    if config_path.is_file():
+        try:
+            config = json.loads(config_path.read_text())
+            if not isinstance(config, dict):
+                raise ValueError('config must be an object')
+            study_config = config.get('study_topic', {})
+            configured = (study_config.get('canonical_root', '')
+                          if isinstance(study_config, dict) else '')
+            configured = configured or config.get('canonical_root', '')
+        except (ValueError, OSError):
+            configured = ''
+            scope.append(f'{config_path} (unreadable — not a resolution)')
+        if isinstance(configured, str) and configured.strip():
+            configured_path = Path(configured).expanduser()
+            if not configured_path.is_absolute():
+                configured_path = agent_root / configured_path
+            take(configured_path, f'config canonical_root={configured}')
+            if roots:
+                _LAST_CANONICAL_SEARCH_SCOPE[:] = scope
+                return roots, scope
+
+    def listdir(path: Path) -> list:
+        """Children of `path`, or [] if it cannot be read.
+
+        A directory the process may not list is NOT a resolution failure and must
+        never abort the search: widening the scan to a portfolio parent means
+        walking directories this seat does not own, and on a real filesystem some
+        of them raise (macOS `/var/folders/.../TemporaryItems` is the case that
+        caught this). Skipped-unreadable is recorded in scope rather than hidden,
+        because an unlistable directory is exactly the 'never looked' state this
+        function exists to make visible.
+        """
+        try:
+            return sorted(path.iterdir())
+        except OSError:
+            scope.append(f'{path} (unreadable — skipped, not searched)')
+            return []
+
+    def consider(base: Path) -> None:
+        found = _probe_spec_root(base)
+        if found is None:
+            return
+        resolved = found.resolve()
+        if resolved not in seen:
+            seen.add(resolved)
+            roots.append(found)
+
+    parent = agent_root.parent
+    if parent.is_dir():
+        scope.append(f'immediate siblings of {parent}')
+        for sibling in listdir(parent):
+            if not sibling.is_dir() or sibling == agent_root:
+                continue
+            consider(sibling)
+
+        grandparent = parent.parent
+        if grandparent.is_dir() and grandparent != parent:
+            # #2451's cross-portfolio topology has a known framework location.
+            # Arbitrary ancestor enumeration cannot distinguish a real authority
+            # from another seat's archive. Other layouts use explicit declarations.
+            portfolio = grandparent / 'aget-framework'
+            scope.append(f'portfolio siblings: bounded framework layout {portfolio / "aget"}')
+            if portfolio != parent:
+                consider(portfolio / 'aget')
+
+    _LAST_CANONICAL_SEARCH_SCOPE[:] = scope
+    return roots, scope
+
+
+def canonical_search_scope() -> list:
+    """The places the last canonical resolution actually looked.
+
+    Exists so an unresolved surface can state its SEARCH SCOPE rather than only
+    its emptiness (C-34-04). A miss that names where it looked is honest; a bare
+    "not found" is the claim this cluster is repairing.
+    """
+    return list(_LAST_CANONICAL_SEARCH_SCOPE)
 
 
 def find_canonical_pattern_roots(agent_root: Path) -> list:
@@ -1025,8 +1194,10 @@ def refresh_canonical_pattern_surface(agent_root: Path) -> None:
     if roots:
         surface = 'canonical framework patterns: ' + ', '.join(str(root) for root in roots)
     else:
+        scope = canonical_search_scope()
         surface = ('canonical framework pattern tier: UNAVAILABLE '
-                   '(no adjacent checkout with aget/specs/AGET_SESSION_SPEC.md)')
+                   '(no checkout with aget/specs/AGET_SESSION_SPEC.md); searched: '
+                   + ('; '.join(scope) if scope else 'nothing — no resolvable search scope'))
     for index, value in enumerate(SURFACES_SEARCHED):
         if value.startswith('canonical framework pattern'):
             SURFACES_SEARCHED[index] = surface
@@ -1047,8 +1218,10 @@ def refresh_canonical_spec_surface(agent_root: Path) -> None:
     if roots:
         surface = 'canonical framework specs: ' + ', '.join(str(root) for root in roots)
     else:
+        scope = canonical_search_scope()
         surface = ('canonical framework spec tier: UNAVAILABLE '
-                   '(no adjacent checkout with aget/specs/AGET_SESSION_SPEC.md)')
+                   '(no checkout with aget/specs/AGET_SESSION_SPEC.md); searched: '
+                   + ('; '.join(scope) if scope else 'nothing — no resolvable search scope'))
     for index, value in enumerate(SURFACES_SEARCHED):
         if value.startswith('canonical framework spec'):
             SURFACES_SEARCHED[index] = surface
