@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.34.0",
+  "aget_version": "3.35.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -435,6 +435,13 @@
         "Framework payload paths installed from the approved candidate archive ba200cb7dc372d08",
         "Carrier fields only: aget_version, @aget-version, top-level manifest version"
       ]
+    },
+    {
+      "version": "3.35.0",
+      "from_version": "3.34.0",
+      "to_version": "3.35.0",
+      "date": "2026-09-27",
+      "route": "batch 1, attempt v335-b1-OpenAI-DeepResearch-aget-20260927"
     }
   ],
   "supervisor": "private-supervisor-AGET",
