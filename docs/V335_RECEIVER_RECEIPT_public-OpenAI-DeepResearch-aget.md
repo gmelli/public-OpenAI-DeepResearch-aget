@@ -110,3 +110,67 @@ Targeted run: `python3 -m pytest -q -rA` over the five installed test files gave
 **REJECTED**
 
 Reason: the credited capability (M-3.35-1) and its rejection paths pass. However, the release's own acceptance bar ("no new receiver test failures against the baseline") fails. The delivered test set adds 2 failures and 4 errors, caused by two blocking delivery defects: a missing `tests/fixtures/l980_session_2026_05_21_action_batch.json`, and a core `test_close_authorization_guard.py` shipped against a template guard without the principal-GO branch. The install is committed locally for the supervisor's check. Re-evaluate once the release supplies the fixture and a guard that matches the test.
+
+---
+
+## Attempt v335-b1-OpenAI-DeepResearch-aget-20260927-repair (repair)
+
+| Field | Value |
+|---|---|
+| Attempt | `v335-b1-OpenAI-DeepResearch-aget-20260927-repair` |
+| Route | a1 + b1 route-b-restricted-hooks (detective), batch 1 |
+| Date | 2026-09-28 |
+| Operator | headless session launched by `private-supervisor-AGET` on the principal's authorization |
+| Rollback reference (previous attempt) | `a9e801d8053b91d9f332be3a7ec01f2346c7cb4e` |
+| Release pins | core `aget-framework/aget` v3.35.0 = `1ffc358a9c97143532af6ad06740e60c16afa6f3`; `template-analyst-aget` v3.35.0 = `889e39f46be51d93cc84b36b0f9d5d78086d6c33` (not re-verified by this seat) |
+
+### Repaired files (placed by the principal's apply script; not edited in this session)
+
+| Path | Source | Git blob after (`git hash-object`) | Expected release sha256 (prefix) |
+|---|---|---|---|
+| `scripts/close_authorization_guard.py` | core `aget` | `546547ea0912276af502ae93be96a597f5971046` | `8bc4f5f9d1b5` |
+| `tests/test_propose_actions_classify_hardening.py` | template-analyst-aget | `032564e67ceeb5e6b73aa6ba65a6082d361d28e2` | `132e931f25ea` |
+| `tests/fixtures/l980_session_2026_05_21_action_batch.json` | template-analyst-aget | `753334ee2d3497e8d4962aa9fb7b5d899b874cdc` | `f325660825f5` |
+
+- `git diff` of `tests/test_propose_actions_classify_hardening.py` against `a9e801d` shows only line 46: the blank docstring line now holds the 3 spaces. This fixes the 3-byte defect recorded above.
+- `scripts/close_authorization_guard.py` against `a9e801d`: 38 insertions and 3 deletions (the core principal-GO branch).
+- The fixture is new at this seat.
+- No other path was touched. Protected files, version carriers and `scripts/study_topic.py` were not edited.
+
+### Tests (`python3 -m pytest -q`)
+
+| | Passed | Failed | Errors | Skipped | Subtests passed |
+|---|---|---|---|---|---|
+| Baseline (previous attempt, step 2, pre-migration) | 569 | 0 | 0 | 2 | 2 |
+| Now (after repair) | 634 | 0 | 0 | 2 | 2 |
+
+- **Failing test ids in the baseline:** none.
+- **New failures against the baseline:** none. The previous attempt's 2 failures (`test_close_authorization_guard.py::test_principal_go_*`) and 4 errors (`test_propose_actions_step_2_7.py::*`) now pass. 634 = 628 + 2 + 4.
+
+### Behaviour evidence
+
+- `python3 scripts/propose_actions_handoff_scan.py --self-test` prints `PASS`. This shows the **credited capability** (M-3.35-1 deferral and handoff scan).
+- `python3 scripts/propose_actions_classify.py --self-test` prints `PASS`. This covers the classifier and pairing gate that the capability relies on.
+- `python3 scripts/close_gate_check.py --help` shows the **rejection path** interface. `--mode closure` (the default, CAP-PP-013-05/06) "blocks any live non-terminal gate or contradictory state". `--phase` and `--disposition` are required, and "no phase is inferred". This is usage text only: it documents the refusal path but does not exercise it. The rejection paths themselves are exercised by the passing suite, including:
+  - `test_close_authorization_guard.py::test_principal_go_without_pointer_fails_check_a` (FAIL);
+  - `::test_v323_voided_close_fails`;
+  - `test_propose_actions_step_2_7.py::test_negative_unmet_surfaces_friction`;
+  - `test_propose_actions_handoff_scan.py::test_not_a_git_repository_is_unavailable_not_clean`.
+
+### Limitations
+
+- **sha256 not verified here.** This seat recorded git blob ids only; it did not compute sha256 (the prompt's command set has no digest tool). The expected release sha256 prefixes above are the supervisor's figures and are not matched by this seat.
+- **Staging cross-check refused.** A `git hash-object` cross-check against the supervisor's staging copies was refused by the session allowlist. Per the dispatch rules it was not retried.
+- **Probes not run.** The fixture-plan close-gate probe (M-3.35-3), `wake_up.py`, and the L006 `study_topic.py` reachability check were not run. They are outside the allowed command set.
+- **Stale spec pin.** `@aget-canonical-specs` in AGENTS.md still reads `v3.33.1`. AGENTS.md is protected and was not edited.
+- **Not pushed.** This is a local commit only; the supervisor handles the push.
+
+### Rollback
+
+`git revert <this repair commit>` restores the state of `a9e801d8053b91d9f332be3a7ec01f2346c7cb4e`. The full pre-migration reference remains `cd4ef837a1da04c0c5e5b9eb3afbe993d95d5412`. Do not reset shared history.
+
+### Terminal
+
+**BEHAVIOUR_VERIFIED**
+
+Reason: there are no new failures against the baseline (634 passed, 0 failed, 0 errors), and both self-tests pass. The three delivery defects from the previous attempt are resolved. The terminal is not ACCEPTED because this seat did not independently confirm the release sha256 digests.

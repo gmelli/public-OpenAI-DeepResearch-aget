@@ -43,7 +43,7 @@ def test_reconcile_alone_is_not_audit():
     'Reconcile' is ambiguous between compare-against-source and make-agree-by-editing.
     On a governed artifact the editing sense dominates. Per CAP-PA-013-04 an ambiguous
     action falls to synthesis (fail-safe), so it must not satisfy the pairing gate.
-
+   
     Satisfies: CAP-PA-013-01, CAP-PA-013-04
     """
     assert classify("reconcile the INDEX counts") == "synthesis"
