@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "aget_version": "3.35.0",
+  "aget_version": "3.36.0",
   "aget_short_name": "ODR",
   "portfolio": "main",
   "agent_name": "public-OpenAI-DeepResearch-aget",
@@ -442,6 +442,14 @@
       "to_version": "3.35.0",
       "date": "2026-09-27",
       "route": "batch 1, attempt v335-b1-OpenAI-DeepResearch-aget-20260927"
+    },
+    {
+      "version": "3.36.0",
+      "from_version": "3.35.0",
+      "to_version": "3.36.0",
+      "date": "2026-10-11",
+      "route": "v3.36.0 kit route, batch 2, private-supervisor-AGET plan Gate 3",
+      "attempt": "v336-b2-OpenAI-DeepResearch-aget"
     }
   ],
   "supervisor": "private-supervisor-AGET",

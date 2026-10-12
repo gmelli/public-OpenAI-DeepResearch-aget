@@ -1,6 +1,6 @@
 ---
 name: aget-create-goal
-description: Commit a selected candidate goal into a durable, governed Goal artifact. The D71-Strict singular committer of the propose-goals→create-goal verb pair (L1067/L1085). Two-tier (REQ-3): committed goals = a structured section in governance/GOALS.md; aspirational = agent-internal .aget/goals/aspirational.jsonl. Direct authoring of a committed-Goal section is PROHIBITED once this skill is invoked. Implements AGET_GOAL_SPEC v0.2.0 (CAP-GOAL-001..011).
+description: "Commit a selected candidate goal into a durable, governed Goal artifact. The D71-Strict singular committer of the propose-goals→create-goal verb pair (L1067/L1085). Two-tier (REQ-3): committed goals = a structured section in governance/GOALS.md; aspirational = agent-internal .aget/goals/aspirational.jsonl. Direct authoring of a committed-Goal section is PROHIBITED once this skill is invoked. Grounded canonical AGET_GOAL_SPEC v0.3.0 (CAP-GOAL-001..013); engine implements the CAP-GOAL-001..011 subset — the v0.3.0 two-axis edges (CAP-GOAL-012 axis integrity + typed served-by) are PENDING the verb-family delta (owed to aget-enhance-goal, SP-036)."
 ---
 
 # /aget-create-goal
@@ -55,7 +55,7 @@ Status transitions are governed edits. **Type-differentiated terminal**: an **Ac
 | Engine | `scripts/create_goal.py` · Tests `tests/test_create_goal.py` (11) |
 | Verb pair | `/aget-propose-goals` (SKILL-055, plural producer) → `/aget-create-goal` (SKILL-057, singular committer) |
 | SKILL ID | SKILL-057 |
-| Owning Initiative | INIT-CORE-ARTIFACT-MATURATION Stream 9 (PP-051); v3.23 release C-23-01 |
+| Owning Initiative | INIT-CORE-ARTIFACT-MATURATION Stream 9 (prior authoring project); v3.23 release C-23-01 |
 | L-docs | L1067, L1085 (verb-pair semantics); MP#12 (loop binding); L656 (lifecycle/Loading-Dock); L742 (REQ→CAP) |
 
 > **Canonical-promotion gate**: this skill + spec are DRAFT. Promotion to canonical (`aget/`) + the AGENTS.md D71 routing-table row + public push are gated on (a) the 3-concept grounding gap (Goal Identifier/Goal Value/Commitment Tag — INIT-ONTOLOGY-MATURATION) and (b) the L735 weekend window. Locally drivable now.

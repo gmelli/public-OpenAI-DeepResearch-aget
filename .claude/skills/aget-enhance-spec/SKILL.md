@@ -226,7 +226,7 @@ Execute:
 4. Verify version number follows semantic versioning
 5. Run structural validators if available:
    ```bash
-   test -f .aget/patterns/sync/validate_spec_compliance.py && python3 .aget/patterns/sync/validate_spec_compliance.py <spec_path> 2>/dev/null || echo "Spec compliance validator not available — manual review required"
+   python3 .aget/patterns/sync/validate_spec_compliance.py <spec_path> 2>/dev/null
    ```
 
 Report results:
@@ -421,7 +421,7 @@ The skill actively checks for these anti-patterns:
 | SOP | `sops/SOP_specification_enhancement.md` v1.0.0 |
 | L-docs | L622 (lifecycle), L623 (meta-governance gap), L560, L557, L555, L611 |
 | Proposal | SP-002 (`planning/skill-proposals/PROPOSAL_aget-enhance-spec.md`) |
-| Project | `planning/PROJECT_PLAN_aget_enhance_spec_skill_v1.0.md` |
+| Project | `prior internal authoring plan` |
 | ADR-008 | L-docs → SOP (Advisory) → Spec (Strict) → Skill (Generator) |
 | Verb | "enhance" — 25th approved verb, 4th domain innovation |
 

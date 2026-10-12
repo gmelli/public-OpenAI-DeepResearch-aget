@@ -174,3 +174,79 @@ Reason: the credited capability (M-3.35-1) and its rejection paths pass. However
 **BEHAVIOUR_VERIFIED**
 
 Reason: there are no new failures against the baseline (634 passed, 0 failed, 0 errors), and both self-tests pass. The three delivery defects from the previous attempt are resolved. The terminal is not ACCEPTED because this seat did not independently confirm the release sha256 digests.
+
+---
+
+## Attempt v336-b2-OpenAI-DeepResearch-aget
+
+- Member: public-OpenAI-DeepResearch-aget
+- Route: v3.36.0 kit route, batch 2, private-supervisor-AGET plan Gate 3
+- Date: 2026-10-11. Version 3.35.0 → 3.36.0.
+- Release pins: core `aget-framework/aget` v3.36.0 = `24de1eb0104962ef7aab39f05ccc740876d5e5f2`; `template-analyst-aget` v3.36.0 = `ca1f73f9545ee543eb2fbfd20d40ef29b1575f75` (not re-verified by this seat).
+- Rollback reference (pre-migration HEAD): `e210251d097dfc508b9deb3c24a0a42cc14c7135`.
+
+### Step-3 paths
+
+Unprotected payload was placed as release bytes by the approved write list before this session; this session recorded blob ids only.
+
+| Path | Action | Git blob after |
+|---|---|---|
+| `.aget/specs/skills/SKILL-045_aget-ask.yaml` | placed (not edited here) | `4b57926eb558a41320ea07d6edf2799153a1999a` |
+| `LICENSE` | placed (new) | `4b237bd067d2ab3308fa470ddbf545632adc4c9b` |
+| `knowledge/patterns/README.md` | placed | `e5aa24ce19f93678f7228a144732f9c728ceff45` |
+| `ontology/ONTOLOGY_analyst.yaml` | placed | `60bb8d2b0350bda4b90c937b201dbfaf79c3e11c` |
+| `planning/skill-proposals/INDEX.md` | placed | `45155a0f3b8adde73c2ca6caf4d1fa3c24efbee0` |
+| `scripts/check_initiatives.py` | placed | `91dde7935a43b49e575eb97f624d286160e9d269` |
+| `scripts/close_gate_check.py` | placed | `c246babc4475494230fbcee1c9e3ced1b47ac11c` |
+| `scripts/propose_actions_classify.py` | placed | `6023b61bf6d19f5d52d217582d0d1a80d5a18207` |
+| `scripts/propose_actions_handoff_scan.py` | placed | `c2fb3014126ca8ad2508f2d95399d9d73b0ed34d` |
+| `scripts/record_goals_ext.py` | placed | `5684cd21d081f310068c3a0e1b62eb56be3f9e5e` |
+| `scripts/study_topic.py` | MERGE (release change applied with Edit) | `fe09f37016021982087ef2761a0e7223174c0051` (from `git diff --cached --raw --no-abbrev`) |
+| `specs/AGET_PROJECT_PLAN_SPEC.md` | placed | `b5399e43e206420e905e016017500135cf083c02` |
+| `specs/CLI_SUBSYSTEM_SPEC.md` | placed | `d3ce31442bf0fe54a3e8c70ba75b7ceb29501bbf` |
+| `specs/CLI_VOCABULARY.md` | placed | `68fa7c556e5cc4e94e713d8ad4ca2dbc11edcdd9` |
+| `tests/test_close_authorization_guard.py` | placed | `800771249fee6f6f365050aa8c2d38d894c09bc6` |
+| `tests/test_propose_actions_handoff_scan.py` | placed | `21210825ba1d2ad178292a497ecfe0221881b39c` |
+| `tests/test_propose_actions_outcome_gating.py` | placed | `8107464ca6fb4c57e49b59080e8c370e1b1f0aec` |
+| `.claude/skills/aget-expand-ontology/SKILL.md` | KEEP (own copy; release bytes not taken) | not recorded (see Limitations) |
+
+Step-4 carriers:
+- `.aget/version.json`: `aget_version` 3.35.0 → 3.36.0. One `migration_history` entry appended in the form of the preceding 3.35.0 entry (an object): version 3.36.0, from 3.35.0, date 2026-10-11, the route above, attempt `v336-b2-OpenAI-DeepResearch-aget`.
+- `manifest.yaml`: line 3 `version: 3.35.0` → `version: 3.36.0`. Nothing else.
+- `handoffs/FLEET_MIGRATION_CONTRACT_v3.30.0.json`, row CI-3000-01, `scripts/study_topic.py` entry: `sha256_current` set to `76b8549dcac10ab1dd1277175842752a35eff4ff6bc4ce37f362c2c31f7fd172`; `sha256_at_v3.30.0` unchanged; the specified sentence appended to `amended_post_tag`. No other change.
+
+### Protected files (written by the principal, not edited here)
+
+`.claude/skills/aget-check-evolution`, `aget-check-kb`, `aget-check-sessions`, `aget-close-project`, `aget-create-goal`, `aget-create-project`, `aget-create-skill`, `aget-enhance-health`, `aget-enhance-spec`, `aget-file-issue`, `aget-propose-goals`, `aget-propose-initiative`, `aget-propose-skill`, `aget-record-lesson`, `aget-review-project`, `aget-save-state` (each `SKILL.md`), and `AGENTS.md` (reads `@aget-version: 3.36.0`).
+
+`.claude/skills/aget-propose-initiative/SKILL.md` is not tracked by this repository's git (ignore rules, left unchanged). It is therefore not staged, and a push will not carry it.
+
+### Tests
+
+| | Passed | Failed | Errors | Deselected | Subtests passed |
+|---|---|---|---|---|---|
+| Before (baseline.json, HEAD e210251) | 634 | 0 | 0 | 2 | 2 |
+| After (step 5, same command) | 634 | 0 | 0 | 2 | 2 |
+
+- Failing ids before: none. Failing ids after: none. Counts are identical. The suite includes the contract digest check for `scripts/study_topic.py`, which passes against the re-pinned value.
+
+### Behaviour evidence (step 5)
+
+- `python3 scripts/propose_actions_handoff_scan.py --self-test` printed `PASS`. This shows the **credited capability** (the handoff scan).
+- `python3 scripts/propose_actions_classify.py --self-test` printed `PASS`. This covers the classifier the capability relies on.
+- `python3 scripts/close_gate_check.py --help` printed usage only. It documents the **rejection path** interface (closure mode blocks live gates; `--phase` and `--disposition` are required) but does not exercise it. No command in this session ran a live rejection; the suite's rejection tests passed (634 passed).
+
+### Preservation
+
+- `scripts/study_topic.py`: the release differs from this seat's copy only in the receiver-owned `_resolve_canonical_spec_roots` region (explicit-declaration early return, `study_topic.canonical_root` config support, bounded `aget-framework/aget` portfolio layout; 32 diff lines against the 25 the prompt cited) and in the one release change, which was applied: the gh#2777 `total == 0 and suppressed` branch in `generate_report`. After the edit, `git diff --no-index` against the release shows only the receiver-owned region. Every receiver line is kept.
+- `.claude/skills/aget-expand-ontology/SKILL.md`: kept untouched; `git status` shows it unmodified relative to HEAD.
+- No other path was touched.
+
+### Limitations
+
+- The sha256 of the kept `aget-expand-ontology/SKILL.md` was not computed (no digest tool in the allowed command set), and a `git hash-object` on that path was refused. Its difference from release sha256 `624d82a238de48ff896a92b21ef497ab02a23ed17297c778bfaa85e5cb930282` is therefore not recorded here. It is unchanged from HEAD.
+- Release sha256 digests were not independently verified; blob ids only. Release tags were not verified by this seat.
+- `@aget-canonical-specs` in AGENTS.md is a protected file and was not edited here.
+- Local commit only; not pushed.
+
+Terminal: BEHAVIOUR_VERIFIED
