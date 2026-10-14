@@ -1,7 +1,7 @@
 # Agent Configuration
 
 @aget-version: 3.36.0
-@aget-canonical-specs: https://github.com/aget-framework/aget/tree/v3.33.1/specs — reliance-only conformance
+@aget-canonical-specs: https://github.com/aget-framework/aget/tree/v3.36.0/specs — reliance-only conformance
 
 
 ## Substantial Change Protocol
